@@ -1,0 +1,40 @@
+/* Estilos específicos del panel de administración */
+.admin-body {
+    background-color: #f8fafc;
+}
+
+.admin-container {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    min-height: 100vh;
+}
+
+.admin-sidebar {
+    background: var(--primary);
+    color: white;
+    padding: 1rem;
+}
+
+.admin-main {
+    padding: 2rem;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Estilos para tablas del admin */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-table th {
+    background: var(--primary);
+    color: white;
+    padding: 0.75rem;
+    text-align: left;
+}

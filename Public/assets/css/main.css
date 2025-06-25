@@ -1,0 +1,74 @@
+ /* Estilos base que comparten ambos modos */
+     :root {
+       --primary: #1E40AF;
+       --secondary: #F59E0B;
+       --light: #FEF3C7;
+       --dark: #1E3A8A;
+       --danger: #DC2626;
+     }
+     
+     body {
+       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+     }
+     /* main.css */
+/* Estilos base */
+body {
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+}
+
+/* Transiciones suaves */
+a, button {
+    transition: all 0.3s ease;
+}
+
+/* Efecto hover para tarjetas de producto */
+.product-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Botones */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #1E40AF;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #1E3A8A;
+}
+
+.btn-secondary {
+    background-color: #F59E0B;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #D97706;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .hero {
+        height: 60vh;
+        padding-top: 4rem;
+    }
+    
+    .hero h2 {
+        font-size: 2rem;
+    }
+}

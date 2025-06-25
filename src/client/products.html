@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos - DistriSalud</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1E40AF',
+                        secondary: '#F59E0B',
+                        natural: '#4B5563'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Estilos personalizados -->
+    <style>
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(30, 64, 175, 0.1);
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-50">
+    <!-- Header/Navbar -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="/" class="flex items-center">
+                <i class="fas fa-leaf text-3xl text-primary mr-2"></i>
+                <h1 class="text-2xl font-bold text-primary">Distri<span class="text-secondary">Salud</span></h1>
+            </a>
+            
+            <nav class="hidden md:flex space-x-8">
+                <a href="/" class="text-gray-700 hover:text-primary">Inicio</a>
+                <a href="client/products.html" class="text-primary">Productos</a>
+                <a href="cart.html" class="text-gray-700 hover:text-primary">Carrito</a>
+                <a href="profile.html" class="text-gray-700 hover:text-primary">Mi Cuenta</a>
+            </nav>
+            
+            <div class="flex items-center space-x-4">
+                <a href="client/profile.html" class="hidden md:block text-gray-700 hover:text-primary">
+                    <i class="fas fa-user"></i>
+                </a>
+                <a href="cart.html" class="relative">
+                    <i class="fas fa-shopping-cart text-2xl text-primary"></i>
+                    <span id="cart-count" class="absolute -top-2 -right-2 bg-secondary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                </a>
+                <button class="md:hidden" id="mobile-menu-button">
+                    <i class="fas fa-bars text-2xl text-primary"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Products Section -->
+    <main class="container mx-auto px-4 py-8">
+        <h2 class="text-3xl font-bold text-center text-primary mb-8">Nuestros Productos</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8" id="product-list">
+            <!-- Aquí se cargarán los productos -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-primary text-white py-12">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2025 DistriSalud. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        async function fetchProducts() {
+            const response = await fetch('/api/products'); // Cambia esta URL según tu API
+            const products = await response.json();
+            const productList = document.getElementById('product-list');
+
+            products.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card bg-white p-6 rounded-lg shadow-md transition duration-300';
+                productCard.innerHTML = `
+                    <div class="relative mb-4">
+                        <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover rounded">
+                        <span class="absolute top-2 left-2 bg-primary text-white text-xs px-2 py-1 rounded">Nuevo</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-primary mb-2">${product.name}</h3>
+                    <p class="text-gray-600 text-sm mb-3">${product.description}</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-lg font-bold text-primary">$${product.price}</span>
+                        <button class="add-to-cart bg-gray-100 text-primary px-3 py-1 rounded-full hover:bg-primary hover:text-white transition" 
+                                data-id="${product.id}" 
+                                data-name="${product.name}" 
+                                data-price="${product.price}">
+                            <i class="fas fa-plus"></i> Añadir
+                        </button>
+                    </div>
+                `;
+                productList.appendChild(productCard);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchProducts);
+    </script>
+</body>
+</html>

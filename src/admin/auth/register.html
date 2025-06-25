@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro Admin - DistriSalud</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .register-bg {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                              url('/admin/assets/images/admin-bg.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+        .password-toggle {
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .input-error {
+            border-color: #f87171;
+            box-shadow: 0 0 0 2px rgba(248, 113, 113, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="flex min-h-screen">
+        <!-- Panel izquierdo (imagen) -->
+        <div class="hidden lg:block w-1/2 register-bg"></div>
+        
+        <!-- Panel derecho (formulario) -->
+        <div class="w-full lg:w-1/2 flex items-center justify-center p-8">
+            <div class="w-full max-w-md">
+                <!-- Logo -->
+                <div class="flex justify-center mb-8">
+                    <div class="flex items-center">
+                        <i class="fas fa-heartbeat text-4xl text-blue-600 mr-2"></i>
+                        <h1 class="text-3xl font-bold text-gray-800">Distri<span class="text-blue-600">Salud</span></h1>
+                    </div>
+                </div>
+                
+                <!-- Card del formulario -->
+                <div class="bg-white rounded-xl shadow-lg p-8">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-1">Registro de Administrador</h2>
+                    <p class="text-gray-600 mb-6">Complete los datos para crear una cuenta</p>
+                    
+                    <form id="registerForm" class="space-y-4">
+                        <!-- Nombre Completo -->
+                        <div>
+                            <label for="fullname" class="block text-sm font-medium text-gray-700 mb-1">Nombre Completo*</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i class="fas fa-user text-gray-400"></i>
+                                </div>
+                                <input 
+                                    type="text" 
+                                    id="fullname" 
+                                    required
+                                    minlength="3"
+                                    class="pl-10 w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    placeholder="Ej: Juan Pérez">
+                            </div>
+                            <p id="fullname-error" class="hidden mt-1 text-sm text-red-600"></p>
+                        </div>
+                        
+                        <!-- Email -->
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Correo Electrónico*</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i class="fas fa-envelope text-gray-400"></i>
+                                </div>
+                                <input 
+                                    type="email" 
+                                    id="email" 
+                                    required
+                                    class="pl-10 w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    placeholder="admin@distrisalud.com">
+                            </div>
+                            <p id="email-error" class="hidden mt-1 text-sm text-red-600"></p>
+                        </div>
+                        
+                        <!-- Contraseña -->
+                        <div>
+                            <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Contraseña*</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i class="fas fa-lock text-gray-400"></i>
+                                </div>
+                                <input 
+                                    type="password" 
+                                    id="password" 
+                                    required
+                                    minlength="8"
+                                    class="pl-10 w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    placeholder="••••••••">
+                                <button type="button" class="password-toggle absolute right-3 text-gray-400 hover:text-gray-600">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <div class="mt-2 text-xs text-gray-500">
+                                La contraseña debe contener al menos:
+                                <ul class="list-disc list-inside">
+                                    <li id="length-valid" class="text-gray-400">8 caracteres</li>
+                                    <li id="uppercase-valid" class="text-gray-400">1 mayúscula</li>
+                                    <li id="number-valid" class="text-gray-400">1 número</li>
+                                </ul>
+                            </div>
+                            <p id="password-error" class="hidden mt-1 text-sm text-red-600"></p>
+                        </div>
+                        
+                        <!-- Confirmar Contraseña -->
+                        <div>
+                            <label for="confirm-password" class="block text-sm font-medium text-gray-700 mb-1">Confirmar Contraseña*</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i class="fas fa-lock text-gray-400"></i>
+                                </div>
+                                <input 
+                                    type="password" 
+                                    id="confirm-password" 
+                                    required
+                                    class="pl-10 w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    placeholder="••••••••">
+                            </div>
+                            <p id="confirm-error" class="hidden mt-1 text-sm text-red-600"></p>
+                        </div>
+                        
+                        <!-- Rol (solo visible para superadmins) -->
+                        <div id="role-field" class="hidden">
+                            <label for="role" class="block text-sm font-medium text-gray-700 mb-1">Rol*</label>
+                            <select 
+                                id="role" 
+                                class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="admin">Administrador</option>
+                                <option value="editor">Editor</option>
+                                <option value="viewer">Solo Lectura</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Términos y condiciones -->
+                        <div class="flex items-start">
+                            <div class="flex items-center h-5">
+                                <input 
+                                    id="terms" 
+                                    type="checkbox" 
+                                    required
+                                    class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                            </div>
+                            <label for="terms" class="ml-2 block text-sm text-gray-700">
+                                Acepto los <a href="#" class="text-blue-600 hover:underline">Términos de Servicio</a> y 
+                                <a href="#" class="text-blue-600 hover:underline">Política de Privacidad</a>
+                            </label>
+                        </div>
+                        <p id="terms-error" class="hidden mt-1 text-sm text-red-600"></p>
+                        
+                        <!-- Botón de Registro -->
+                        <div>
+                            <button 
+                                type="submit" 
+                                id="registerBtn"
+                                class="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
+                                <span id="btnText">Registrarse</span>
+                                <span id="btnSpinner" class="ml-2 hidden">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                </span>
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <!-- Mensaje de error -->
+                    <div id="errorMessage" class="hidden mt-4 p-3 bg-red-50 text-red-700 rounded-lg text-sm"></div>
+                    
+                    <!-- Enlace a Login -->
+                    <div class="mt-6 text-center text-sm text-gray-500">
+                        <p>¿Ya tienes una cuenta? <a href="login.html" class="font-medium text-blue-600 hover:text-blue-500">Inicia Sesión</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="/admin/assets/js/auth.js"></script>
+    <script>
+        // Toggle para mostrar/ocultar contraseña
+        document.querySelectorAll('.password-toggle').forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                const input = this.parentElement.querySelector('input');
+                const icon = this.querySelector('i');
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.classList.replace('fa-eye', 'fa-eye-slash');
+                } else {
+                    input.type = 'password';
+                    icon.classList.replace('fa-eye-slash', 'fa-eye');
+                }
+            });
+        });
+
+        // Validación en tiempo real de contraseña
+        document.getElementById('password').addEventListener('input', function(e) {
+            const password = e.target.value;
+            
+            // Validar longitud
+            document.getElementById('length-valid').className = password.length >= 8 ? 
+                'text-green-500' : 'text-gray-400';
+            
+            // Validar mayúscula
+            document.getElementById('uppercase-valid').className = /[A-Z]/.test(password) ? 
+                'text-green-500' : 'text-gray-400';
+            
+            // Validar número
+            document.getElementById('number-valid').className = /\d/.test(password) ? 
+                'text-green-500' : 'text-gray-400';
+        });
+
+        // Mostrar campo de rol si el usuario es superadmin (ejemplo)
+        if (new URLSearchParams(window.location.search).has('superadmin')) {
+            document.getElementById('role-field').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
+<!-- End of file src/admin/auth/register.html -->

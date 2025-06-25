@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos - DistriSalud</title>
+    <!-- Tailwind CSS via CDN (para desarrollo) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/public/assets/css/client.css">
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-3">
+            <h1 class="text-2xl font-bold text-primary">Nuestros Productos</h1>
+        </div>
+    </header>
+
+    <!-- Contenedor principal -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Grid de productos -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            
+            <!-- Tarjeta de producto (Ejemplo que me pediste) -->
+            <div class="card bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105">
+                <img src="/public/assets/images/products/miel-organica.jpg" alt="Miel Orgánica" 
+                     class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h3 class="font-bold text-lg text-gray-800">Miel Orgánica Pura</h3>
+                    <p class="text-secondary font-semibold">$12.99</p>
+                    <p class="text-gray-600 text-sm mt-2">250g - Directa de apicultores locales</p>
+                    <div class="mt-4 flex justify-between items-center">
+                        <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">En stock</span>
+                        <button class="add-to-cart bg-primary text-white px-3 py-1 rounded hover:bg-blue-700 transition"
+                                data-id="1" 
+                                data-name="Miel Orgánica" 
+                                data-price="12.99">
+                            <i class="fas fa-cart-plus mr-1"></i> Añadir
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Fin de tarjeta -->
+
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="/public/assets/js/main.js"></script>
+    <script src="/public/assets/js/products.js"></script>
+</body>
+</html>

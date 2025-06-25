@@ -1,0 +1,30 @@
+/* Remove @tailwind directives if not using Tailwind's build process */
+   
+
+/* Estilos específicos para la tienda */
+.client-header {
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+.hero {
+    background: linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.8)), 
+                url('../images/hero-bg.jpg');
+    height: 80vh;
+    background-size: cover;
+}
+.product-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(30, 64, 175, 0.1);
+}  
+/* Customización adicional para Tailwind */
+@layer components {
+    .card {
+        transition: all 0.3s ease;
+    }
+    .card:hover {
+        box-shadow: 0 10px 25px rgba(30, 64, 175, 0.15);
+    }
+}
