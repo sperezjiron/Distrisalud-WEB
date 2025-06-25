@@ -164,9 +164,6 @@
                         </section>
                     </section>
 
-            
-
-
                 <!-- Orders Section -->
                 <section id="orders" class="section">
                     <h2 class="text-2xl font-bold mb-4">Gestión de Pedidos</h2>
@@ -256,129 +253,129 @@
                         </div>
                     </div>
                 </section>
-<!-- Products Section -->
-<!-- Products Section -->
-<section id="products" class="section">
-    <h2 class="text-2xl font-bold mb-4">Gestión de Productos</h2>
-    <div class="bg-white rounded-lg shadow overflow-hidden">
-        <div class="px-6 py-4 border-b flex justify-between items-center">
-            <h3 class="font-semibold text-lg">Productos Disponibles</h3>
-            <button onclick="openProductModal()" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-                <i class="fas fa-plus mr-2"></i> Nuevo Producto
-            </button>
-        </div>
-        <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Precio</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stock</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">1</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Miel Orgánica</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$10.00</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">50</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            <button class="text-primary hover:text-blue-700 mr-3" onclick="viewProduct(1)">
-                                <i class="fas fa-eye"></i>
+
+                <!-- Products Section -->
+                <section id="products" class="section">
+                    <h2 class="text-2xl font-bold mb-4">Gestión de Productos</h2>
+                    <div class="bg-white rounded-lg shadow overflow-hidden">
+                        <div class="px-6 py-4 border-b flex justify-between items-center">
+                            <h3 class="font-semibold text-lg">Productos Disponibles</h3>
+                            <button onclick="openProductModal()" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                                <i class="fas fa-plus mr-2"></i> Nuevo Producto
                             </button>
-                            <button class="text-secondary hover:text-yellow-600 mr-3" onclick="openProductModal(1)">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="text-danger hover:text-red-600" onclick="deleteProduct(1)">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">2</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Jugo Natural</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$5.00</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">100</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            <button class="text-primary hover:text-blue-700 mr-3" onclick="viewProduct(2)">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                            <button class="text-secondary hover:text-yellow-600 mr-3" onclick="openProductModal(2)">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="text-danger hover:text-red-600" onclick="deleteProduct(2)">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    <!-- Más filas de productos... -->
-                </tbody>
-            </table>
-        </div>
-    </div>
-</section>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Precio</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stock</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">1</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Miel Orgánica</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$10.00</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">50</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            <button class="text-primary hover:text-blue-700 mr-3" onclick="viewProduct(1)">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="text-secondary hover:text-yellow-600 mr-3" onclick="openProductModal(1)">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="text-danger hover:text-red-600" onclick="deleteProduct(1)">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">2</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Jugo Natural</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$5.00</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">100</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            <button class="text-primary hover:text-blue-700 mr-3" onclick="viewProduct(2)">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="text-secondary hover:text-yellow-600 mr-3" onclick="openProductModal(2)">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="text-danger hover:text-red-600" onclick="deleteProduct(2)">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <!-- Más filas de productos... -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
 
                 <!-- Promotions Section -->
-<section id="promotions" class="section">
-    <h2 class="text-2xl font-bold mb-4">Gestión de Promociones</h2>
-    <div class="bg-white rounded-lg shadow overflow-hidden">
-        <div class="px-6 py-4 border-b flex justify-between items-center">
-            <h3 class="font-semibold text-lg">Promociones Activas</h3>
-            <button class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-                <i class="fas fa-plus mr-2"></i> Nueva Promoción
-            </button>
-        </div>
-        <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Descuento (%)</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha de Inicio</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha de Fin</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">1</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Descuento de Verano</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">20%</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">01/06/2023</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">30/06/2023</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            <button class="text-primary hover:text-blue-700 mr-3">
-                                <i class="fas fa-eye"></i>
+                <section id="promotions" class="section">
+                    <h2 class="text-2xl font-bold mb-4">Gestión de Promociones</h2>
+                    <div class="bg-white rounded-lg shadow overflow-hidden">
+                        <div class="px-6 py-4 border-b flex justify-between items-center">
+                            <h3 class="font-semibold text-lg">Promociones Activas</h3>
+                            <button class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                                <i class="fas fa-plus mr-2"></i> Nueva Promoción
                             </button>
-                            <button class="text-secondary hover:text-yellow-600">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">2</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Promoción de Navidad</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">15%</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">01/12/2023</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">25/12/2023</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            <button class="text-primary hover:text-blue-700 mr-3">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                            <button class="text-secondary hover:text-yellow-600">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    <!-- Más filas de promociones... -->
-                </tbody>
-            </table>
-        </div>
-    </div>
-</section>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Descuento (%)</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha de Inicio</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha de Fin</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">1</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Descuento de Verano</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">20%</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">01/06/2023</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">30/06/2023</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            <button class="text-primary hover:text-blue-700 mr-3">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="text-secondary hover:text-yellow-600">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">2</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Promoción de Navidad</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">15%</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">01/12/2023</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">25/12/2023</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            <button class="text-primary hover:text-blue-700 mr-3">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="text-secondary hover:text-yellow-600">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <!-- Más filas de promociones... -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
 
                 <!-- Categories Section -->
                 <section id="categories" class="section">
@@ -420,59 +417,60 @@
                         </div>
                     </div>
                 </section>
-                    <!-- Roles Section -->
-<section id="roles" class="section">
-    <h2 class="text-2xl font-bold mb-4">Gestión de Roles</h2>
-    <div class="bg-white rounded-lg shadow overflow-hidden">
-        <div class="px-6 py-4 border-b flex justify-between items-center">
-            <h3 class="font-semibold text-lg">Roles Disponibles</h3>
-            <button class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-                <i class="fas fa-plus mr-2"></i> Nuevo Rol
-            </button>
-        </div>
-        <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre del Rol</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Descripción</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">1</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Administrador</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Acceso completo a todas las funciones.</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            <button class="text-primary hover:text-blue-700 mr-3">
-                                <i class="fas fa-eye"></i>
+                
+                <!-- Roles Section -->
+                <section id="roles" class="section">
+                    <h2 class="text-2xl font-bold mb-4">Gestión de Roles</h2>
+                    <div class="bg-white rounded-lg shadow overflow-hidden">
+                        <div class="px-6 py-4 border-b flex justify-between items-center">
+                            <h3 class="font-semibold text-lg">Roles Disponibles</h3>
+                            <button class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                                <i class="fas fa-plus mr-2"></i> Nuevo Rol
                             </button>
-                            <button class="text-secondary hover:text-yellow-600">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">2</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Editor</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Puede editar contenido, pero no gestionar usuarios.</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            <button class="text-primary hover:text-blue-700 mr-3">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                            <button class="text-secondary hover:text-yellow-600">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    <!-- Más filas de roles... -->
-                </tbody>
-            </table>
-        </div>
-    </div>
-</section>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre del Rol</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Descripción</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">1</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Administrador</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Acceso completo a todas las funciones.</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            <button class="text-primary hover:text-blue-700 mr-3">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="text-secondary hover:text-yellow-600">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">2</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Editor</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Puede editar contenido, pero no gestionar usuarios.</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            <button class="text-primary hover:text-blue-700 mr-3">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="text-secondary hover:text-yellow-600">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <!-- Más filas de roles... -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
 
                 <!-- Users Section -->
                 <section id="users" class="section">
@@ -519,414 +517,93 @@
             </main>
         </div>
     </div>
-<!---------------------- Aqui empiezan los scripts -------------------------------------->
-    <script>
-            function showSection(sectionId) {
-            // Ocultar todas las secciones
-            const sections = document.querySelectorAll('.section');
-            sections.forEach(section => section.classList.remove('active'));
-
-            // Mostrar la sección seleccionada
-            document.getElementById(sectionId).classList.add('active');
-
-            // Actualizar el título de la sección
-            document.getElementById('section-title').innerText = sectionId.charAt(0).toUpperCase() + sectionId.slice(1);
-            
-            // Marcar el enlace activo
-            const links = document.querySelectorAll('.sidebar-link');
-            links.forEach(link => link.classList.remove('active'));
-            document.querySelector(`.sidebar-link[onclick*="${sectionId}"]`).classList.add('active');
-
-            // Cargar pedidos si la sección es "orders"
-            if (sectionId === 'orders') {
-                loadOrders();
-            }
-        }
-                async function loadClients() {
-            try {
-                const response = await fetch('/api/clients'); // Cambia la URL según tu API
-                if (!response.ok) throw new Error('Error al cargar los clientes');
-                
-                const clients = await response.json();
-                const clientSelect = document.getElementById('client-id');
-                clientSelect.innerHTML = '<option value="">Selecciona un cliente</option>'; // Limpiar opciones
-                clients.forEach(client => {
-                    const option = document.createElement('option');
-                    option.value = client.id; // Asegúrate de que el ID del cliente esté disponible
-                    option.textContent = client.name; // Asegúrate de que el nombre del cliente esté disponible
-                    clientSelect.appendChild(option);
-                });
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        }
-// Función para cargar los registros
-        async function loadLogEntries() {
-            try {
-                const response = await fetch('/api/logs/recent?limit=10'); // Cambia la URL según tu API
-                if (!response.ok) throw new Error('Error al cargar la bitácora');
-                
-                const logs = await response.json();
-                renderLogs(logs);
-            } catch (error) {
-                console.error('Error:', error);
-                document.getElementById('log-container').innerHTML = `
-                    <div class="p-4 text-center text-red-500">
-                        <i class="fas fa-exclamation-circle"></i> Error al cargar la bitácora
-                    </div>
-                `;
-            }
-        }
-
-// Función para renderizar los registros
-        function renderLogs(logs) {
-            const container = document.getElementById('log-container');
-            const template = document.getElementById('log-template');
-            
-            container.innerHTML = '';
-            
-            if (logs.length === 0) {
-                container.innerHTML = `
-                    <div class="p-4 text-center text-gray-500">
-                        No hay actividades recientes
-                    </div>
-                `;
-                return;
-            }
+    <!--------------------------- Modal para Agregar/Editar Pedido ---------------------------------------->
+    <div id="order-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50 flex items-center justify-center">
+        <div class="bg-white rounded-lg w-full max-w-md">
+            <div class="flex justify-between items-center px-6 py-4 border-b">
+                <h3 class="text-lg font-semibold" id="modal-title">Nuevo Pedido</h3>
+                <button onclick="closeOrderModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="order-form" class="p-6">
+                <div class="mb-4">
+                    <label for="client-id" class="block text-sm font-medium text-gray-700">Cliente</label>
+                    <select id="client-id" name="client-id" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
+                        <option value="">Selecciona un cliente</option>
+                        <!-- Aquí se llenarán los clientes dinámicamente -->
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label for="order-date" class="block text-sm font-medium text-gray-700">Fecha</label>
+                    <input type="date" id="order-date" name="order-date" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
+                </div>
+                <div class="mb-4">
+                    <label for="total" class="block text-sm font-medium text-gray-700">Total</label>
+                    <input type="number" id="total" name="total" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
+                </div>
+                <div class="mb-4">
+                    <label for="status" class="block text-sm font-medium text-gray-700">Estado</label>
+                    <select id="status" name="status" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
+                        <option value="pendiente">Pendiente</option>
+                        <option value="en_proceso">En Proceso</option>
+                        <option value="cancelado">Cancelado</option>
+                        <option value="completo">Completo</option>
+                    </select>
+                </div>
+                <div class="flex justify-end">
+                    <button type="button" onclick="saveOrder()" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                        Guardar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!----------------------------------------- Modal para Agregar/Editar Producto -------------------------------------->
+    <div id="product-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50 flex items-center justify-center">
+        <div class="bg-white rounded-lg w-full max-w-md">
+            <div class="flex justify-between items-center px-6 py-4 border-b">
+                <h3 class="text-lg font-semibold" id="modal-title">Nuevo Producto</h3>
+                <button onclick="closeProductModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="product-form" class="p-6">
+                <div class="mb-4">
+                    <label for="product-name" class="block text-sm font-medium text-gray-700">Nombre</label>
+                    <input type="text" id="product-name" name="product-name" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary" readonly>
+                </div>
+                <div class="mb-4">
+                    <label for="product-description" class="block text-sm font-medium text-gray-700">Descripción</label>
+                    <textarea id="product-description" name="product-description" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary" readonly></textarea>
+                </div>
+                <div class="mb-4">
+                    <label for="product-price" class="block text-sm font-medium text-gray-700">Precio</label>
+                    <input type="number" id="product-price" name="product-price" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary" readonly>
+                </div>
+                <div class="mb-4">
+                    <label for="product-unit" class="block text-sm font-medium text-gray-700">Unidad de Medida</label>
+                    <input type="text" id="product-unit" name="product-unit" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary" readonly>
+                </div>
+                <div class="mb-4">
+                    <label for="product-stock" class="block text-sm font-medium text-gray-700">Stock</label>
+                    <input type="number" id="product-stock" name="product-stock" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary" readonly>
+                </div>
+                <div class="mb-4">
+                    <label for="product-image-url" class="block text-sm font-medium text-gray-700">URL de Imagen</label>
+                    <input type="text" id="product-image-url" name="product-image-url" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary" readonly>
+                </div>
+                <div class="flex justify-end">
+                    <button type="button" onclick="saveProduct()" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition hidden" id="save-button">
+                        Guardar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
     
-            logs.forEach(log => {
-                const clone = template.content.cloneNode(true);
-                const entry = clone.querySelector('div');
-                
-// Configuración según el tipo de log
-                const typeConfig = getLogTypeConfig(log.type);
-                
-    // Rellenar la plantilla
-                entry.querySelector('.log-type-icon').className = `log-type-icon ${typeConfig.icon}`;
-                entry.querySelector('.log-icon').classList.add(typeConfig.bgColor);
-                entry.querySelector('.log-action').textContent = log.action;
-                entry.querySelector('.log-user').textContent = `Usuario: ${log.username || 'Sistema'}`;
-                entry.querySelector('.log-details').textContent = `${formatTime(log.timestamp)} - ${log.details}`;
-                
-                const statusEl = entry.querySelector('.log-status');
-                statusEl.textContent = log.status;
-                statusEl.classList.add(typeConfig.statusColor);
-                
-                container.appendChild(clone);
-            });
-        }
-            let currentOrderId = null; // Para rastrear el ID del pedido actual
-//funcion de open order modal esto inicia el modal para agregar o editar un pedido
-        function openOrderModal(orderId = null) {
-            const modal = document.getElementById('order-modal');
-            const title = document.getElementById('modal-title');
-            
-            if (orderId) {
-                // Editar pedido
-                title.textContent = 'Editar Pedido';
-                currentOrderId = orderId;
-                const order = getOrderById(orderId); // Implementa esta función para obtener el pedido
-                document.getElementById('client-id').value = order.clientId; // Asegúrate de que el ID del cliente esté disponible
-                document.getElementById('order-date').value = order.date;
-                document.getElementById('total').value = order.total;
-                document.getElementById('status').value = order.status;
-            } else {
-                // Nuevo pedido
-                title.textContent = 'Nuevo Pedido';
-                currentOrderId = null;
-                document.getElementById('order-form').reset();
-            }
-            
-            loadClients(); // Cargar clientes al abrir el modal
-            modal.classList.remove('hidden');
-        }
-
-
-        function closeOrderModal() {
-            document.getElementById('order-modal').classList.add('hidden');
-        }
-        //funcion para guardar un pedido
-        function saveOrder() {
-        const clientId = document.getElementById('client-id').value;
-        const orderDate = document.getElementById('order-date').value;
-        const total = document.getElementById('total').value;
-        const status = document.getElementById('status').value;
-
-        if (currentOrderId) {
-            // Lógica para editar un pedido existente
-            updateOrder(currentOrderId, { clientId, orderDate, total, status });
-        } else {
-            // Lógica para crear un nuevo pedido
-            createOrder({ clientId, orderDate, total, status });
-        }
-
-        closeOrderModal();
-        loadOrders(); // Recargar la lista de pedidos
-    }
-
-
-// Función para obtener un pedido por ID (simulada)
-            let orders = []; // Array para almacenar los pedidos
-
-            function loadOrders() {
-                // Aquí deberías cargar los pedidos desde tu backend
-                // Por ahora, vamos a simular algunos pedidos
-                orders = [
-                    { id: 1001, clientName: 'María González', date: '2023-05-15', total: 45.99, status: 'completado' },
-                    // Agrega más pedidos simulados si es necesario
-                ];
-                renderOrders();
-            }
-
-            function renderOrders() {
-                const tbody = document.querySelector('#orders tbody');
-                tbody.innerHTML = ''; // Limpiar la tabla
-
-                orders.forEach(order => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${order.id}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${order.clientName}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${order.date}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$${order.total}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <span class="px-2 py-1 text-xs rounded-full ${order.status === 'completado' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}">${order.status.charAt(0).toUpperCase() + order.status.slice(1)}</span>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            <button class="text-primary hover:text-blue-700 mr-3" onclick="openOrderModal(${order.id})">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                            <button class="text-secondary hover:text-yellow-600" onclick="deleteOrder(${order.id})">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </td>
-                    `;
-                    tbody.appendChild(row);
-                });
-            }
-
-            function createOrder(order) {
-            const newId = orders.length ? Math.max(...orders.map(o => o.id)) + 1 : 1001; // Generar un nuevo ID
-                orders.push({ id: newId, ...order });
-            }
-
-            function updateOrder(orderId, updatedOrder) {
-            const index = orders.findIndex(order => order.id === orderId);
-                if (index !== -1) {
-                    orders[index] = { id: orderId, ...updatedOrder };
-                }
-            }
-
-            function deleteOrder(orderId) {
-                orders = orders.filter(order => order.id !== orderId);
-                renderOrders(); // Volver a renderizar la tabla
-            }
-// Función para abrir el modal de productos-----------------------------------------------------
-       let currentProductId = null; // Para rastrear el ID del producto actual
-
-        function openProductModal(productId = null) {
-            const modal = document.getElementById('product-modal');
-            const title = document.getElementById('modal-title');
-            
-            if (productId) {
-                // Editar producto
-                title.textContent = 'Editar Producto';
-                currentProductId = productId;
-                const product = getProductById(productId); // Implementa esta función para obtener el producto
-                document.getElementById('product-name').value = product.name;
-                document.getElementById('product-description').value = product.description;
-                document.getElementById('product-price').value = product.price;
-                document.getElementById('product-unit').value = product.unit;
-                document.getElementById('product-stock').value = product.stock;
-                document.getElementById('product-image-url').value = product.imageUrl;
-            } else {
-                // Nuevo producto
-                title.textContent = 'Nuevo Producto';
-                currentProductId = null;
-                document.getElementById('product-form').reset();
-            }
-            
-            modal.classList.remove('hidden');
-        }
-
-        function closeProductModal() {
-            document.getElementById('product-modal').classList.add('hidden');
-        }
-
-        function saveProduct() {
-            const name = document.getElementById('product-name').value;
-            const description = document.getElementById('product-description').value;
-            const price = document.getElementById('product-price').value;
-            const unit = document.getElementById('product-unit').value;
-            const stock = document.getElementById('product-stock').value;
-            const imageUrl = document.getElementById('product-image-url').value;
-
-            if (currentProductId) {
-                // Lógica para editar un producto existente
-                updateProduct(currentProductId, { name, description, price, unit, stock, imageUrl });
-            } else {
-                // Lógica para crear un nuevo producto
-                createProduct({ name, description, price, unit, stock, imageUrl });
-            }
-
-            closeProductModal();
-            loadProducts(); // Recargar la lista de productos
-        }
-            function viewProduct(productId) {
-            const product = getProductById(productId); // Implementa esta función para obtener el producto
-            document.getElementById('product-name').value = product.name;
-            document.getElementById('product-description').value = product.description;
-            document.getElementById('product-price').value = product.price;
-            document.getElementById('product-unit').value = product.unit;
-            document.getElementById('product-stock').value = product.stock;
-            document.getElementById('product-image-url').value = product.imageUrl;
-
-            // Cambiar el título del modal
-            document.getElementById('modal-title').textContent = 'Ver Producto';
-            
-            // Ocultar el botón de guardar
-            document.getElementById('save-button').classList.add('hidden');
-
-            // Hacer los campos de entrada de solo lectura
-            const inputs = document.querySelectorAll('#product-form input, #product-form textarea');
-            inputs.forEach(input => input.setAttribute('readonly', true));
-
-            // Mostrar el modal
-            document.getElementById('product-modal').classList.remove('hidden');
-        }
-        let products = []; // Array para almacenar los productos
-
-function loadProducts() {
-    // Aquí deberías cargar los productos desde tu backend
-    // Por ahora, vamos a simular algunos productos
-    products = [
-        { id: 1, name: 'Miel Orgánica', description: 'Miel pura y natural.', price: 10.00, unit: 'Botella', stock: 50, imageUrl: 'https://example.com/miel.jpg' },
-        // Agrega más productos simulados si es necesario
-    ];
-    renderProducts();
-}
-// funcion de render de los productos
-        function renderProducts() {
-    const tbody = document.querySelector('#products tbody');
-    tbody.innerHTML = ''; // Limpiar la tabla
-
-    products.forEach(product => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${product.id}</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${product.name}</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${product.description}</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$${product.price}</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${product.unit}</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${product.stock}</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                <button class="text-primary hover:text-blue-700 mr-3" onclick="viewProduct(${product.id})">
-                    <i class="fas fa-eye"></i>
-                </button>
-                <button class="text-secondary hover:text-yellow-600" onclick="openProductModal(${product.id})">
-                    <i class="fas fa-edit"></i>
-                </button>
-                <button class="text-danger hover:text-red-600" onclick="deleteProduct(${product.id})">
-                    <i class="fas fa-trash"></i>
-                </button>
-            </td>
-        `;
-        tbody.appendChild(row);
-    });
-}
-
-function getProductById(productId) {
-    return products.find(product => product.id === productId);
-}
-
-
-
-    </script>
-<!--------------------------- Modal para Agregar/Editar Pedido ---------------------------------------->
-<div id="order-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50 flex items-center justify-center">
-    <div class="bg-white rounded-lg w-full max-w-md">
-        <div class="flex justify-between items-center px-6 py-4 border-b">
-            <h3 class="text-lg font-semibold" id="modal-title">Nuevo Pedido</h3>
-            <button onclick="closeOrderModal()" class="text-gray-500 hover:text-gray-700">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <form id="order-form" class="p-6">
-            <div class="mb-4">
-                <label for="client-id" class="block text-sm font-medium text-gray-700">Cliente</label>
-                <select id="client-id" name="client-id" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
-                    <option value="">Selecciona un cliente</option>
-                    <!-- Aquí se llenarán los clientes dinámicamente -->
-                </select>
-            </div>
-            <div class="mb-4">
-                <label for="order-date" class="block text-sm font-medium text-gray-700">Fecha</label>
-                <input type="date" id="order-date" name="order-date" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
-            </div>
-            <div class="mb-4">
-                <label for="total" class="block text-sm font-medium text-gray-700">Total</label>
-                <input type="number" id="total" name="total" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
-            </div>
-            <div class="mb-4">
-                <label for="status" class="block text-sm font-medium text-gray-700">Estado</label>
-                <select id="status" name="status" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary">
-                    <option value="pendiente">Pendiente</option>
-                    <option value="en_proceso">En Proceso</option>
-                    <option value="cancelado">Cancelado</option>
-                    <option value="completo">Completo</option>
-                </select>
-            </div>
-            <div class="flex justify-end">
-                <button type="button" onclick="saveOrder()" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-                    Guardar
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
-<!----------------------------------------- Modal para Agregar/Editar Producto -------------------------------------->
-<div id="product-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50 flex items-center justify-center">
-    <div class="bg-white rounded-lg w-full max-w-md">
-        <div class="flex justify-between items-center px-6 py-4 border-b">
-            <h3 class="text-lg font-semibold" id="modal-title">Nuevo Producto</h3>
-            <button onclick="closeProductModal()" class="text-gray-500 hover:text-gray-700">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <form id="product-form" class="p-6">
-            <div class="mb-4">
-                <label for="product-name" class="block text-sm font-medium text-gray-700">Nombre</label>
-                <input type="text" id="product-name" name="product-name" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary" readonly>
-            </div>
-            <div class="mb-4">
-                <label for="product-description" class="block text-sm font-medium text-gray-700">Descripción</label>
-                <textarea id="product-description" name="product-description" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary" readonly></textarea>
-            </div>
-            <div class="mb-4">
-                <label for="product-price" class="block text-sm font-medium text-gray-700">Precio</label>
-                <input type="number" id="product-price" name="product-price" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary" readonly>
-            </div>
-            <div class="mb-4">
-                <label for="product-unit" class="block text-sm font-medium text-gray-700">Unidad de Medida</label>
-                <input type="text" id="product-unit" name="product-unit" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary" readonly>
-            </div>
-            <div class="mb-4">
-                <label for="product-stock" class="block text-sm font-medium text-gray-700">Stock</label>
-                <input type="number" id="product-stock" name="product-stock" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary" readonly>
-            </div>
-            <div class="mb-4">
-                <label for="product-image-url" class="block text-sm font-medium text-gray-700">URL de Imagen</label>
-                <input type="text" id="product-image-url" name="product-image-url" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary" readonly>
-            </div>
-            <div class="flex justify-end">
-                <button type="button" onclick="saveProduct()" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition hidden" id="save-button">
-                    Guardar
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
-
-
+    <!---------------------- Aqui empiezan los scripts -------------------------------------->
+        <script src="/assets/js/admin/main.js"></script>
+    
 </body>
 </html>

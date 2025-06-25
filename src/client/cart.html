@@ -1,227 +1,349 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Carrito - DistriSalud</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#1E40AF',
-                        secondary: '#F59E0B',
-                        natural: '#4B5563'
-                    }
-                }
-            }
-        }
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#1E40AF",
+              secondary: "#F59E0B",
+              natural: "#4B5563",
+            },
+          },
+        },
+      };
     </script>
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <!-- Estilos personalizados -->
     <style>
-        .cart-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(30, 64, 175, 0.1);
-        }
-        .empty-cart {
-            background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), 
-                            url('https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
-            background-size: cover;
-            background-position: center;
-        }
+      .cart-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px rgba(30, 64, 175, 0.1);
+      }
+      .empty-cart {
+        background-image: linear-gradient(
+            rgba(255, 255, 255, 0.9),
+            rgba(255, 255, 255, 0.9)
+          ),
+          url("https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80");
+        background-size: cover;
+        background-position: center;
+      }
     </style>
-</head>
-<body class="font-sans bg-gray-50">
+  </head>
+  <body class="font-sans bg-gray-50">
     <!-- Header/Navbar -->
     <header class="bg-white shadow-md sticky top-0 z-50">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <a href="/" class="flex items-center">
-                <i class="fas fa-leaf text-3xl text-primary mr-2"></i>
-                <h1 class="text-2xl font-bold text-primary">Distri<span class="text-secondary">Salud</span></h1>
+      <div
+        class="container mx-auto px-4 py-3 flex justify-between items-center"
+      >
+        <a href="/" class="flex items-center">
+          <i class="fas fa-leaf text-3xl text-primary mr-2"></i>
+          <h1 class="text-2xl font-bold text-primary">
+            Distri<span class="text-secondary">Salud</span>
+          </h1>
+        </a>
+
+        <nav class="hidden md:flex space-x-8">
+          <a href="/" class="text-gray-700 hover:text-primary">Inicio</a>
+          <a href="products.html" class="text-gray-700 hover:text-primary"
+            >Productos</a
+          >
+          <a href="../#categories" class="text-gray-700 hover:text-primary"
+            >Categorias</a
+          >
+          <a href="about.html" class="text-gray-700 hover:text-primary"
+            >Nosotros</a
+          >
+        </nav>
+
+        <div class="flex items-center space-x-4">
+          <!-- Login / Perfil -->
+          <div id="auth-buttons" class="flex items-center space-x-3">
+            <a
+              id="login-button"
+              href="login.html"
+              class="text-gray-700 hover:text-primary"
+            >
+              <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
             </a>
-            
-            <nav class="hidden md:flex space-x-8">
-                <a href="/" class="text-gray-700 hover:text-primary">Inicio</a>
-                <a href="products.html" class="text-gray-700 hover:text-primary">Productos</a>
-                <a href="cart.html" class="text-primary font-medium">Carrito</a>
-                <a href="profile.html" class="text-gray-700 hover:text-primary">Mi Cuenta</a>
-            </nav>
-            
-            <div class="flex items-center space-x-4">
-                <a href="/account.html" class="hidden md:block text-gray-700 hover:text-primary">
-                    <i class="fas fa-user"></i>
-                </a>
-                <a href="/cart.html" class="relative">
-                    <i class="fas fa-shopping-cart text-2xl text-primary"></i>
-                    <span id="cart-count" class="absolute -top-2 -right-2 bg-secondary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">2</span>
-                </a>
-                <button class="md:hidden" id="mobile-menu-button">
-                    <i class="fas fa-bars text-2xl text-primary"></i>
-                </button>
-            </div>
+            <a
+              id="profile-button"
+              href="client/profile.html"
+              class="hidden text-gray-700 hover:text-primary"
+            >
+              <i class="fas fa-user"></i> Mi Perfil
+            </a>
+            <a
+              id="logout-button"
+              href="#"
+              class="hidden text-gray-700 hover:text-red-600"
+            >
+              <i class="fas fa-sign-out-alt"></i>
+            </a>
+          </div>
+          <a href="cart.html" class="relative">
+            <i class="fas fa-shopping-cart text-2xl text-primary"></i>
+            <span
+              id="cart-count"
+              class="absolute -top-2 -right-2 bg-secondary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"
+              >0</span
+            >
+          </a>
+          <button class="md:hidden" id="mobile-menu-button">
+            <i class="fas fa-bars text-2xl text-primary"></i>
+          </button>
         </div>
+      </div>
     </header>
 
     <!-- Cart Content -->
     <main class="container mx-auto px-4 py-8 min-h-screen">
-        <h2 class="text-3xl font-bold text-center text-primary mb-8">Tu Carrito de Compras</h2>
-        
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Lista de productos -->
-            <div class="lg:col-span-2 space-y-4">
-                <!-- Ejemplo de producto en el carrito -->
-                <div class="cart-item bg-white p-4 rounded-lg shadow-sm border border-gray-100 transition">
-                    <div class="flex flex-col md:flex-row gap-4">
-                        <img src="https://images.unsplash.com/photo-1587049352851-8d4e89133924?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" 
-                             alt="Miel Orgánica" 
-                             class="w-full md:w-24 h-24 object-cover rounded">
-                        <div class="flex-1">
-                            <h3 class="font-bold text-lg text-primary">Miel Orgánica Pura</h3>
-                            <p class="text-gray-600 text-sm">250g - Directa de los apicultores locales</p>
-                            <div class="flex justify-between items-center mt-2">
-                                <div class="flex items-center">
-                                    <button class="text-gray-500 hover:text-primary">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <span class="mx-2">1</span>
-                                    <button class="text-gray-500 hover:text-primary">
-                                        <i class="fas fa-plus"></i>
-                                    </button>
-                                </div>
-                                <span class="font-bold text-primary">$12.99</span>
-                            </div>
-                        </div>
-                        <button class="text-red-500 hover:text-red-700 self-start">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
-                    </div>
+      <h2 class="text-3xl font-bold text-center text-primary mb-8">
+        Tu Carrito de Compras
+      </h2>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Lista de productos -->
+        <div class="lg:col-span-2 space-y-4">
+          <!-- Ejemplo de producto en el carrito -->
+          <div
+            class="cart-item bg-white p-4 rounded-lg shadow-sm border border-gray-100 transition"
+          >
+            <div class="flex flex-col md:flex-row gap-4">
+              <img
+                src="https://images.unsplash.com/photo-1587049352851-8d4e89133924?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
+                alt="Miel Orgánica"
+                class="w-full md:w-24 h-24 object-cover rounded"
+              />
+              <div class="flex-1">
+                <h3 class="font-bold text-lg text-primary">
+                  Miel Orgánica Pura
+                </h3>
+                <p class="text-gray-600 text-sm">
+                  250g - Directa de los apicultores locales
+                </p>
+                <div class="flex justify-between items-center mt-2">
+                  <div class="flex items-center">
+                    <button class="text-gray-500 hover:text-primary">
+                      <i class="fas fa-minus"></i>
+                    </button>
+                    <span class="mx-2">1</span>
+                    <button class="text-gray-500 hover:text-primary">
+                      <i class="fas fa-plus"></i>
+                    </button>
+                  </div>
+                  <span class="font-bold text-primary">$12.99</span>
                 </div>
-                
-                <!-- Segundo producto -->
-                <div class="cart-item bg-white p-4 rounded-lg shadow-sm border border-gray-100 transition">
-                    <div class="flex flex-col md:flex-row gap-4">
-                        <img src="https://images.unsplash.com/photo-1550583724-b2692b85b150?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" 
-                             alt="Té Verde" 
-                             class="w-full md:w-24 h-24 object-cover rounded">
-                        <div class="flex-1">
-                            <h3 class="font-bold text-lg text-primary">Té Verde Orgánico</h3>
-                            <p class="text-gray-600 text-sm">30 bolsitas - Antioxidante natural</p>
-                            <div class="flex justify-between items-center mt-2">
-                                <div class="flex items-center">
-                                    <button class="text-gray-500 hover:text-primary">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <span class="mx-2">2</span>
-                                    <button class="text-gray-500 hover:text-primary">
-                                        <i class="fas fa-plus"></i>
-                                    </button>
-                                </div>
-                                <span class="font-bold text-primary">$8.99</span>
-                            </div>
-                        </div>
-                        <button class="text-red-500 hover:text-red-700 self-start">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Carrito vacío (oculto por defecto) -->
-                <div id="empty-cart" class="empty-cart hidden flex flex-col items-center justify-center p-8 rounded-lg text-center">
-                    <i class="fas fa-shopping-cart text-5xl text-gray-300 mb-4"></i>
-                    <h3 class="text-xl font-bold text-gray-500 mb-2">Tu carrito está vacío</h3>
-                    <p class="text-gray-500 mb-4">Explora nuestros productos y encuentra algo especial</p>
-                    <a href="client/products.html" class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">
-                        Ver Productos
-                    </a>
-                </div>
+              </div>
+              <button class="text-red-500 hover:text-red-700 self-start">
+                <i class="fas fa-trash-alt"></i>
+              </button>
             </div>
-            
-            <!-- Resumen del pedido -->
-            <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100 h-fit sticky top-4">
-                <h3 class="font-bold text-lg text-primary mb-4">Resumen del Pedido</h3>
-                <div class="space-y-3 mb-6">
-                    <div class="flex justify-between">
-                        <span class="text-gray-600">Subtotal</span>
-                        <span class="font-medium">$30.97</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-600">Envío</span>
-                        <span class="font-medium">$5.00</span>
-                    </div>
-                    <div class="flex justify-between border-t border-gray-200 pt-3">
-                        <span class="text-gray-600">Total</span>
-                        <span class="font-bold text-lg text-primary">$35.97</span>
-                    </div>
+          </div>
+
+          <!-- Segundo producto -->
+          <div
+            class="cart-item bg-white p-4 rounded-lg shadow-sm border border-gray-100 transition"
+          >
+            <div class="flex flex-col md:flex-row gap-4">
+              <img
+                src="https://images.unsplash.com/photo-1550583724-b2692b85b150?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
+                alt="Té Verde"
+                class="w-full md:w-24 h-24 object-cover rounded"
+              />
+              <div class="flex-1">
+                <h3 class="font-bold text-lg text-primary">
+                  Té Verde Orgánico
+                </h3>
+                <p class="text-gray-600 text-sm">
+                  30 bolsitas - Antioxidante natural
+                </p>
+                <div class="flex justify-between items-center mt-2">
+                  <div class="flex items-center">
+                    <button class="text-gray-500 hover:text-primary">
+                      <i class="fas fa-minus"></i>
+                    </button>
+                    <span class="mx-2">2</span>
+                    <button class="text-gray-500 hover:text-primary">
+                      <i class="fas fa-plus"></i>
+                    </button>
+                  </div>
+                  <span class="font-bold text-primary">$8.99</span>
                 </div>
-                <a href="/checkout.html" class="block w-full bg-secondary text-white text-center py-3 rounded-lg hover:bg-yellow-600 transition">
-                    Proceder al Pago
-                </a>
-                <p class="text-xs text-gray-500 mt-3 text-center">Al completar tu compra aceptas nuestros Términos y Condiciones</p>
+              </div>
+              <button class="text-red-500 hover:text-red-700 self-start">
+                <i class="fas fa-trash-alt"></i>
+              </button>
             </div>
+          </div>
+
+          <!-- Carrito vacío (oculto por defecto) -->
+          <div
+            id="empty-cart"
+            class="empty-cart hidden flex flex-col items-center justify-center p-8 rounded-lg text-center"
+          >
+            <i class="fas fa-shopping-cart text-5xl text-gray-300 mb-4"></i>
+            <h3 class="text-xl font-bold text-gray-500 mb-2">
+              Tu carrito está vacío
+            </h3>
+            <p class="text-gray-500 mb-4">
+              Explora nuestros productos y encuentra algo especial
+            </p>
+            <a
+              href="client/products.html"
+              class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition"
+            >
+              Ver Productos
+            </a>
+          </div>
         </div>
+
+        <!-- Resumen del pedido -->
+        <div
+          class="bg-white p-6 rounded-lg shadow-sm border border-gray-100 h-fit sticky top-4"
+        >
+          <h3 class="font-bold text-lg text-primary mb-4">
+            Resumen del Pedido
+          </h3>
+          <div class="space-y-3 mb-6">
+            <div class="flex justify-between">
+              <span class="text-gray-600">Subtotal</span>
+              <span class="font-medium">$30.97</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-gray-600">Envío</span>
+              <span class="font-medium">$5.00</span>
+            </div>
+            <div class="flex justify-between border-t border-gray-200 pt-3">
+              <span class="text-gray-600">Total</span>
+              <span class="font-bold text-lg text-primary">$35.97</span>
+            </div>
+          </div>
+          <a
+            href="/checkout.html"
+            class="block w-full bg-secondary text-white text-center py-3 rounded-lg hover:bg-yellow-600 transition"
+          >
+            Proceder al Pago
+          </a>
+          <p class="text-xs text-gray-500 mt-3 text-center">
+            Al completar tu compra aceptas nuestros Términos y Condiciones
+          </p>
+        </div>
+      </div>
     </main>
 
     <!-- Footer -->
     <footer class="bg-primary text-white py-12">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <div class="mb-8 md:mb-0">
-                    <div class="flex items-center mb-4">
-                        <i class="fas fa-leaf text-3xl text-secondary mr-2"></i>
-                        <h3 class="text-2xl font-bold">Distri<span class="text-secondary">Salud</span></h3>
-                    </div>
-                    <p class="text-blue-100">Productos naturales para una vida saludable</p>
-                </div>
-                
-                <div>
-                    <h4 class="text-lg font-bold mb-4">Enlaces Rápidos</h4>
-                    <ul class="space-y-2">
-                        <li><a href="/" class="text-blue-100 hover:text-secondary">Inicio</a></li>
-                        <li><a href="products.html" class="text-blue-100 hover:text-secondary">Productos</a></li>
-                        <li><a href="/about.html" class="text-blue-100 hover:text-secondary">Nosotros</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h4 class="text-lg font-bold mb-4">Categorías</h4>
-                    <ul class="space-y-2">
-                        <li><a href="/products.html?category=miel" class="text-blue-100 hover:text-secondary">Mieles</a></li>
-                        <li><a href="/products.html?category=te" class="text-blue-100 hover:text-secondary">Tés</a></li>
-                        <li><a href="/products.html?category=semillas" class="text-blue-100 hover:text-secondary">Semillas</a></li>
-                        <li><a href="/products.html?category=aceites" class="text-blue-100 hover:text-secondary">Aceites</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h4 class="text-lg font-bold mb-4">Contacto</h4>
-                    <ul class="space-y-2">
-                        <li class="flex items-center">
-                            <i class="fas fa-map-marker-alt text-secondary mr-2"></i>
-                            <span class="text-blue-100">San José, Costa Rica</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-phone-alt text-secondary mr-2"></i>
-                            <span class="text-blue-100">506 70777032</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-envelope text-secondary mr-2"></i>
-                            <span class="text-blue-100">hola@distrisalud.com</span>
-                        </li>
-                    </ul>
-                </div>
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div class="mb-8 md:mb-0">
+            <div class="flex items-center mb-4">
+              <i class="fas fa-leaf text-3xl text-secondary mr-2"></i>
+              <h3 class="text-2xl font-bold">
+                Distri<span class="text-secondary">Salud</span>
+              </h3>
             </div>
-            
-            <div class="border-t border-blue-800 mt-8 pt-8 text-center text-blue-100">
-                <p>&copy; 2025 DistriSalud. Todos los derechos reservados.</p>
-            </div>
+            <p class="text-blue-100">
+              Productos naturales para una vida saludable
+            </p>
+          </div>
+
+          <div>
+            <h4 class="text-lg font-bold mb-4">Enlaces Rápidos</h4>
+            <ul class="space-y-2">
+              <li>
+                <a href="/" class="text-blue-100 hover:text-secondary"
+                  >Inicio</a
+                >
+              </li>
+              <li>
+                <a
+                  href="products.html"
+                  class="text-blue-100 hover:text-secondary"
+                  >Productos</a
+                >
+              </li>
+              <li>
+                <a href="/about.html" class="text-blue-100 hover:text-secondary"
+                  >Nosotros</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="text-lg font-bold mb-4">Categorías</h4>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  href="/products.html?category=miel"
+                  class="text-blue-100 hover:text-secondary"
+                  >Mieles</a
+                >
+              </li>
+              <li>
+                <a
+                  href="/products.html?category=te"
+                  class="text-blue-100 hover:text-secondary"
+                  >Tés</a
+                >
+              </li>
+              <li>
+                <a
+                  href="/products.html?category=semillas"
+                  class="text-blue-100 hover:text-secondary"
+                  >Semillas</a
+                >
+              </li>
+              <li>
+                <a
+                  href="/products.html?category=aceites"
+                  class="text-blue-100 hover:text-secondary"
+                  >Aceites</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="text-lg font-bold mb-4">Contacto</h4>
+            <ul class="space-y-2">
+              <li class="flex items-center">
+                <i class="fas fa-map-marker-alt text-secondary mr-2"></i>
+                <span class="text-blue-100">San José, Costa Rica</span>
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-phone-alt text-secondary mr-2"></i>
+                <span class="text-blue-100">506 70777032</span>
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-envelope text-secondary mr-2"></i>
+                <span class="text-blue-100">hola@distrisalud.com</span>
+              </li>
+            </ul>
+          </div>
         </div>
+
+        <div
+          class="border-t border-blue-800 mt-8 pt-8 text-center text-blue-100"
+        >
+          <p>&copy; 2025 DistriSalud. Todos los derechos reservados.</p>
+        </div>
+      </div>
     </footer>
 
     <!-- JavaScript -->
     <script src="/assets/js/cart.js"></script>
-</body>
+  </body>
 </html>
