@@ -31,7 +31,7 @@
             rgba(255, 255, 255, 0.8),
             rgba(255, 255, 255, 0.8)
           ),
-          url("https://images.unsplash.com/photo-1505751172876-fa1923c5c528?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80");
+          url("../assets/images/familia.jpg");
         background-size: cover;
         background-position: center;
         height: 50vh;
@@ -48,7 +48,7 @@
     </style>
   </head>
   <body class="font-sans bg-gray-50">
-    <!-- Header/Navbar -->
+       <!-- Header/Navbar -->
     <header class="bg-white shadow-md sticky top-0 z-50">
       <div
         class="container mx-auto px-4 py-3 flex justify-between items-center"
@@ -210,7 +210,7 @@
             <div
               class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4"
             >
-              <i class="fas fa-heart text-white text-2xl"></i>
+            <i class="fas fa-heart text-white text-2xl"></i>
             </div>
             <h3 class="text-xl font-semibold text-primary mb-2">Compromiso</h3>
             <p class="text-gray-700">
@@ -326,13 +326,6 @@
                   >Acerca de</a
                 >
               </li>
-              <li>
-                <a
-                  href="contact.html"
-                  class="text-blue-100 hover:text-secondary"
-                  >Contacto</a
-                >
-              </li>
             </ul>
           </div>
 
@@ -406,6 +399,11 @@
           const mobileMenu = document.getElementById("mobile-menu");
           mobileMenu.classList.toggle("hidden");
         });
+    </script>
+
+     <script src="/assets/js/client/main.js"></script>
+      <script>
+      verificarLogin();
     </script>
   </body>
 </html>

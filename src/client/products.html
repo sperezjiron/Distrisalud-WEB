@@ -88,7 +88,7 @@
               <i class="fas fa-sign-out-alt"></i>
             </a>
           </div>
-          <a href="client/cart.html" class="relative">
+          <a href="cart.html" class="relative">
             <i class="fas fa-shopping-cart text-2xl text-primary"></i>
             <span
               id="cart-count"
@@ -122,19 +122,103 @@
       </div>
     </header>
 
+    <!-- Filtros y Búsqueda -->
+    <section class="bg-white py-4 shadow-sm">
+      <div class="container mx-auto px-4">
+        <div class="flex flex-col md:flex-row gap-4 items-center">
+          <!-- Filtro por categoría -->
+          <div class="w-full md:w-auto">
+            <label for="category-filter" class="sr-only">Categoría</label>
+            <select id="category-filter" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
+              <option value="">Todas las categorías</option>
+              <option value="mieles">Mieles</option>
+              <option value="jugos">Jugos Naturales</option>
+              <option value="suplementos">Suplementos</option>
+              <option value="cosmetica">Cosmética Natural</option>
+            </select>
+          </div>
+    <!-- Barra de búsqueda -->
+          <div class="w-full flex-1">
+            <div class="relative">
+              <input type="text" id="search-input" placeholder="Buscar productos..." 
+                     class="w-full p-2 pl-10 border border-gray-300 rounded-lg focus:ring-primary focus:border-primary">
+              <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
     <!-- Products Section -->
     <main class="container mx-auto px-4 py-8">
-      <h2 class="text-3xl font-bold text-center text-primary mb-8">
-        Nuestros Productos
-      </h2>
-      <div
-        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
-        id="product-list"
-      >
-        <!-- Aquí se cargarán los productos -->
+      <h2 class="text-3xl font-bold text-center text-primary mb-8">Nuestros Productos</h2>
+      
+      <!-- Contador de resultados -->
+      <div class="mb-6 text-gray-600">
+        Mostrando <span id="results-count">0</span> productos
+      </div>
+      
+      <!-- Listado de productos -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8" id="product-list">
+        <!-- Productos se cargarán aquí -->
       </div>
     </main>
-
+        <!-- Modal de Detalle de Producto -->
+    <div id="product-detail-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4 product-modal">
+      <div class="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+        <div class="p-6">
+          <div class="flex justify-between items-start mb-4">
+            <h3 class="text-2xl font-bold text-primary" id="modal-product-name">Nombre del Producto</h3>
+            <button id="close-modal" class="text-gray-500 hover:text-gray-700">
+              <i class="fas fa-times text-xl"></i>
+            </button>
+          </div>
+          
+          <div class="flex flex-col md:flex-row gap-6">
+            <!-- Imagen del producto -->
+            <div class="md:w-1/2">
+              <img id="modal-product-image" src="" alt="" class="w-full h-64 md:h-96 object-contain rounded-lg">
+            </div>
+    <!-- Detalles del producto -->
+            <div class="md:w-1/2">
+              <div class="mb-4">
+                <span class="text-lg font-bold text-primary" id="modal-product-price">$0.00</span>
+                <span class="ml-2 text-sm text-gray-500" id="modal-product-unit">/ unidad</span>
+              </div>
+              
+              <div class="mb-4">
+                <span class="block text-sm font-medium text-gray-700">Categoría:</span>
+                <span class="text-gray-600" id="modal-product-category">Categoría</span>
+              </div>
+              
+              <div class="mb-4">
+                <span class="block text-sm font-medium text-gray-700">Descripción:</span>
+                <p class="text-gray-600" id="modal-product-description">Descripción detallada del producto.</p>
+              </div>
+              
+              <div class="mb-4">
+                <span class="block text-sm font-medium text-gray-700">Disponibilidad:</span>
+                <span class="text-green-600 font-medium" id="modal-product-stock">En stock (10 unidades)</span>
+              </div>
+      <!-- Selector de cantidad -->
+              <div class="mb-6 flex items-center">
+                <span class="mr-4 text-sm font-medium text-gray-700">Cantidad:</span>
+                <div class="flex items-center border border-gray-300 rounded-lg">
+                  <button id="decrease-qty" class="px-3 py-1 text-gray-600 hover:bg-gray-100">-</button>
+                  <input type="number" id="product-qty" value="1" min="1" class="w-12 text-center border-x border-gray-300 py-1">
+                  <button id="increase-qty" class="px-3 py-1 text-gray-600 hover:bg-gray-100">+</button>
+                </div>
+              </div>
+      <!-- Botones de acción -->
+              <div class="flex gap-3">
+                <button id="add-to-cart-modal" class="flex-1 bg-primary text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition flex items-center justify-center">
+                  <i class="fas fa-cart-plus mr-2"></i> Añadir al carrito
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- Footer -->
     <footer class="bg-primary text-white py-12">
       <div class="container mx-auto text-center">
@@ -142,7 +226,7 @@
       </div>
     </footer>
 
-    <script>
+    <script hidden>
       async function fetchProducts() {
         const response = await fetch("/api/products"); // Cambia esta URL según tu API
         const products = await response.json();
@@ -176,6 +260,7 @@
       document.addEventListener("DOMContentLoaded", fetchProducts);
     </script>
     <script src="/assets/js/client/main.js"></script>
+    <script src="/assets/js/client/products.js"></script>
     <script>
       verificarLogin();
     </script>

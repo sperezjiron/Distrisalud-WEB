@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout - DistriSalud</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#1E40AF",
+              secondary: "#F59E0B",
+              natural: "#4B5563",
+            },
+          },
+        },
+      };
+    </script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+      .checkout-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px rgba(30, 64, 175, 0.1);
+      }
+      .payment-method {
+        transition: all 0.3s ease;
+      }
+      .payment-method:hover {
+        border-color: #1E40AF;
+      }
+      .payment-method.selected {
+        border-color: #1E40AF;
+        background-color: #EFF6FF;
+      }
+      .invoice {
+        border: 1px solid #ccc;
+        padding: 20px;
+        border-radius: 8px;
+        background-color: #fff;
+      }
+    </style>
+</head>
+<body class="font-sans bg-gray-50">
+    <!-- Header/Navbar -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+      <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+        <a href="/" class="flex items-center">
+          <i class="fas fa-leaf text-3xl text-primary mr-2"></i>
+          <h1 class="text-2xl font-bold text-primary">Distri<span class="text-secondary">Salud</span></h1>
+        </a>
+
+        <nav class="hidden md:flex space-x-8">
+          <a href="/" class="text-gray-700 hover:text-primary">Inicio</a>
+          <a href="products.html" class="text-gray-700 hover:text-primary">Productos</a>
+          <a href="../#categories" class="text-gray-700 hover:text-primary">Categorías</a>
+          <a href="about.html" class="text-gray-700 hover:text-primary">Nosotros</a>
+        </nav>
+
+        <div class="flex items-center space-x-4">
+          <div id="auth-buttons" class="flex items-center space-x-3">
+            <a id="login-button" href="login.html" class="text-gray-700 hover:text-primary">
+              <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+            </a>
+            <a id="profile-button" href="profile.html" class="hidden text-gray-700 hover:text-primary">
+              <i class="fas fa-user"></i> Mi Perfil
+            </a>
+            <a id="logout-button" href="#" class="hidden text-gray-700 hover:text-red-600">
+              <i class="fas fa-sign-out-alt"></i>
+            </a>
+          </div>
+          <a href="cart.html" class="relative">
+            <i class="fas fa-shopping-cart text-2xl text-primary"></i>
+            <span id="cart-count" class="absolute -top-2 -right-2 bg-secondary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+          </a>
+          <button class="md:hidden" id="mobile-menu-button">
+            <i class="fas fa-bars text-2xl text-primary"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Checkout Content -->
+    <main class="container mx-auto px-4 py-8 min-h-screen">
+        <h2 class="text-3xl font-bold text-center text-primary mb-8">Finalizar Compra</h2>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Información del cliente -->
+            <div class="lg:col-span-2 space-y-6">
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                    <h3 class="font-bold text-lg text-primary mb-4">Información del Cliente</h3>
+                    <form id="customer-info">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="first-name" class="block text-gray-700 mb-1">Nombres</label>
+                                <input type="text" id="first-name" class="w-full p-2 border border-gray-300 rounded" required value="Juan" readonly />
+                            </div>
+                            <div>
+                                <label for="last-name" class="block text-gray-700 mb-1">Apellidos</label>
+                                <input type="text" id="last-name" class="w-full p-2 border border-gray-300 rounded" required value="Pérez" readonly />
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <label for="email" class="block text-gray-700 mb-1">Correo Electrónico</label>
+                            <input type="email" id="email" class="w-full p-2 border border-gray-300 rounded" required value="juan.perez@example.com" readonly />
+                        </div>
+                        
+                        <div class="mt-4">
+                            <label for="phone" class="block text-gray-700 mb-1">Teléfono</label>
+                            <input type="tel" id="phone" class="w-full p-2 border border-gray-300 rounded" required value="88888888" readonly />
+                        </div>
+                        
+                        <div class="mt-4">
+                            <label for="id-number" class="block text-gray-700 mb-1">Cédula</label>
+                            <input type="text" id="id-number" class="w-full p-2 border border-gray-300 rounded" required value="1-2345-6789" readonly />
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Dirección de envío -->
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                    <h3 class="font-bold text-lg text-primary mb-4">Dirección de Envío</h3>
+                    <form id="shipping-address">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="province" class="block text-gray-700 mb-1">Provincia</label>
+                                <select id="province" class="w-full p-2 border border-gray-300 rounded" required>
+                                    <option value="san-jose" selected>San José</option>
+                                    <option value="alajuela">Alajuela</option>
+                                    <option value="cartago">Cartago</option>
+                                    <option value="heredia">Heredia</option>
+                                    <option value="guanacaste">Guanacaste</option>
+                                    <option value="puntarenas">Puntarenas</option>
+                                    <option value="limon">Limón</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="canton" class="block text-gray-700 mb-1">Cantón</label>
+                                <select id="canton" class="w-full p-2 border border-gray-300 rounded" required>
+                                    <option value="san-jose" selected>San José</option>
+                                    <option value="escalante">Escazú</option>
+                                    <option value="desamparados">Desamparados</option>
+                                    <option value="puriscal">Puriscal</option>
+                                    <option value="tibas">Tibás</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <label for="district" class="block text-gray-700 mb-1">Distrito</label>
+                            <select id="district" class="w-full p-2 border border-gray-300 rounded" required>
+                                <option value="carmen" selected>Carmen</option>
+                                <option value="merced">Merced</option>
+                                <option value="hospital">Hospital</option>
+                                <option value="zapote">Zapote</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <label for="address" class="block text-gray-700 mb-1">Dirección exacta</label>
+                            <textarea id="address" rows="3" class="w-full p-2 border border-gray-300 rounded" required>200m oeste del Parque Central</textarea>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <label for="notes" class="block text-gray-700 mb-1">Instrucciones especiales (opcional)</label>
+                            <textarea id="notes" rows="2" class="w-full p-2 border border-gray-300 rounded">Dejar en recepción</textarea>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Método de pago -->
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                    <h3 class="font-bold text-lg text-primary mb-4">Método de Pago</h3>
+                    
+                    <div class="space-y-4">
+                        <!-- Opción 1: SINPE Móvil -->
+                        <button type="button" class="payment-method p-4 border rounded-lg cursor-pointer text-left w-full" onclick="selectPaymentMethod('sinpe')">
+                            <div class="flex items-center">
+                                <input type="radio" id="sinpe" name="payment-method" class="mr-3" checked>
+                                <label for="sinpe" class="font-medium">SINPE Móvil</label>
+                            </div>
+                            <div id="sinpe-details" class="mt-3 ml-6">
+                                <p class="text-sm text-gray-600 mb-2">Número de teléfono: <span class="font-medium">8888-8888</span></p>
+                                <p class="text-sm text-gray-600">Nombre: <span class="font-medium">DistriSalud S.A.</span></p>
+                                <p class="text-xs text-gray-500 mt-2">Por favor envíe el comprobante al WhatsApp: 8888-8888</p>
+                            </div>
+                        </button>
+                        
+                        <!-- Opción 2: Transferencia Bancaria -->
+                        <button type="button" class="payment-method p-4 border rounded-lg cursor-pointer text-left w-full" onclick="selectPaymentMethod('transfer')">
+                            <div class="flex items-center">
+                                <input type="radio" id="transfer" name="payment-method" class="mr-3">
+                                <label for="transfer" class="font-medium">Transferencia Bancaria</label>
+                            </div>
+                            <div id="transfer-details"  mt-3 ml-6">
+                                <p class="text-sm text-gray-600 mb-1">Banco: <span class="font-medium">BAC San José</span></p>
+                                <p class="text-sm text-gray-600 mb-1">Cuenta: <span class="font-medium">123456789</span></p>
+                                <p class="text-sm text-gray-600">A nombre de: <span class="font-medium">DistriSalud S.A.</span></p>
+                                <p class="text-xs text-gray-500 mt-2">Por favor envíe el comprobante al correo: pagos@distrisalud.com</p>
+                            </div>
+                        </button>
+                        
+                        <!-- Opción 3: Crédito -->
+                        <button type="button" class="payment-method p-4 border rounded-lg cursor-pointer text-left w-full" onclick="selectPaymentMethod('credit')">
+                            <div class="flex items-center">
+                                <input type="radio" id="credit" name="payment-method" class="mr-3">
+                                <label for="credit" class="font-medium">Crédito</label>
+                            </div>
+                            <div id="credit-details"  mt-3 ml-6">
+                                <div class="mb-3">
+                                    <label for="credit-terms" class="block text-sm text-gray-700 mb-1">Plazo de pago</label>
+                                    <select id="credit-terms" class="w-full p-2 border border-gray-300 rounded text-sm">
+                                        <option value="15">15 días</option>
+                                        <option value="30">30 días</option>
+                                        <option value="60">60 días</option>
+                                    </select>
+                                </div>
+                                <p class="text-xs text-gray-500">Sujeto a aprobación de crédito. Nos contactaremos para confirmar.</p>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resumen del pedido -->
+            <div class="space-y-6">
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100 sticky top-4">
+                    <h3 class="font-bold text-lg text-primary mb-4">Resumen del Pedido</h3>
+                    
+                    <div id="cart-items" class="space-y-4 mb-4">
+                        <!-- Los productos del carrito se cargarán aquí -->
+                    </div>
+                    
+                    <div class="space-y-3 border-t border-gray-200 pt-4">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Subtotal</span>
+                            <span class="font-medium" id="subtotal">₡0.00</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Envío</span>
+                            <span class="font-medium">₡5,000.00</span>
+                        </div>
+                        <div class="flex justify-between border-t border-gray-200 pt-3">
+                            <span class="text-gray-600 font-bold">Total</span>
+                            <span class="font-bold text-lg text-primary" id="total">₡0.00</span>
+                        </div>
+                    </div>
+                    
+                    <button id="confirm-order" class="w-full bg-secondary text-white py-3 rounded-lg hover:bg-yellow-600 transition mt-6">
+                        Confirmar Pedido
+                    </button>
+                    
+                    <button id="whatsapp-button" class="w-full bg-green-500 text-white py-3 rounded-lg hover:bg-green-600 transition mt-2">
+                        Enviar Pedido por WhatsApp
+                    </button>
+                    
+                    <p class="text-xs text-gray-500 mt-3 text-center">
+                        Al completar tu compra aceptas nuestros <a href="#" class="text-primary">Términos y Condiciones</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-primary text-white py-12">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div class="mb-8 md:mb-0">
+            <div class="flex items-center mb-4">
+              <i class="fas fa-leaf text-3xl text-secondary mr-2"></i>
+              <h3 class="text-2xl font-bold">Distri<span class="text-secondary">Salud</span></h3>
+            </div>
+            <p class="text-blue-100">Productos naturales para una vida saludable</p>
+          </div>
+
+          <div>
+            <h4 class="text-lg font-bold mb-4">Enlaces Rápidos</h4>
+            <ul class="space-y-2">
+              <li><a href="/" class="text-blue-100 hover:text-secondary">Inicio</a></li>
+              <li><a href="products.html" class="text-blue-100 hover:text-secondary">Productos</a></li>
+              <li><a href="about.html" class="text-blue-100 hover:text-secondary">Nosotros</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="text-lg font-bold mb-4">Categorías</h4>
+            <ul class="space-y-2">
+              <li><a href="/products.html?category=miel" class="text-blue-100 hover:text-secondary">Mieles</a></li>
+              <li><a href="/products.html?category=te" class="text-blue-100 hover:text-secondary">Tés</a></li>
+              <li><a href="/products.html?category=semillas" class="text-blue-100 hover:text-secondary">Semillas</a></li>
+              <li><a href="/products.html?category=aceites" class="text-blue-100 hover:text-secondary">Aceites</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="text-lg font-bold mb-4">Contacto</h4>
+            <ul class="space-y-2">
+              <li class="flex items-center"><i class="fas fa-map-marker-alt text-secondary mr-2"></i><span class="text-blue-100">San José, Costa Rica</span></li>
+              <li class="flex items-center"><i class="fas fa-phone-alt text-secondary mr-2"></i><span class="text-blue-100">506 70777032</span></li>
+              <li class="flex items-center"><i class="fas fa-envelope text-secondary mr-2"></i><span class="text-blue-100">hola@distrisalud.com</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="border-t border-blue-800 mt-8 pt-8 text-center text-blue-100">
+          <p>&copy; 2025 DistriSalud. Todos los derechos reservados.</p>
+        </div>
+      </div>
+    </footer>
+
+ <!-- JavaScript -->
+    <script src="/assets/js/client/checkout.js"></script>
+     <script src="/assets/js/client/main.js"></script>
+      <script>
+      verificarLogin();
+    </script>
+  </body>
+</html>

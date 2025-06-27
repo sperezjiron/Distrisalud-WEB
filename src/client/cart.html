@@ -107,139 +107,43 @@
       </div>
     </header>
 
-    <!-- Cart Content -->
+   <!-- Cart Content -->
     <main class="container mx-auto px-4 py-8 min-h-screen">
-      <h2 class="text-3xl font-bold text-center text-primary mb-8">
-        Tu Carrito de Compras
-      </h2>
-
+      <h2 class="text-3xl font-bold text-center text-primary mb-8">Tu Carrito de Compras</h2>
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <!-- Lista de productos -->
-        <div class="lg:col-span-2 space-y-4">
-          <!-- Ejemplo de producto en el carrito -->
-          <div
-            class="cart-item bg-white p-4 rounded-lg shadow-sm border border-gray-100 transition"
-          >
-            <div class="flex flex-col md:flex-row gap-4">
-              <img
-                src="https://images.unsplash.com/photo-1587049352851-8d4e89133924?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
-                alt="Miel Orgánica"
-                class="w-full md:w-24 h-24 object-cover rounded"
-              />
-              <div class="flex-1">
-                <h3 class="font-bold text-lg text-primary">
-                  Miel Orgánica Pura
-                </h3>
-                <p class="text-gray-600 text-sm">
-                  250g - Directa de los apicultores locales
-                </p>
-                <div class="flex justify-between items-center mt-2">
-                  <div class="flex items-center">
-                    <button class="text-gray-500 hover:text-primary">
-                      <i class="fas fa-minus"></i>
-                    </button>
-                    <span class="mx-2">1</span>
-                    <button class="text-gray-500 hover:text-primary">
-                      <i class="fas fa-plus"></i>
-                    </button>
-                  </div>
-                  <span class="font-bold text-primary">$12.99</span>
-                </div>
-              </div>
-              <button class="text-red-500 hover:text-red-700 self-start">
-                <i class="fas fa-trash-alt"></i>
-              </button>
-            </div>
-          </div>
-
-          <!-- Segundo producto -->
-          <div
-            class="cart-item bg-white p-4 rounded-lg shadow-sm border border-gray-100 transition"
-          >
-            <div class="flex flex-col md:flex-row gap-4">
-              <img
-                src="https://images.unsplash.com/photo-1550583724-b2692b85b150?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
-                alt="Té Verde"
-                class="w-full md:w-24 h-24 object-cover rounded"
-              />
-              <div class="flex-1">
-                <h3 class="font-bold text-lg text-primary">
-                  Té Verde Orgánico
-                </h3>
-                <p class="text-gray-600 text-sm">
-                  30 bolsitas - Antioxidante natural
-                </p>
-                <div class="flex justify-between items-center mt-2">
-                  <div class="flex items-center">
-                    <button class="text-gray-500 hover:text-primary">
-                      <i class="fas fa-minus"></i>
-                    </button>
-                    <span class="mx-2">2</span>
-                    <button class="text-gray-500 hover:text-primary">
-                      <i class="fas fa-plus"></i>
-                    </button>
-                  </div>
-                  <span class="font-bold text-primary">$8.99</span>
-                </div>
-              </div>
-              <button class="text-red-500 hover:text-red-700 self-start">
-                <i class="fas fa-trash-alt"></i>
-              </button>
-            </div>
-          </div>
-
-          <!-- Carrito vacío (oculto por defecto) -->
-          <div
-            id="empty-cart"
-            class="empty-cart hidden flex flex-col items-center justify-center p-8 rounded-lg text-center"
-          >
-            <i class="fas fa-shopping-cart text-5xl text-gray-300 mb-4"></i>
-            <h3 class="text-xl font-bold text-gray-500 mb-2">
-              Tu carrito está vacío
-            </h3>
-            <p class="text-gray-500 mb-4">
-              Explora nuestros productos y encuentra algo especial
-            </p>
-            <a
-              href="client/products.html"
-              class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition"
-            >
-              Ver Productos
-            </a>
-          </div>
+        <div class="lg:col-span-2 space-y-4" id="cart-items">
+          <!-- Los productos del carrito se cargarán aquí -->
         </div>
-
-        <!-- Resumen del pedido -->
-        <div
-          class="bg-white p-6 rounded-lg shadow-sm border border-gray-100 h-fit sticky top-4"
-        >
-          <h3 class="font-bold text-lg text-primary mb-4">
-            Resumen del Pedido
-          </h3>
+       <!-- Resumen del pedido -->
+        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100 h-fit sticky top-4">
+          <h3 class="font-bold text-lg text-primary mb-4">Resumen del Pedido</h3>
           <div class="space-y-3 mb-6">
             <div class="flex justify-between">
               <span class="text-gray-600">Subtotal</span>
-              <span class="font-medium">$30.97</span>
+              <span class="font-medium" id="subtotal">₡0.00</span>
             </div>
             <div class="flex justify-between">
               <span class="text-gray-600">Envío</span>
-              <span class="font-medium">$5.00</span>
+              <span class="font-medium">₡5.00</span>
             </div>
             <div class="flex justify-between border-t border-gray-200 pt-3">
               <span class="text-gray-600">Total</span>
-              <span class="font-bold text-lg text-primary">$35.97</span>
+              <span class="font-bold text-lg text-primary" id="total">₡5.00</span>
             </div>
           </div>
-          <a
-            href="/checkout.html"
-            class="block w-full bg-secondary text-white text-center py-3 rounded-lg hover:bg-yellow-600 transition"
-          >
-            Proceder al Pago
-          </a>
-          <p class="text-xs text-gray-500 mt-3 text-center">
-            Al completar tu compra aceptas nuestros Términos y Condiciones
-          </p>
-        </div>
+            <a id="checkout-pedido" class="block w-full bg-secondary text-white text-center py-3 rounded-lg hover:bg-yellow-600 transition" onclick="verificarLoginCheckout()">
+              <i class="fas fa-check mr-2"></i>
+            Confirmar Pedido
+            </a>
+         </div>
+      </div>
+        <!-- Carrito vacío (oculto por defecto) -->
+      <div id="empty-cart" class="empty-cart hidden flex flex-col items-center justify-center p-8 rounded-lg text-center">
+        <i class="fas fa-shopping-cart text-5xl text-gray-300 mb-4"></i>
+        <h3 class="text-xl font-bold text-gray-500 mb-2">Tu carrito está vacío</h3>
+        <p class="text-gray-500 mb-4">Explora nuestros productos y encuentra algo especial</p>
+        <a href="products.html" class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">Ver Productos</a>
       </div>
     </main>
 
@@ -344,6 +248,11 @@
     </footer>
 
     <!-- JavaScript -->
-    <script src="/assets/js/cart.js"></script>
+    <script src="/assets/js/client/cart.js"></script>
+     <script src="/assets/js/client/main.js"></script>
+    <script>
+      verificarLogin();
+      
+    </script>
   </body>
 </html>
