@@ -363,3 +363,4 @@ function renderProducts() {
 function getProductById(productId) {
   return products.find((product) => product.id === productId);
 }
+

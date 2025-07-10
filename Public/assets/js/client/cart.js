@@ -86,26 +86,18 @@ function removeFromCart(productId) {
 // Cargar el carrito al iniciar la página
 document.addEventListener("DOMContentLoaded", loadCart);
 
+
 //Función para verificar login
 function verificarLoginCheckout() {
-  console.log(verificarLogin());
-  const estaLogeado = verificarLogin();
+  const user = localStorage.getItem("user");
 
-  if (estaLogeado) {
+  if (!user) {
     alert("Debes iniciar sesión para confirmar tu pedido.");
     // Evita que siga el enlace
     event.preventDefault();
     // Redirige al login
     window.location.href = "/client/login.html";
+  } else {
+    window.location.href = "/client/checkout.html";
   }
-  // Si hay usuario, no hacemos nada: el enlace funciona normal
 }
-
-function verificarLogin() {
-  console.log("Verificando login en checkout...");
-  const user = localStorage.getItem("user");
-
-  return !!user;
-}
-//carga al iniciar la página
-document.addEventListener("DOMContentLoaded", verificarLoginCheckout);

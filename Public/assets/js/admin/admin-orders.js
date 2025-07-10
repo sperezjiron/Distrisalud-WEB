@@ -50,19 +50,26 @@ document.getElementById('createOrderButton').addEventListener('click', function(
     createOrder(orderData);
 });
 
-async function createOrder(orderData) {
-    try {
-        const response = await fetch('http://localhost:5000/api/orders', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(orderData),
-        });
-        const newOrder = await response.json();
-        console.log('Nuevo pedido creado:', newOrder);
-        fetchOrders(); // Actualiza la lista de pedidos
-    } catch (error) {
-        console.error('Error al crear el pedido:', error);
-    }
+function viewOrder(orderId) {
+    // Lógica para obtener los detalles del pedido (puede ser una llamada a la API)
+    const orderDetails = `
+        <p><strong>ID:</strong> ${orderId}</p>
+        <p><strong>Cliente:</strong> María González</p>
+        <p><strong>Fecha:</strong> 15/05/2023</p>
+        <p><strong>Total:</strong> $45.99</p>
+        <p><strong>Estado:</strong> Completado</p>
+        <p><strong>Productos:</strong></p>
+        <ul>
+            <li>Producto 1 - $20.00</li>
+            <li>Producto 2 - $25.99</li>
+        </ul>
+    `;
+    
+    document.getElementById('order-detail-content').innerHTML = orderDetails;
+    document.getElementById('order-detail-modal').classList.remove('hidden');
 }
+
+function closeOrderDetailModal() {
+    document.getElementById('order-detail-modal').classList.add('hidden');
+}
+

@@ -32,32 +32,89 @@
 <body class="font-sans bg-gray-50">
     <!-- Header/Navbar -->
     <header class="bg-white shadow-md sticky top-0 z-50">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <a href="/" class="flex items-center">
-                <i class="fas fa-leaf text-3xl text-primary mr-2"></i>
-                <h1 class="text-2xl font-bold text-primary">Distri<span class="text-secondary">Salud</span></h1>
+      <div
+        class="container mx-auto px-4 py-3 flex justify-between items-center"
+      >
+        <a href="" class="flex items-center">
+          <i class="fas fa-leaf text-3xl text-primary mr-2"></i>
+          <h1 class="text-2xl font-bold text-primary">
+            Distri<span class="text-secondary">Salud</span>
+          </h1>
+        </a>
+
+        <nav
+          class="hidden md:flex space-x-8"
+          aria-label="Menú de navegación principal"
+        >
+          <a href="/" class="text-gray-700 hover:text-primary">Inicio</a>
+          <a href="products.html" class="text-gray-700 hover:text-primary"
+            >Productos</a
+          >
+          <a href="../#categories" class="text-gray-700 hover:text-primary"
+            >Categorías</a
+          >
+          <a href="about.html" class="text-gray-700 hover:text-primary"
+            >Nosotros</a
+          >
+        </nav>
+
+        <div class="flex items-center space-x-4">
+          <!-- Login / Perfil -->
+          <div id="auth-buttons" class="flex items-center space-x-3">
+            <a
+              id="login-button"
+              href="login.html"
+              class="text-gray-700 hover:text-primary"
+            >
+              <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
             </a>
-            
-            <nav class="hidden md:flex space-x-8" aria-label="Menú principal">
-                <a href="/" class="text-gray-700 hover:text-primary">Inicio</a>
-                <a href="products.html" class="text-gray-700 hover:text-primary">Productos</a>
-                <a href="cart.html" class="text-gray-700 hover:text-primary">Carrito</a>
-                <a href="profile.html" class="text-gray-700 hover:text-primary">Mi Cuenta</a>
-            </nav>
-            
-            <div class="flex items-center space-x-4">
-                <a href="profile.html" class="hidden md:block text-gray-700 hover:text-primary">
-                    <i class="fas fa-user"></i>
-                </a>
-                <a href="cart.html" class="relative">
-                    <i class="fas fa-shopping-cart text-2xl text-primary"></i>
-                    <span id="cart-count" class="absolute -top-2 -right-2 bg-secondary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">2</span>
-                </a>
-                <button class="md:hidden" id="mobile-menu-button">
-                    <i class="fas fa-bars text-2xl text-primary"></i>
-                </button>
-            </div>
+            <a
+              id="profile-button"
+              href="client/profile.html"
+              class="hidden text-gray-700 hover:text-primary"
+            >
+              <i class="fas fa-user"></i> Mi Perfil
+            </a>
+            <a
+              id="logout-button"
+              href="#"
+              class="hidden text-gray-700 hover:text-red-600"
+            >
+              <i class="fas fa-sign-out-alt"></i>
+            </a>
+          </div>
+          <a href="cart.html" class="relative">
+            <i class="fas fa-shopping-cart text-2xl text-primary"></i>
+            <span
+              id="cart-count"
+              class="absolute -top-2 -right-2 bg-secondary text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"
+              >0</span
+            >
+          </a>
+          <button class="md:hidden" id="mobile-menu-button">
+            <i class="fas fa-bars text-2xl text-primary"></i>
+          </button>
         </div>
+      </div>
+
+      <!-- Mobile Menu -->
+      <div
+        id="mobile-menu"
+        class="hidden md:hidden bg-white py-4 px-4 shadow-lg"
+      >
+        <nav
+          class="flex flex-col space-y-4"
+          aria-label="Menú de navegación móvil"
+        >
+          <a href="/" class="text-primary font-medium">Inicio</a>
+          <a href="products.html'" class="text-gray-700">Productos</a>
+          <a href="index.html" class="text-gray-700">Categorías</a>
+          <a href="about.html" class="text-gray-700">Nosotros</a>
+          <a href="profile.html" class="text-gray-700">
+            <i class="fas fa-user mr-2"></i> Mi Cuenta
+          </a>
+        </nav>
+      </div>
     </header>
 
     <!-- Account Content -->
@@ -132,18 +189,10 @@
             <p>&copy; 2025 DistriSalud. Todos los derechos reservados.</p>
         </div>
     </footer>
+    <script src="/assets/js/client/main.js"></script>
+    <script src="/assets/js/client/products.js"></script>
+    <script>
+      verificarLogin();
+    </script>
 </body>
 </html>
-// Obtener el ID del pedido de la URL
-const orderId = new URLSearchParams(window.location.search).get('id');
-if (orderId) {
-    fetch(`/api/orders/${orderId}`)
-      .then(response => response.json())
-      .then(data => {
-          // Actualizar la interfaz con los datos del pedido
-          document.getElementById('order-number').textContent = `#${data.id}`;
-          document.getElementById('order-date').textContent = data.date;
-          // ... completar con los demás campos
-      })
-      .catch(error => console.error('Error:', error));
-}

@@ -288,3 +288,15 @@ function showToast(message, type = 'success') {
     // Implementar tu sistema de notificaciones
     console.log(`${type.toUpperCase()}: ${message}`);
 }
+
+function searchProduct() {
+    const searchTerm = document.getElementById('search-product').value.toLowerCase();
+    // Lógica para buscar productos en la tabla
+    console.log(`Buscando productos que contengan: ${searchTerm}`);
+}
+
+function filterProducts() {
+    const selectedCategory = document.getElementById('filter-category').value;
+    // Lógica para filtrar productos por categoría
+    console.log(`Filtrando productos por categoría: ${selectedCategory}`);
+}
