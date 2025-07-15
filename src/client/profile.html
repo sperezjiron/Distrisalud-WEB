@@ -183,136 +183,67 @@
             <form class="space-y-4">
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label
-                    for="nombre"
-                    class="block text-sm font-medium text-gray-700 mb-1"
-                    >Nombre</label
-                  >
-                  <input
-                    id="nombre"
-                    type="text"
-                    value="María"
-                    class="w-full border p-2 rounded-lg focus:ring-2 focus:ring-primary"
-                  />
+                  <label for="nombre" class="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
+                  <input id="nombre" type="text" class="w-full border p-2 rounded-lg" />
                 </div>
                 <div>
-                  <label
-                    for="apellido"
-                    class="block text-sm font-medium text-gray-700 mb-1"
-                    >Apellido</label
-                  >
-                  <input
-                    id="apellido"
-                    type="text"
-                    value="González"
-                    class="w-full border p-2 rounded-lg focus:ring-2 focus:ring-primary"
-                  />
+                  <label for="apellido" class="block text-sm font-medium text-gray-700 mb-1">Apellido</label>
+                  <input id="apellido" type="text" class="w-full border p-2 rounded-lg" />
                 </div>
               </div>
+            
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label
-                    for="email"
-                    class="block text-sm font-medium text-gray-700 mb-1"
-                    >Email</label
-                  >
-                  <input
-                    id="email"
-                    type="email"
-                    value="maria.gonzalez@example.com"
-                    class="w-full border p-2 rounded-lg focus:ring-2 focus:ring-primary"
-                  />
+                  <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                  <input id="email" type="email" class="w-full border p-2 rounded-lg" />
                 </div>
                 <div>
-                  <label
-                    for="telefono"
-                    class="block text-sm font-medium text-gray-700 mb-1"
-                    >Teléfono</label
-                  >
-                  <input
-                    id="telefono"
-                    type="tel"
-                    value="506 70777032"
-                    class="w-full border p-2 rounded-lg focus:ring-2 focus:ring-primary"
-                  />
+                  <label for="telefono" class="block text-sm font-medium text-gray-700 mb-1">Teléfono</label>
+                  <input id="telefono" type="tel" class="w-full border p-2 rounded-lg" />
                 </div>
               </div>
-              <div>
-                <label
-                  for="direccion"
-                  class="block text-sm font-medium text-gray-700 mb-1"
-                  >Dirección</label
-                >
-                <input
-                  id="direccion"
-                  type="text"
-                  value="San José, Costa Rica"
-                  class="w-full border p-2 rounded-lg focus:ring-2 focus:ring-primary"
-                />
+            
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label for="cedula" class="block text-sm font-medium text-gray-700 mb-1">Cédula</label>
+                  <input id="cedula" type="text" class="w-full border p-2 rounded-lg" />
+                </div>
+                <div>
+                  <label for="tipoCedula" class="block text-sm font-medium text-gray-700 mb-1">Tipo de Cédula</label>
+                  <input id="tipoCedula" type="text" class="w-full border p-2 rounded-lg" />
+                </div>
               </div>
+            
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label for="codigoPostal" class="block text-sm font-medium text-gray-700 mb-1">Código Postal</label>
+                  <input id="codigoPostal" type="text" class="w-full border p-2 rounded-lg" />
+                </div>
+                <div>
+                  <label for="nombreNegocio" class="block text-sm font-medium text-gray-700 mb-1">Nombre del Negocio</label>
+                  <input id="nombreNegocio" type="text" class="w-full border p-2 rounded-lg" />
+                </div>
+              </div>
+            
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label for="tipoCliente" class="block text-sm font-medium text-gray-700 mb-1">Tipo de Cliente</label>
+                  <input id="tipoCliente" type="text" class="w-full border p-2 rounded-lg" />
+                </div>
+                <div>
+                  <label for="direccion" class="block text-sm font-medium text-gray-700 mb-1">Dirección</label>
+                  <input id="direccion" type="text" class="w-full border p-2 rounded-lg" />
+                </div>
+              </div>
+            
               <div class="flex justify-end">
-                <button
-                  type="submit"
-                  class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
-                >
+                <button type="submit" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
                   Guardar Cambios
                 </button>
               </div>
             </form>
-          </section>
+            </section>
 
-          <!-- Sección de Mis Pedidos -->
-          <section
-            id="orders-section"
-            class="bg-white p-6 rounded-lg shadow-sm border border-gray-100 mb-6"
-          >
-            <h3 class="font-bold text-xl text-primary mb-4">Mis Pedidos</h3>
-            <div class="space-y-4">
-              <!-- Ejemplo de pedido -->
-              <div
-                class="order-card bg-gray-50 p-4 rounded-lg shadow-sm border border-gray-200"
-              >
-                <h4 class="font-bold text-lg">Pedido #12345</h4>
-                <p class="text-gray-600">Fecha: 2025-01-15</p>
-                <p class="text-gray-600">Total: $35.97</p>
-                <p class="text-gray-600">Estado: Enviado</p>
-                <div class="mt-2">
-                  <h5 class="font-semibold">Productos:</h5>
-                  <ul class="list-disc list-inside">
-                    <li>Miel Orgánica Pura - 1 x $12.99</li>
-                    <li>Té Verde Orgánico - 2 x $8.99</li>
-                  </ul>
-                </div>
-                <button
-                  class="mt-4 bg-secondary text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition"
-                >
-                  Ver Detalles
-                </button>
-              </div>
-
-              <!-- Otro pedido -->
-              <div
-                class="order-card bg-gray-50 p-4 rounded-lg shadow-sm border border-gray-200"
-              >
-                <h4 class="font-bold text-lg">Pedido #12346</h4>
-                <p class="text-gray-600">Fecha: 2025-01-20</p>
-                <p class="text-gray-600">Total: $20.00</p>
-                <p class="text-gray-600">Estado: En Proceso</p>
-                <div class="mt-2">
-                  <h5 class="font-semibold">Productos:</h5>
-                  <ul class="list-disc list-inside">
-                    <li>Semillas de Chía - 1 x $10.00</li>
-                    <li>Aceite de Oliva - 1 x $10.00</li>
-                  </ul>
-                </div>
-                <button
-                  class="mt-4 bg-secondary text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition"
-                >
-                  Ver Detalles
-                </button>
-              </div>
-            </div>
-          </section>
         </div>
       </div>
     </main>
@@ -325,8 +256,11 @@
     </footer>
 
     <script src="/assets/js/client/main.js"></script>
+    <script src="/assets/js/client/users.js"></script>
     <script>
-      verificarLogin();
+      //verificarLogin();
+      loadUsers();
+      loadCustomers();
     </script>
   </body>
 </html>

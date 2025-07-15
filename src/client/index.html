@@ -162,88 +162,33 @@
         <h2 class="text-3xl font-bold text-center text-primary mb-12">
           Nuestras Categorías
         </h2>
-
-        <div class="flex flex-wrap justify-center gap-4 mb-8">
-          <button class="category-btn active px-4 py-2 rounded-full">
-            Todos
-          </button>
-          <button
-            class="category-btn px-4 py-2 rounded-full border border-primary text-primary"
-          >
-            Mieles
-          </button>
-          <button
-            class="category-btn px-4 py-2 rounded-full border border-primary text-primary"
-          >
-            Tés
-          </button>
-          <button
-            class="category-btn px-4 py-2 rounded-full border border-primary text-primary"
-          >
-            Semillas
-          </button>
-          <button
-            class="category-btn px-4 py-2 rounded-full border border-primary text-primary"
-          >
-            Aceites
-          </button>
-          <button
-            class="category-btn px-4 py-2 rounded-full border border-primary text-primary"
-          >
-            Suplementos
-          </button>
+        <div id="featured-category-buttons" class="flex flex-wrap justify-center gap-4 mb-8">
+          <!-- Aquí se insertarán los botones de categoría -->
         </div>
       </div>
     </section>
-
+    
     <!-- Featured Products -->
     <section id="featured" class="py-16 bg-gray-50">
       <div class="container mx-auto px-4">
-        <h2 class="text-3xl font-bold text-center text-primary mb-12">
+        <h2 class="text-3xl font-bold text-center text-primary mb-8">
           Productos Destacados
         </h2>
-
-        <div
-          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
-          id="featured-products"
-        >
-          <!-- Producto 1 -->
-          <div
-            class="product-card bg-white p-6 rounded-lg shadow-md transition duration-300"
-          >
-            <div class="relative mb-4">
-              <img
-                src="https://images.unsplash.com/photo-1587049352851-8d4e89133924?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
-                alt="Miel Orgánica"
-                class="w-full h-48 object-cover rounded"
-              />
-              <span
-                class="absolute top-2 left-2 bg-primary text-white text-xs px-2 py-1 rounded"
-                >Nuevo</span
-              >
-            </div>
-            <h3 class="text-xl font-bold text-primary mb-2">
-              Miel Orgánica Pura
-            </h3>
-            <p class="text-gray-600 text-sm mb-3">
-              250g - Directa de los apicultores locales
-            </p>
-            <div class="flex justify-between items-center">
-              <span class="text-lg font-bold text-primary">$12.99</span>
-              <button
-                class="add-to-cart bg-gray-100 text-primary px-3 py-1 rounded-full hover:bg-primary hover:text-white transition"
-                data-id="1"
-                data-name="Miel Orgánica Pura"
-                data-price="12.99"
-              >
-                <i class="fas fa-plus"></i> Añadir
-              </button>
-            </div>
-          </div>
-
-          <!-- Más productos... -->
+    
+        <!-- Botones de Categoría -->
+        <div id="featured-category-buttons" class="flex flex-wrap justify-center gap-4 mb-8">
+          <!-- Se insertan dinámicamente -->
         </div>
-
+    
+        <!-- Contador de resultados -->
+        <p class="text-center text-gray-600 mb-4">
+          <span id="results-count">0</span> productos encontrados
+        </p>
+    
+        <!-- Contenedor de productos dinámicos -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8" id="product-list">
+          <!-- Aquí se insertan los productos dinámicamente -->
+        </div>
         <div class="text-center mt-12">
           <a
             href="client/products.html"
@@ -424,8 +369,13 @@
     <!-- JavaScript -->
     <script src="/assets/js/client/main.js"></script>
     <script src="/assets/js/client/products.js"></script>
+    <script src="/assets/js/client/users.js"></script>
     <script>
       verificarLogin();
+      loadProducts();
+      loadCategory();
+      loadUsers();
+      loadCustomers();
     </script>
   </body>
 </html>

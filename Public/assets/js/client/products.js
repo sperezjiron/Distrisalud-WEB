@@ -1,4 +1,10 @@
 let realProducts = [];
+let realCategory = []; // Variable para almacenar las categorías cargadas
+let categoryMap = {}; // Mapear id -> nombre
+// Variables globales
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let currentProduct = null;
+
 
 document.addEventListener("DOMContentLoaded", function () {
   // Estado de la aplicación
@@ -74,22 +80,12 @@ document.addEventListener("DOMContentLoaded", function () {
         );
         button.classList.add("active", "bg-primary", "text-white");
 
-        const category = button.textContent.trim();
-        filterProductsByCategory(category);
+        const categoryId = button.dataset.id;;
+        filterProductsByCategory(categoryId);
       });
     });
   }
 
-  function filterProductsByCategory(category) {
-    if (category === "Todos") {
-      renderProducts(state.products);
-    } else {
-      const filtered = state.products.filter(
-        (product) => product.category.toLowerCase() === category.toLowerCase()
-      );
-      renderProducts(filtered);
-    }
-  }
 
   // Simulación de API
   async function mockFetchProducts() {
@@ -109,68 +105,49 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-// Datos de ejemplo (simulando productos de diferentes categorías)
-const products = [
-  {
-    id: 1,
-    name: "Miel Orgánica Pura",
-    description: "250g - Directa de los apicultores locales",
-    price: 3000,
-    unit: "Frasco 250g",
-    category: "mieles",
-    image:
-      "https://images.unsplash.com/photo-1587049352851-8d4e89133924?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80",
-    stock: 15,
-  },
-  {
-    id: 2,
-    name: "Electrolit Naranja-Mandarina",
-    description:
-      "625mL - Electrolit- suero hidratante sabor naranja-mandarina.",
-    price: 4500,
-    unit: "Botella 625mL",
-    category: "jugos",
-    image: "../assets/images/electrolit_naranja_mandarina.png",
-    stock: 8,
-  },
-  {
-    id: 3,
-    name: "Aceite de Coco Virgen",
-    description: "210ml - Ideal para cocina y cuidado personal.",
-    price: 5000,
-    unit: "Frasco 210ml",
-    category: "suplementos",
-    image: "../assets/images/aceite_coco_210.png",
-    stock: 20,
-  },
-  {
-    id: 4,
-    name: "Jarabe de Propóleo",
-    description: "355ml - Fortalece el sistema inmunológico.",
-    price: 3500,
-    unit: "Frasco 355ml",
-    category: "mieles",
-    image: "../assets/images/miel_355.png",
-    stock: 12,
-  },
-  {
-    id: 5,
-    name: "Jabón Corporal de Avena y Miel",
-    description: "450ml - Hidratante para pieles secas.",
-    price: 4800,
-    unit: "Tarro 450ml",
-    category: "cosmetica",
-    image: "../assets/images/grisi_jabón_corporal_avena.png",
-    stock: 5,
-  },
-];
-// Variables globales
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
-let currentProduct = null;
+
+//esta función filtra los productos según el término de búsqueda y la categoría seleccionada
+function filterProducts() {
+  const searchTerm = document
+    .getElementById("search-input")
+    .value.toLowerCase();
+  const selectedCategory = document.getElementById("category-filter").value;
+
+  const filteredProducts = realProducts.filter((product) => {
+    const matchesSearch = product.name.toLowerCase().includes(searchTerm);
+    const matchesCategory =
+      selectedCategory === "" ? true : product.categoryId == selectedCategory;
+
+    return matchesSearch && matchesCategory;
+  });
+
+  renderProducts(filteredProducts);
+}
+//aqui termina la función de filtrado
+// Función para filtrar productos por categoría
+
+function filterProductsByCategory(categoryId) {
+   if (!categoryId) {
+    renderProducts(realProducts); // Mostrar todos si no se seleccionó nada
+  } else {
+    const filtered = realProducts.filter(
+      (product) => product.categoryId == categoryId
+    );
+    renderProducts(filtered);
+  }
+}
+
+
+// Función para cargar productos al iniciar
+
 // Cargar productos al iniciar
 document.addEventListener("DOMContentLoaded", async () => {
+  await loadCategory(); // Cargar categorías;
+  await loadFeaturedCategoryButtons(); // Cargar botones de categorías destacadas
   const products = await loadProducts();
+  renderFeaturedProducts(products); // Mostramos solo 4 productos destacados
   renderProducts(products);
+
   updateCartCount();
 
   // Eventos de búsqueda y filtrado
@@ -180,6 +157,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   document
     .getElementById("category-filter")
     .addEventListener("change", filterProducts);
+
+  document
+    .getElementById("category-filter")
+    .addEventListener("change", (e) => {
+      filterProductsByCategory(e.target.value);
+    });
 
   // Eventos del modal
   document
@@ -214,6 +197,7 @@ function renderProducts(productsToRender) {
     const productCard = document.createElement("div");
     productCard.className =
       "product-card bg-white p-6 rounded-lg shadow-md transition duration-300";
+
     productCard.innerHTML = `
       <div class="relative mb-4">
         <img src="${product.imageUrl}" alt="${product.name}" class="w-full h-48 object-cover rounded" />
@@ -237,14 +221,9 @@ function renderProducts(productsToRender) {
   });
 }
 
-const productCategory = {
-  1: "Suplementos Alimenticios",
-};
-
 // Función para abrir el modal de producto
 function openProductModal(product) {
-  const category = productCategory[product.categoryId] || "Sin categoría";
-
+  const categoryName = categoryMap[product.categoryId] || "Sin categoría";
   currentProduct = product;
   document.getElementById("modal-product-name").textContent = product.name;
   document.getElementById("modal-product-image").src = product.imageUrl;
@@ -252,8 +231,7 @@ function openProductModal(product) {
     "modal-product-price"
   ).textContent = `₡${product.price}`;
   document.getElementById("modal-product-unit").textContent = product.unit;
-  document.getElementById("modal-product-category").textContent =
-    category;
+  document.getElementById("modal-product-category").textContent = categoryName;
   document.getElementById("modal-product-description").textContent =
     product.description;
   document.getElementById(
@@ -279,25 +257,9 @@ function updateCartCount() {
   const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
   document.getElementById("cart-count").textContent = totalItems;
 }
-// Función para filtrar productos
-function filterProducts() {
-  const searchTerm = document
-    .getElementById("search-input")
-    .value.toLowerCase();
-  const selectedCategory = document.getElementById("category-filter").value;
 
-  const filteredProducts = products.filter((product) => {
-    const matchesSearch = product.name.toLowerCase().includes(searchTerm);
-    const matchesCategory = selectedCategory
-      ? product.category === selectedCategory
-      : true;
-    return matchesSearch && matchesCategory;
-  });
 
-  renderProducts(filteredProducts);
-}
-
-//función para cargar los datos del backend
+//función para cargar los datos de productosdel backend
 async function loadProducts() {
   try {
     const response = await fetch("http://localhost:3000/Products");
@@ -312,4 +274,94 @@ async function loadProducts() {
   } catch (error) {
     console.error("Error loading products:", error);
   }
+}
+
+//función para cargar los datos de categorias del backend
+async function loadCategory() {
+  try {
+    const response = await fetch("http://localhost:3000/categories");
+    const data = await response.json();
+
+    const categoryFilter = document.getElementById("category-filter");
+
+    // Limpiar si ya tenía opciones previas
+    categoryFilter.innerHTML = '<option value="">Todas las categorías</option>';
+
+    data.forEach((cat) => {
+      // Crear mapa id => nombre
+      categoryMap[cat.id] = cat.name;
+
+      // Agregar opción
+      const option = document.createElement("option");
+      option.value = cat.id; //   usa el ID real
+      option.textContent = cat.name;
+      categoryFilter.appendChild(option);
+    });
+     
+    return data;
+  } catch (error) {
+    console.error("Error cargando categorías:", error);
+  }
+}
+
+// Función para cargar categorías destacadas desde el backend
+async function loadFeaturedCategoryButtons() {
+  try {
+    const response = await fetch("http://localhost:3000/categories");
+    const data = await response.json();
+
+    renderFeaturedCategoryButtons(data); // Usa tu función con los datos cargados
+  } catch (error) {
+    console.error("Error cargando categorías destacadas:", error);
+  }
+}
+// Función para renderizar productos destacados
+function renderFeaturedProducts(products) {
+  const featured = products.slice(0, 4); // Solo los primeros 4 productos
+  renderProducts(featured);
+}
+
+// Función para renderizar botones de categorías destacadas
+function renderFeaturedCategoryButtons(categories) {
+  const container = document.getElementById("featured-category-buttons");
+  if (!container) {
+    console.warn("No se encontró el contenedor #featured-category-buttons");
+    return;
+  }
+
+  container.innerHTML = ""; // Limpiar botones anteriores
+
+  // Botón "Todos"
+  const allBtn = document.createElement("button");
+  allBtn.textContent = "Todos";
+  allBtn.className =
+    "category-btn active px-4 py-2 rounded-full border border-primary text-primary";
+  allBtn.addEventListener("click", () => {
+    setActiveButton(allBtn);
+    renderProducts(realProducts);
+  });
+  container.appendChild(allBtn);
+
+  // Botones por cada categoría
+  categories.forEach((cat) => {
+    const btn = document.createElement("button");
+    btn.textContent = cat.name;
+    btn.className =
+      "category-btn px-4 py-2 rounded-full border border-primary text-primary";
+    btn.addEventListener("click", () => {
+      setActiveButton(btn);
+      const filtered = realProducts.filter((p) => p.categoryId == cat.id);
+      renderProducts(filtered);
+    });
+    container.appendChild(btn);
+  });
+}
+
+function setActiveButton(selectedBtn) {
+  document
+    .querySelectorAll(".category-btn")
+    .forEach((btn) =>
+      btn.classList.remove("active", "bg-primary", "text-white")
+    );
+  selectedBtn.classList.add("active", "bg-primary", "text-white");
 }
