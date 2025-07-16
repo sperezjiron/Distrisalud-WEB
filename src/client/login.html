@@ -39,19 +39,13 @@
         </div>
         <form id="loginForm" class="mt-8 space-y-6">
           <div class="rounded-md shadow-sm space-y-4">
-            <div>
-              <label for="email" class="sr-only">Correo electrónico</label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                autocomplete="email"
-                required
-                class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
-                placeholder="Correo electrónico"
-              />
-            </div>
-            <div>
+          <div>
+            <label for="login-id" class="sr-only">Correo o Usuario</label>
+            <input id="login-id" name="login-id" type="text" required autocomplete="username"
+              class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
+              placeholder="Correo o usuario" />
+          </div>
+          <div>
               <label for="password" class="sr-only">Contraseña</label>
               <input
                 id="password"
@@ -109,5 +103,6 @@
     </div>
 
     <script src="/assets/js/client/login.js"></script>
+    
   </body>
 </html>

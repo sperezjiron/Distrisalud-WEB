@@ -281,7 +281,6 @@ async function loadCategory() {
   try {
     const response = await fetch("http://localhost:3000/categories");
     const data = await response.json();
-
     const categoryFilter = document.getElementById("category-filter");
 
     // Limpiar si ya tenía opciones previas

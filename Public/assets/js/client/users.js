@@ -45,6 +45,7 @@ function getLoggedUser() {
   if (userData) {
     try {
       return JSON.parse(userData);
+      console.log("Usuario conectado:", userData);
     } catch (e) {
       console.error("Error parsing logged user data:", e);
       return null;
@@ -222,3 +223,4 @@ async function saveCustomerData(userId) {
     alert("Ocurrió un error al guardar los cambios");
   }
 }
+

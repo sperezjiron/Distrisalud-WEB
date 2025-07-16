@@ -1,52 +1,74 @@
-document
-  .getElementById("loginForm")
-  .addEventListener("submit", async function (e) {
-    e.preventDefault();
+let realUsers = [];
+let realCustomers = [];
+// Cargar usuarios
+async function loadUsers() {
+  try {
+    const res = await fetch("http://localhost:3000/Users");
+    if (!res.ok) throw new Error("Error en la carga de usuarios");
+    realUsers = await res.json();
+    console.log("RealUsers:", realUsers);
+  } catch (error) {
+    console.error("Error cargando usuarios:", error);
+  }
+}
+// Cargar clientes
+async function loadCustomers() {
+  try {
+    const res = await fetch("http://localhost:3000/customers");
+    if (!res.ok) throw new Error("Error en la carga de clientes");
+    realCustomers = await res.json();
+    console.log("RealCustomers:", realCustomers);
+  } catch (error) {
+    console.error("Error cargando clientes:", error);
+  }
+}
 
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+// Obtener cliente relacionado
+function getCustomerByUserId(userId) {
+  return realCustomers.find(c => c.userId === userId);
+}
+// Función del login
+async function handleLogin(event) {
+  event.preventDefault();
 
-    // try {
-    //   const response = await fetch("/auth/login", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({ email, password }),
-    //   });
+  const emailOrUsernameInput = document.getElementById("login-id");
+  const passwordInput = document.getElementById("password");
 
-    //   const data = await response.json();
+  if (!emailOrUsernameInput || !passwordInput) {
+    alert("No se encontraron los campos del formulario.");
+    return;
+  }
+  const loginValue = emailOrUsernameInput.value.trim();
+  const password = passwordInput.value.trim();
+  // Cargar usuarios y clientes si no están cargados
+  if (!realUsers.length || !realCustomers.length) {
+    await loadUsers();
+    await loadCustomers();
+  }
+  // Buscar usuario
+  const user = realUsers.find(
+   u => (u.name === loginValue) && u.pass === password 
+  );
+  if (!user) {
+    alert("Correo o contraseña incorrectos.");
+    return;
+  }
+  const customer = getCustomerByUserId(user.id);
+  // Guardar en localStorage
+  localStorage.setItem("loggedUser ", JSON.stringify(user));
+  if (customer) {
+    localStorage.setItem("loggedCustomer", JSON.stringify(customer));
+    
+  }
+  // Redirigir a la página del cliente
+  window.location.href = "/client/index.html";
+}
 
-    //   if (data.success) {
-    //     // Guardar token en localStorage o cookie
-    //     localStorage.setItem("token", data.token);
-    //     localStorage.setItem("user", JSON.stringify(data.user));
+// Escuchar el formulario
+document.addEventListener("DOMContentLoaded", async () => {
+  await loadUsers();
+  await loadCustomers();
+  const form = document.getElementById("loginForm");
+  form.addEventListener("submit", handleLogin);
+});
 
-    //     // Redirigir al dashboard
-    //     window.location.href = "profile.html";
-    //   } else {
-    //     alert(data.message || "Error al iniciar sesión");
-    //   }
-    // } catch (error) {
-    //   console.error("Error:", error);
-    //   alert("Error al conectar con el servidor");
-    // }
-
-    try {
-      const data = true;
-
-      if (data) {
-        var user = email;
-        // Guardar token en localStorage o cookie
-        localStorage.setItem("user", user);
-
-        // Redirigir al dashboard
-        window.location.href = "/";
-      } else {
-        alert(data.message || "Error al iniciar sesión");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      alert("Error al conectar con el servidor");
-    }
-  });
