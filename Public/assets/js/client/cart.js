@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", loadCart);
 
 //Función para verificar login
 function verificarLoginCheckout() {
-  const user = localStorage.getItem("user");
+  const user = localStorage.getItem("loggedUser");
 
   if (!user) {
     alert("Debes iniciar sesión para confirmar tu pedido.");

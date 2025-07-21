@@ -58,9 +58,8 @@ if (data.success) {
 }
 
 function verificarLogin() {
-  const user = localStorage.getItem("user");
+  const user = localStorage.getItem("loggedUser");
   const userLink = document.getElementById("login-button");
-
   if (user && userLink) {
     userLink.href = "/client/profile.html";
     userLink.innerHTML = '<i class="fas fa-user"></i>';

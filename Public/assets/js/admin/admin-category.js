@@ -1,3 +1,18 @@
+let allCategories = [];
+// Cargar categorías
+async function loadCategories() {
+  try { 
+    const res = await fetch("http://localhost:3000/categories");
+    if (!res.ok) throw new Error("Error en la carga de categorías");        
+    allCategories = await res.json();
+    console.log("Categorías cargadas:", allCategories);
+    }
+    catch (error) {
+    console.error("Error cargando categorías:", error);
+    }
+}
+
+
 function searchCategory() {
     const searchTerm = document.getElementById('search-category').value.toLowerCase();
     // Lógica para buscar categorías en la tabla

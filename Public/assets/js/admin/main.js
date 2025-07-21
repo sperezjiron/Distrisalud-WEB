@@ -22,24 +22,7 @@ function showSection(sectionId) {
     loadOrders();
   }
 }
-async function loadClients() {
-  try {
-    const response = await fetch("/api/clients"); // Cambia la URL según tu API
-    if (!response.ok) throw new Error("Error al cargar los clientes");
 
-    const clients = await response.json();
-    const clientSelect = document.getElementById("client-id");
-    clientSelect.innerHTML = '<option value="">Selecciona un cliente</option>'; // Limpiar opciones
-    clients.forEach((client) => {
-      const option = document.createElement("option");
-      option.value = client.id; // Asegúrate de que el ID del cliente esté disponible
-      option.textContent = client.name; // Asegúrate de que el nombre del cliente esté disponible
-      clientSelect.appendChild(option);
-    });
-  } catch (error) {
-    console.error("Error:", error);
-  }
-}
 // Función para cargar los registros
 async function loadLogEntries() {
   try {

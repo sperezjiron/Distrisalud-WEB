@@ -18,6 +18,7 @@
                 }
             }
         }
+        
     </script>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -27,6 +28,12 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 6px rgba(30, 64, 175, 0.1);
         }
+        /* opcional: si defines una clase active en tu CSS */
+.account-tab.active {
+  border-bottom: 3px solid #1e40af;
+  color: #1e40af;
+  font-weight: 600;
+}
     </style>
 </head>
 <body class="font-sans bg-gray-50">
@@ -125,24 +132,24 @@
             <!-- Menú lateral -->
             <aside class="w-full md:w-64 bg-white p-4 rounded-lg shadow-sm border border-gray-100 h-fit sticky top-4">
                 <div class="flex items-center space-x-3 mb-6 p-2">
-                    <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-800 font-bold">
+                    <div id="user-initials" class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-800 font-bold">
                         MG
                     </div>
-                    <span class="font-medium">María González</span>
+                    <span id="user-name" class="font-medium">María González</span>
                 </div>
                 <nav class="space-y-2" aria-label="Menú de cuenta">
                     <a href="profile.html" class="account-tab block p-3 rounded-lg hover:bg-blue-50">Perfil</a>
                     <a href="orders.html" class="account-tab active block p-3 rounded-lg hover:bg-blue-50">Mis Pedidos</a>
-                    <a href="adresses.html" class="account-tab block p-3 rounded-lg hover:bg-blue-50">Direcciones</a>
                     <a href="/logout.html" class="block p-3 rounded-lg text-red-600 hover:bg-red-50 mt-4">
                         <i class="fas fa-sign-out-alt mr-2"></i> Cerrar Sesión
                     </a>
                 </nav>
             </aside>
             
+
             <!-- Contenido principal -->
             <div class="flex-1">
-                <div class="space-y-4">
+                <div id="orders-container" class="space-y-4">
                     <!-- Ejemplo de pedido -->
                     <div class="order-card bg-white p-4 rounded-lg shadow-sm border border-gray-200">
                         <h4 class="font-bold text-lg">Pedido #12345</h4>
@@ -190,9 +197,10 @@
         </div>
     </footer>
     <script src="/assets/js/client/main.js"></script>
-    <script src="/assets/js/client/products.js"></script>
+    <script src="/assets/js/client/users.js"></script>
     <script>
       verificarLogin();
+      loadCustomerOrders();
     </script>
 </body>
 </html>

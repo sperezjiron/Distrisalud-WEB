@@ -55,13 +55,13 @@ async function handleLogin(event) {
   }
   const customer = getCustomerByUserId(user.id);
   // Guardar en localStorage
-  localStorage.setItem("loggedUser ", JSON.stringify(user));
+  localStorage.setItem("loggedUser", JSON.stringify(user));
   if (customer) {
     localStorage.setItem("loggedCustomer", JSON.stringify(customer));
     
   }
   // Redirigir a la página del cliente
-  window.location.href = "/client/index.html";
+  window.location.href = "/";
 }
 
 // Escuchar el formulario

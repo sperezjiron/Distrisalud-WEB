@@ -1,5 +1,6 @@
 // Estado global de productos
-let products = [];
+let realProducts = [];
+let realCategories = [];
 let currentPage = 1;
 const itemsPerPage = 10;
 let totalProducts = 0;
@@ -19,136 +20,149 @@ const prevPageBtn = document.getElementById('prev-page');
 const nextPageBtn = document.getElementById('next-page');
 const pageNumbersContainer = document.getElementById('page-numbers');
 
-// Inicialización
-document.addEventListener('DOMContentLoaded', () => {
-    loadProducts();
-    setupEventListeners();
-});
-
 // Cargar productos
 async function loadProducts() {
-    try {
-        // Simulación: En producción usar fetch a tu API
-        const response = await mockFetchProducts();
-        products = response.data;
-        totalProducts = response.total;
-        renderProducts();
-        renderPagination();
-        
-        // Mostrar resultados
-        updateShowingText();
-        
-    } catch (error) {
-        console.error("Error loading products:", error);
-        showToast("Error al cargar productos", "error");
-    }
+   try {
+    const response = await fetch("http://localhost:3000/products");
+    if (!response.ok) throw new Error("Error al cargar productos");
+
+    const data = await response.json();
+    realProducts = data;
+    renderProducts(realProducts);
+    console.log("Productos cargados:", realProducts);
+  } catch (error) {
+    console.error("Error cargando productos:", error);
+  }
 }
 
-// Renderizar tabla de productos
-function renderProducts() {
-    productsTableBody.innerHTML = '';
-    
-    // Filtrar productos (si hay filtros aplicados)
-    const filteredProducts = filterProducts(products);
-    
-    // Paginar
-    const paginatedProducts = paginateProducts(filteredProducts);
-    
-    // Generar filas
-    paginatedProducts.forEach(product => {
-        const row = document.createElement('tr');
-        row.className = 'hover:bg-gray-50 transition';
-        row.innerHTML = `
-            <td class="px-6 py-4 whitespace-nowrap">
-                <input type="checkbox" class="rounded text-blue-600">
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap">
-                <div class="flex items-center">
-                    <div class="flex-shrink-0 h-10 w-10 rounded-full overflow-hidden">
-                        <img src="${product.image || '/admin/assets/images/default-product.png'}" alt="${product.name}" class="h-full w-full object-cover">
-                    </div>
-                    <div class="ml-4">
-                        <div class="text-sm font-medium text-gray-900">${product.name}</div>
-                        <div class="text-sm text-gray-500">${product.sku || 'N/A'}</div>
-                    </div>
-                </div>
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap">
-                <span class="px-2 py-1 text-xs font-semibold rounded-full ${getCategoryColor(product.category)}">
-                    ${product.category}
-                </span>
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                $${product.price.toFixed(2)}
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap">
-                <span class="px-2 py-1 text-xs font-semibold rounded-full ${product.stock > 10 ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}">
-                    ${product.stock} uni.
-                </span>
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap">
-                <span class="px-2 py-1 text-xs font-semibold rounded-full ${product.active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
-                    ${product.active ? 'Activo' : 'Inactivo'}
-                </span>
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                <button class="edit-product text-blue-600 hover:text-blue-900 mr-3" 
-                        data-id="${product.id}"
-                        aria-label="Editar">
-                    <i class="fas fa-edit"></i>
-                </button>
-                <button class="delete-product text-red-600 hover:text-red-900" 
-                        data-id="${product.id}"
-                        aria-label="Eliminar">
-                    <i class="fas fa-trash-alt"></i>
-                </button>
-            </td>
-        `;
-        productsTableBody.appendChild(row);
-    });
-    
-    // Agregar eventos a los botones
-    addProductEvents();
+// Cargar categorías
+async function loadCategories() {
+  try {
+    const response = await fetch('http://localhost:3000/categories'); // Ajusta si es necesario
+    if (!response.ok) throw new Error("No se pudieron obtener las categorías");
+
+    realCategories = await response.json();
+    populateCategoryFilter(realCategories);
+  } catch (error) {
+    console.error("Error al cargar categorías:", error);
+  }
 }
+
+function getCategoryNameById(id) {
+  const category = realCategories.find(cat => cat.id === id);
+  return category ? category.name : 'Sin categoría';
+}
+
+
+// Inicialización
+document.addEventListener('DOMContentLoaded',() => {
+     loadCategories();
+     loadProducts();
+    
+     console.log("RealCategories:", realCategories);
+     console.log("RealProducts:", realProducts);    
+
+    const filterCategoryElem = document.getElementById('filter-category');
+    if (filterCategoryElem) {
+        filterCategoryElem.addEventListener('change', filterProducts);
+    } else {
+        console.warn("Elemento con id 'filter-category' no encontrado en el DOM.");
+    }
+});
+
+
+
+
+// Renderizar tabla de productos
+function renderProducts(products) {
+  const tbody = document.querySelector('#products tbody');
+  tbody.innerHTML = '';
+
+  products.forEach(product => {
+    const row = document.createElement('tr');
+    const category = realCategories.find(c => c.id === product.categoryId);
+    const categoryName = category ? category.name : 'Sin categoría';
+
+    row.innerHTML = `
+      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${product.id}</td>
+      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${product.name}</td>
+      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${product.description}</td>
+      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$${parseFloat(product.price).toFixed(2)}</td>
+      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${product.unit}</td>
+      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+        <img src="${product.imageUrl || '/admin/assets/images/default-product.png'}" 
+             alt="Imagen de ${product.name}" 
+             class="w-12 h-12 object-cover rounded">
+      </td>
+      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${product.stock}</td>
+      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${formatDate(product.entryDate)}</td>
+     <td class="px-6 py-4 whitespace-nowrap">
+  <span class="px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800">
+    ${getCategoryNameById(product.categoryId)}
+  </span>
+</td>
+
+      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+        <button class="text-primary hover:text-blue-700 mr-3" onclick="viewProduct(${product.id})">
+          <i class="fas fa-eye"></i>
+        </button>
+        <button class="text-secondary hover:text-yellow-600 mr-3" onclick="openProductModal(${product.id})">
+          <i class="fas fa-edit"></i>
+        </button>
+        <button class="text-danger hover:text-red-600" onclick="deleteProduct(${product.id})">
+          <i class="fas fa-trash"></i>
+        </button>
+      </td>
+    `;
+
+    tbody.appendChild(row);
+  });
+}
+
 
 // Configurar event listeners
 function setupEventListeners() {
-    // Modal
-    addProductBtn.addEventListener('click', () => openModal('add'));
-    closeModalBtn.addEventListener('click', closeModal);
-    cancelProductBtn.addEventListener('click', closeModal);
-    
-    // Formulario
-    productForm.addEventListener('submit', handleFormSubmit);
-    
-    // Filtros
-    applyFiltersBtn.addEventListener('click', applyFilters);
-    
-    // Paginación
-    prevPageBtn.addEventListener('click', () => {
-        if (currentPage > 1) {
-            currentPage--;
-            loadProducts();
-        }
-    });
-    
-    nextPageBtn.addEventListener('click', () => {
-        const totalPages = Math.ceil(totalProducts / itemsPerPage);
-        if (currentPage < totalPages) {
-            currentPage++;
-            loadProducts();
-        }
-    });
-    
-    // Búsqueda en tiempo real con debounce
-    let searchTimeout;
-    searchInput.addEventListener('input', () => {
-        clearTimeout(searchTimeout);
-        searchTimeout = setTimeout(() => {
-            currentPage = 1;
-            loadProducts();
-        }, 500);
-    });
+  // Modal
+  addProductBtn.addEventListener("click", () => openModal("add"));
+  closeModalBtn.addEventListener("click", closeModal);
+  cancelProductBtn.addEventListener("click", closeModal);
+
+  // Formulario
+  productForm.addEventListener("submit", handleFormSubmit);
+
+  // Filtros
+  applyFiltersBtn.addEventListener("click", applyFilters);
+  if (addProductBtn) {
+    addProductBtn.addEventListener("click", () => openModal("add"));
+  } else {
+    console.warn("addProductBtn no encontrado");
+  }
+
+  // Paginación
+  prevPageBtn.addEventListener("click", () => {
+    if (currentPage > 1) {
+      currentPage--;
+      loadProducts();
+    }
+  });
+
+  nextPageBtn.addEventListener("click", () => {
+    const totalPages = Math.ceil(totalProducts / itemsPerPage);
+    if (currentPage < totalPages) {
+      currentPage++;
+      loadProducts();
+    }
+  });
+
+  // Búsqueda en tiempo real con debounce
+  let searchTimeout;
+  searchInput.addEventListener("input", () => {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => {
+      currentPage = 1;
+      loadProducts();
+    }, 500);
+  });
 }
 
 // Función para manejar el envío del formulario
@@ -169,108 +183,141 @@ async function handleFormSubmit(e) {
     };
     
     try {
-        // En producción, usar fetch aquí
-        if (productData.id) {
-            // Actualizar producto existente
-            await mockUpdateProduct(productData);
-            showToast("Producto actualizado con éxito", "success");
-        } else {
-            // Crear nuevo producto
-            await mockCreateProduct(productData);
-            showToast("Producto creado con éxito", "success");
-        }
-        
-        closeModal();
-        loadProducts();
-        
+      if (productData.id) {
+        await updateProduct(productData);
+        showToast("Producto actualizado con éxito", "success");
+      } else {
+        await createProduct(productData);
+        showToast("Producto creado con éxito", "success");
+      }
+
+      closeModal();
+      loadProducts();
     } catch (error) {
-        console.error("Error saving product:", error);
-        showToast("Error al guardar el producto", "error");
+      console.error("Error saving product:", error);
+      showToast("Error al guardar el producto", "error");
     }
 }
 
-// Funciones auxiliares
-function openModal(mode, productId = null) {
-    if (mode === 'edit' && productId) {
-        document.getElementById('modal-title').textContent = 'Editar Producto';
-        const product = products.find(p => p.id === productId);
-        if (product) {
-            // Llenar formulario con datos del producto
-            document.getElementById('product-id').value = product.id;
-            document.getElementById('product-name').value = product.name;
-            document.getElementById('product-category').value = product.category;
-            document.getElementById('product-price').value = product.price;
-            document.getElementById('product-stock').value = product.stock;
-            document.getElementById('product-sku').value = product.sku || '';
-            document.getElementById('product-description').value = product.description || '';
-            document.getElementById('product-active').checked = product.active;
-            
-            // Mostrar imagen si existe
-            if (product.image) {
-                const preview = document.getElementById('image-preview');
-                preview.querySelector('img').src = product.image;
-                preview.classList.remove('hidden');
-            }
-        }
-    } else {
-        document.getElementById('modal-title').textContent = 'Nuevo Producto';
-        productForm.reset();
-        document.getElementById('image-preview').classList.add('hidden');
-    }
-    
-    productModal.classList.remove('hidden');
+//funcion para ver el producto sin editar
+function viewProduct(productId) {
+  const product = realProducts.find(p => p.id === productId);
+  if (!product) return;
+
+  document.getElementById('modal-title').textContent = 'Detalle del Producto';
+  fillProductForm(product);
+  setFormReadOnly(true);
+  document.getElementById('product-modal').classList.remove('hidden');
+  document.getElementById('save-button').classList.add('hidden');
+
+  // Mostrar vista previa de imagen
+  const preview = document.getElementById('image-preview');
+  if (product.imageUrl && preview?.querySelector('img')) {
+    preview.querySelector('img').src = product.imageUrl;
+    preview.classList.remove('hidden');
+  } else if (preview) {
+    preview.classList.add('hidden');
+  }
 }
+
+
+
+
+// Funciones auxiliares
+function openProductModal(productId = null) {
+  const modalTitle = document.getElementById('modal-title');
+  const form = document.getElementById('product-form');
+  const saveButton = document.getElementById('save-button');
+  const preview = document.getElementById('image-preview');
+  const previewImg = preview.querySelector('img');
+
+  modalTitle.textContent = productId ? 'Editar Producto' : 'Nuevo Producto';
+
+  if (productId) {
+    const product = realProducts.find(p => p.id === productId);
+    if (product) {
+      document.getElementById('product-id').value = product.id;
+      document.getElementById('product-name').value = product.name;
+      document.getElementById('product-description').value = product.description;
+      document.getElementById('product-price').value = product.price;
+      document.getElementById('product-stock').value = product.stock;
+      document.getElementById('product-unit').value = product.unit;
+      document.getElementById('product-image-url').value = product.imageUrl;
+
+      const category = realCategories.find(c => c.id === product.categoryId);
+      if (category) {
+        document.getElementById('product-category').value = category.id;
+      }
+
+      if (product.imageUrl) {
+        previewImg.src = product.imageUrl;
+        preview.classList.remove('hidden');
+      } else {
+        preview.classList.add('hidden');
+        previewImg.src = '';
+      }
+    }
+  } else {
+    form.reset();
+    preview.classList.add('hidden');
+    previewImg.src = '';
+  }
+
+  setFormReadOnly(false);
+  document.getElementById('product-modal').classList.remove('hidden');
+  saveButton.classList.remove('hidden');
+}
+
 
 function closeModal() {
     productModal.classList.add('hidden');
+}
+function setFormReadOnly(isReadOnly) {
+  const fields = [
+    'product-name', 'product-description', 'product-price',
+    'product-unit', 'product-stock', 'product-image-url',
+    'product-entry-date', 'product-category'
+  ];
+  fields.forEach(id => {
+    const field = document.getElementById(id);
+    if (isReadOnly) {
+      field.setAttribute('readonly', true);
+      field.setAttribute('disabled', true);
+    } else {
+      field.removeAttribute('readonly');
+      field.removeAttribute('disabled');
+    }
+  });
+}
+function fillProductForm(product) {
+  document.getElementById('product-id').value = product.id;
+  document.getElementById('product-name').value = product.name;
+  document.getElementById('product-description').value = product.description || '';
+  document.getElementById('product-price').value = product.price;
+  document.getElementById('product-unit').value = product.unit;
+  document.getElementById('product-stock').value = product.stock;
+  document.getElementById('product-image-url').value = product.imageUrl || '';
+  document.getElementById('product-entry-date').value = product.entryDate;
+  document.getElementById('product-category').value = product.categoryId;
+}
+async function deleteProduct(productId) {
+  if (!confirm("¿Estás seguro de que deseas eliminar este producto?")) return;
+  try {
+    await fetch(`http://localhost:3000/products/${productId}`, {
+      method: "DELETE"
+    });
+    showToast("Producto eliminado con éxito", "success");
+    loadProducts();
+  } catch (error) {
+    console.error("Error al eliminar producto:", error);
+    showToast("Error al eliminar el producto", "error");
+  }
 }
 
 // Aplicar filtros
 function applyFilters() {
     currentPage = 1;
     loadProducts();
-}
-
-// Funciones de mock para simular API (reemplazar con llamadas reales)
-async function mockFetchProducts() {
-    return new Promise(resolve => {
-        setTimeout(() => {
-            resolve({
-                data: [
-                    {
-                        id: 1,
-                        name: "Miel Orgánica Pura",
-                        category: "Mieles",
-                        price: 12.99,
-                        stock: 42,
-                        sku: "MIEL-001",
-                        description: "Miel 100% pura de abeja",
-                        image: "/admin/assets/images/products/honey.jpg",
-                        active: true
-                    },
-                    // Más productos de ejemplo...
-                ],
-                total: 1 // Cambiar según tus datos reales
-            });
-        }, 500);
-    });
-}
-
-async function mockCreateProduct(product) {
-    return new Promise(resolve => {
-        setTimeout(() => {
-            product.id = Math.max(...products.map(p => p.id)) + 1;
-            resolve(product);
-        }, 500);
-    });
-}
-
-async function mockUpdateProduct(product) {
-    return new Promise(resolve => {
-        setTimeout(() => {
-            resolve(product);
-        }, 500);
-    });
 }
 
 // Funciones adicionales
@@ -296,7 +343,56 @@ function searchProduct() {
 }
 
 function filterProducts() {
-    const selectedCategory = document.getElementById('filter-category').value;
-    // Lógica para filtrar productos por categoría
-    console.log(`Filtrando productos por categoría: ${selectedCategory}`);
+    const selectedCategoryId = document.getElementById('filter-category').value;
+
+  if (!selectedCategoryId) {
+    renderProducts(realProducts); // Mostrar todos
+    return;
+  }
+
+  const filtered = realProducts.filter(product => product.categoryId.toString() === selectedCategoryId);
+  renderProducts(filtered);
+}
+
+async function createProduct(product) {
+  const response = await fetch("http://localhost:3000/products", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(product),
+  });
+  if (!response.ok) throw new Error("Error al crear producto");
+  return await response.json();
+}
+
+async function updateProduct(product) {
+  const response = await fetch(`http://localhost:3000/products/${product.id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(product),
+  });
+  if (!response.ok) throw new Error("Error al actualizar producto");
+  return await response.json();
+}
+
+function populateCategoryFilter(categories) {
+  const select = document.getElementById('filter-category');
+  select.innerHTML = '<option value="">Filtrar por categoría</option>'; // opción por defecto
+
+  categories.forEach(category => {
+    const option = document.createElement('option');
+    option.value = category.id;
+    option.textContent = category.name;
+    select.appendChild(option);
+  });
+}
+
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('es-ES', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit'
+  });
 }
