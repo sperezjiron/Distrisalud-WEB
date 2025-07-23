@@ -17,33 +17,33 @@ document.addEventListener('DOMContentLoaded', async function () {
 });
 
 function renderPromotions(promotions = []) {
-  const tbody = document.querySelector('#promotions tbody');
-    tbody.innerHTML = '';
-    if (!promotions || promotions.length === 0) {
-    const row = document.createElement('tr');
-      row.innerHTML = `
-        <td colspan="4" class="px-6 py-4 text-center text-sm text-gray-500">
-          No hay promociones para mostrar.
-        </td>
-      `;
-      tbody.appendChild(row);
-      return;
-    }   
-    promotions.forEach(promotion => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td class="px-6 py-4 whitespace-nowrap">${promotion.name}</td>
-            <td class="px-6 py-4 whitespace-nowrap">${promotion.discount}%</td>
-            <td class="px-6 py-4 whitespace-nowrap">${promotion.startDate}</td>
-            <td class="px-6 py-4 whitespace-nowrap">${promotion.endDate}</td>
-            <td class="px-6 py-4 whitespace-nowrap">
-            <button class="btn-edit" onclick="openPromotionModal(${promotion.id})">Editar</button>
-            <button class="btn-delete
-" onclick="deletePromotion(${promotion.id})">Eliminar</button>
-            </td>       
-        `;
-        tbody.appendChild(row);
-    });
+   const tbody = document.getElementById('promotions-table-body');
+  tbody.innerHTML = ''; // Limpiar contenido anterior
+
+  if (!promotions || promotions.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="6" class="px-6 py-4 text-center text-gray-500">No hay promociones registradas.</td></tr>`;
+    return;
+  }
+
+  promotions.forEach(promo => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${promo.id}</td>
+      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${promo.nombre}</td>
+      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${promo.descuento}%</td>
+      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${formatDate(promo.fechaInicio)}</td>
+      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${formatDate(promo.fechaFin)}</td>
+      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+        <button class="text-primary hover:text-blue-700 mr-3" onclick="viewPromotion(${promo.id})">
+          <i class="fas fa-eye"></i>
+        </button>
+        <button class="text-secondary hover:text-yellow-600" onclick="openPromotionModal(${promo.id})">
+          <i class="fas fa-edit"></i>
+        </button>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
 }       
 
 

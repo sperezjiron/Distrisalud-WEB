@@ -303,7 +303,7 @@
                         </button>
                     </div>
                 </div>
-
+                
                 <!-- Clients Section -->
                 <section id="clients" class="section">
                     <h2 class="text-2xl font-bold mb-4">Gestión de Clientes</h2>
@@ -315,12 +315,51 @@
                                 <i class="fas fa-plus mr-2"></i> Nuevo Cliente
                             </button>
                         </div>
+                         <!-- FILTROS: agregar aquí -->
+                        <div class="bg-gray-50 px-6 py-4 border-b rounded-b-md mb-4">
+                        <h4 class="text-lg font-semibold mb-4 text-gray-700">Filtrar Clientes</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+
+                        <!-- Buscar por nombre -->
+                        <div>
+                        <label for="search-client-filter" class="block text-sm font-medium text-gray-600">Nombre</label>
+                        <input type="text" id="search-client-filter" placeholder="Buscar por nombre..." class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2" />
+                        </div>
+
+                        <!-- Tipo de Cliente -->
+                        <div>
+                        <label for="filter-tipo-cliente" class="block text-sm font-medium text-gray-600">Tipo de Cliente</label>
+                        <select id="filter-tipo-cliente" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2">
+                            <option value="">Todos</option>
+                            <option value="Mayorista">Mayorista</option>
+                            <option value="Minorista">Minorista</option>
+                        </select>
+                        </div>
+
+                        <!-- Estado -->
+                        <div>
+                        <label for="filter-estado" class="block text-sm font-medium text-gray-600">Estado</label>
+                        <select id="filter-estado" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2">
+                            <option value="">Todos</option>
+                            <option value="1">Activo</option>
+                            <option value="0">Inactivo</option>
+                        </select>
+                        </div>
+                        <!-- Botón de filtrar -->
+                        <div class="flex items-end">
+                            <button onclick="applyClientFilters()"
+                                class="w-full bg-secondary text-white px-4 py-2 rounded-md hover:bg-yellow-600 transition">
+                                Aplicar Filtros
+                            </button>
+                        </div>
+                        </div>
+                        </div>
+                        <!-- FIN FILTROS -->
                         <div class="px-6 py-4">
                             <div class="flex mb-4">
                                 <input type="text" id="search-client" placeholder="Buscar cliente..."
                                     class="border border-gray-300 p-2 rounded-l-md w-full" />
-                                <button class="bg-primary text-white px-4 rounded-r-md hover:bg-blue-700 transition"
-                                    onclick="searchClient()">
+                                <button class="bg-primary text-white px-4 rounded-r-md hover:bg-blue-700 transition" onclick="searchClient()">
                                     <i class="fas fa-search"></i>
                                 </button>
                             </div>
@@ -333,37 +372,33 @@
                                         </th>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Nombre</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Cédula</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tipo
+                                        </th>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email
                                         </th>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Teléfono</th>
                                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Dirección</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Negocio</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tipo
+                                            Cliente</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Estado</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Acciones</th>
                                     </tr>
                                 </thead>
-                                <tbody class="bg-white divide-y divide-gray-200">
-                                    <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">1</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">María González</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">maria@example.com</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">506 1234-5678</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            <button class="text-primary hover:text-blue-700 mr-3" onclick="viewClient(1)">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                            <button class="text-secondary hover:text-yellow-600" onclick="openClientModal(1)">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <!-- Más filas de clientes... -->
+                                <tbody id="clients-table-body" class="bg-white divide-y divide-gray-200">
+                                    <!-- Los datos se renderizan aquí desde JS -->
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </section>
-                
-                
                 
                 <!-- Products Section -->
                 <section id="products" class="section">
@@ -470,7 +505,7 @@
                                             Acciones</th>
                                     </tr>
                                 </thead>
-                                <tbody class="bg-white divide-y divide-gray-200">
+                                <tbody id="promotion-table-body" class="bg-white divide-y divide-gray-200">
                                     <tr>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">1</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Descuento de Verano</td>
@@ -510,60 +545,43 @@
 
 
                 <!-- Categories Section -->
-                <section id="categories" class="section">
+                    <section id="categories" class="section">
                     <h2 class="text-2xl font-bold mb-4">Gestión de Categorías</h2>
                     <div class="bg-white rounded-lg shadow overflow-hidden">
                         <div class="px-6 py-4 border-b flex justify-between items-center">
-                            <h3 class="font-semibold text-lg">Categorías Disponibles</h3>
-                            <button onclick="openCategoryModal()"
-                                class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-                                <i class="fas fa-plus mr-2"></i> Nueva Categoría
-                            </button>
+                        <h3 class="font-semibold text-lg">Categorías Disponibles</h3>
+                        <button onclick="openCategoryModal()"
+                            class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                            <i class="fas fa-plus mr-2"></i> Nueva Categoría
+                        </button>
                         </div>
                         <div class="px-6 py-4">
-                            <div class="flex mb-4">
-                                <input type="text" id="search-category" placeholder="Buscar categoría..."
-                                    class="border border-gray-300 p-2 rounded-l-md w-full" />
-                                <button class="bg-primary text-white px-4 rounded-r-md hover:bg-blue-700 transition"
-                                    onclick="searchCategory()">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </div>
+                        <div class="flex mb-4">
+                            <input type="text" id="search-category" placeholder="Buscar categoría..."
+                            class="border border-gray-300 p-2 rounded-l-md w-full" />
+                            <button class="bg-primary text-white px-4 rounded-r-md hover:bg-blue-700 transition"
+                            onclick="searchCategory()">
+                            <i class="fas fa-search"></i>
+                            </button>
+                        </div>
                         </div>
                         <div class="overflow-x-auto">
-                            <table class="min-w-full divide-y divide-gray-200">
-                                <thead class="bg-gray-50">
-                                    <tr>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID
-                                        </th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Nombre</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Descripción</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="bg-white divide-y divide-gray-200">
-                                    <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">1</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Mieles</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Variedad de mieles orgánicas.</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            <button class="text-primary hover:text-blue-700 mr-3" onclick="viewCategory(1)">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                            <button class="text-secondary hover:text-yellow-600" onclick="openCategoryModal(1)">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <!-- Más filas de categorías... -->
-                                </tbody>
-                            </table>
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+                            </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200" id="categories-tbody">
+                            <!-- Se llenará con JS -->
+                            </tbody>
+                        </table>
                         </div>
                     </div>
-                </section>
+                    </section>
+
 
                 <!-- Roles Section -->
                 <section id="roles" class="section">
@@ -734,12 +752,106 @@
                     <button type="submit" class="px-4 py-2 bg-primary text-white rounded hover:bg-blue-700">Guardar</button>
                 </div>
             </form>
+        </div></div>
+        <!----------------------------------------- Modal para Agregar/Editar cliente -------------------------------------->
+        <!-- Modal para Crear / Editar / Ver Cliente -->
+        <div id="client-modal" class="fixed inset-0 bg-gray-700 bg-opacity-50 hidden z-50 flex items-center justify-center">
+            <div class="bg-white rounded-2xl w-full max-w-4xl p-8 shadow-xl overflow-y-auto max-h-[90vh]">
+                <!-- Encabezado -->
+                <div class="flex justify-between items-center border-b pb-4 mb-6">
+                    <h3 id="client-modal-title" class="text-2xl font-bold text-gray-800">Nuevo Cliente</h3>
+                    <button onclick="closeClientModal()" class="text-gray-500 hover:text-gray-700 text-xl">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+        
+                <!-- Formulario -->
+                <form id="client-form">
+                    <input type="hidden" id="client-id" />
+        
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="client-name" class="block text-sm font-medium text-gray-700">Nombre</label>
+                            <input id="client-name" type="text" class="mt-1 w-full rounded-md border-gray-300 shadow-sm"
+                                required />
+                        </div>
+                        <div>
+                            <label for="client-cedula" class="block text-sm font-medium text-gray-700">Cédula</label>
+                            <input id="client-cedula" type="text" class="mt-1 w-full rounded-md border-gray-300 shadow-sm"
+                                required />
+                        </div>
+                        <div>
+                            <label for="client-tipo-cedula" class="block text-sm font-medium text-gray-700">Tipo de
+                                Cédula</label>
+                            <input id="client-tipo-cedula" type="text"
+                                class="mt-1 w-full rounded-md border-gray-300 shadow-sm" />
+                        </div>
+                        <div>
+                            <label for="client-email" class="block text-sm font-medium text-gray-700">Email</label>
+                            <input id="client-email" type="email" class="mt-1 w-full rounded-md border-gray-300 shadow-sm" />
+                        </div>
+                        <div>
+                            <label for="client-telefono" class="block text-sm font-medium text-gray-700">Teléfono</label>
+                            <input id="client-telefono" type="text" class="mt-1 w-full rounded-md border-gray-300 shadow-sm" />
+                        </div>
+                        <div>
+                            <label for="client-direccion" class="block text-sm font-medium text-gray-700">Dirección</label>
+                            <input id="client-direccion" type="text" class="mt-1 w-full rounded-md border-gray-300 shadow-sm" />
+                        </div>
+                        <div>
+                            <label for="client-codigo-postal" class="block text-sm font-medium text-gray-700">Código
+                                Postal</label>
+                            <input id="client-codigo-postal" type="text"
+                                class="mt-1 w-full rounded-md border-gray-300 shadow-sm" />
+                        </div>
+                        <div>
+                            <label for="client-nombre-negocio" class="block text-sm font-medium text-gray-700">Nombre del
+                                Negocio</label>
+                            <input id="client-nombre-negocio" type="text"
+                                class="mt-1 w-full rounded-md border-gray-300 shadow-sm" />
+                        </div>
+                        <div>
+                            <label for="client-tipo-cliente" class="block text-sm font-medium text-gray-700">Tipo de
+                                Cliente</label>
+                            <input id="client-tipo-cliente" type="text"
+                                class="mt-1 w-full rounded-md border-gray-300 shadow-sm" />
+                        </div>
+                        <div>
+                            <label for="client-status" class="block text-sm font-medium text-gray-700">Estado</label>
+                            <select id="client-status" class="mt-1 w-full rounded-md border-gray-300 shadow-sm">
+                                <option value="1">Activo</option>
+                                <option value="0">Inactivo</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="client-fecha-creacion" class="block text-sm font-medium text-gray-700">Fecha de
+                                Creación</label>
+                            <input id="client-fecha-creacion" type="date"
+                                class="mt-1 w-full rounded-md border-gray-300 shadow-sm" />
+                        </div>
+                        <div>
+                            <label for="client-fecha-ultimo-ingreso" class="block text-sm font-medium text-gray-700">Último
+                                Ingreso</label>
+                            <input id="client-fecha-ultimo-ingreso" type="date"
+                                class="mt-1 w-full rounded-md border-gray-300 shadow-sm" />
+                        </div>
+                    </div>
+        
+                    <!-- Botón -->
+                    <div class="mt-8 flex justify-end">
+                        <button type="button" id="client-save-button" onclick="saveClient()"
+                            class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">
+                            Guardar
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
-    
-    <!----------------------------------------- Modal para Agregar/Editar Producto -------------------------------------->
-    <div id="product-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50 flex items-center justify-center">
-        <div class="bg-white rounded-lg w-full max-w-md">
+        
+        
+        <!----------------------------------------- Modal para Agregar/Editar Producto -------------------------------------->
+        <div id="product-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50 flex items-center justify-center">
+            <div class="bg-white rounded-lg w-full max-w-md">
             <div class="flex justify-between items-center px-6 py-4 border-b">
                 <h3 class="text-lg font-semibold" id="modal-title">Detalle del Producto</h3>
                 <button onclick="closeProductModal()" class="text-gray-500 hover:text-gray-700">
@@ -807,6 +919,32 @@
             </form>
         </div>
     </div>
+
+<!-- Modal Categoría -->
+<div id="category-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50 flex items-center justify-center">
+  <div class="bg-white rounded-lg w-full max-w-lg p-6 shadow-lg">
+    <div class="flex justify-between items-center mb-4">
+      <h3 id="category-modal-title" class="text-xl font-semibold">Nueva Categoría</h3>
+      <button onclick="closeCategoryModal()" class="text-gray-500 hover:text-gray-700">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <form id="category-form">
+      <input type="hidden" id="category-id" />
+      <div class="mb-4">
+        <label for="category-name" class="block text-sm font-medium">Nombre</label>
+        <input id="category-name" type="text" class="form-input w-full border border-gray-300 rounded-md px-3 py-2" required />
+      </div>
+      <div class="flex justify-end">
+        <button type="submit" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+          Guardar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
     <!---------------------- Aqui empiezan los scripts -------------------------------------->
         <script src="/assets/js/admin/main.js"></script>
     <script src="/assets/js/admin/admin-products.js"></script>

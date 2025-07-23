@@ -36,12 +36,13 @@ async function loadProducts() {
 }
 
 // Cargar categorías
-async function loadCategories() {
+async function cargaCategories() {
   try {
     const response = await fetch('http://localhost:3000/categories'); // Ajusta si es necesario
     if (!response.ok) throw new Error("No se pudieron obtener las categorías");
 
     realCategories = await response.json();
+    console.log("Categorías cargadas:", realCategories);
     populateCategoryFilter(realCategories);
   } catch (error) {
     console.error("Error al cargar categorías:", error);
@@ -56,12 +57,9 @@ function getCategoryNameById(id) {
 
 // Inicialización
 document.addEventListener('DOMContentLoaded',() => {
-     loadCategories();
+     cargaCategories();
      loadProducts();
-    
-     console.log("RealCategories:", realCategories);
-     console.log("RealProducts:", realProducts);    
-
+   // setupEventListeners();
     const filterCategoryElem = document.getElementById('filter-category');
     if (filterCategoryElem) {
         filterCategoryElem.addEventListener('change', filterProducts);
