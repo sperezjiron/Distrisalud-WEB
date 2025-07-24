@@ -466,82 +466,54 @@
                 </section>
                 
                 
-                <!-- Promotions Section -->
+               <!-- Promotions Section -->
                 <section id="promotions" class="section">
-                    <h2 class="text-2xl font-bold mb-4">Gestión de Promociones</h2>
-                    <div class="bg-white rounded-lg shadow overflow-hidden">
-                        <div class="px-6 py-4 border-b flex justify-between items-center">
-                            <h3 class="font-semibold text-lg">Promociones Activas</h3>
-                            <button onclick="openPromotionModal()"
-                                class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-                                <i class="fas fa-plus mr-2"></i> Nueva Promoción
-                            </button>
-                        </div>
-                        <div class="px-6 py-4">
-                            <div class="flex mb-4">
-                                <input type="text" id="search-promotion" placeholder="Buscar promoción..."
-                                    class="border border-gray-300 p-2 rounded-l-md w-full" />
-                                <button class="bg-primary text-white px-4 rounded-r-md hover:bg-blue-700 transition"
-                                    onclick="searchPromotion()">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="overflow-x-auto">
-                            <table class="min-w-full divide-y divide-gray-200">
-                                <thead class="bg-gray-50">
-                                    <tr>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID
-                                        </th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Nombre</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Descuento (%)</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha
-                                            de Inicio</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha
-                                            de Fin</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="promotion-table-body" class="bg-white divide-y divide-gray-200">
-                                    <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">1</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Descuento de Verano</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">20%</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">01/06/2023</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">30/06/2023</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            <button class="text-primary hover:text-blue-700 mr-3" onclick="viewPromotion(1)">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                            <button class="text-secondary hover:text-yellow-600" onclick="openPromotionModal(1)">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">2</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Promoción de Navidad</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">15%</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">01/12/2023</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">25/12/2023</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            <button class="text-primary hover:text-blue-700 mr-3" onclick="viewPromotion(2)">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                            <button class="text-secondary hover:text-yellow-600" onclick="openPromotionModal(2)">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <!-- Más filas de promociones... -->
-                                </tbody>
-                            </table>
-                        </div>
+                <h2 class="text-2xl font-bold mb-4">Gestión de Promociones</h2>
+                <div class="bg-white rounded-lg shadow overflow-hidden">
+                    
+                    <!-- Header -->
+                    <div class="px-6 py-4 border-b flex justify-between items-center">
+                    <h3 class="font-semibold text-lg">Promociones Activas</h3>
+                    <button onclick="openPromotionModal()" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                        <i class="fas fa-plus mr-2"></i> Nueva Promoción
+                    </button>
                     </div>
+
+                    <!-- Search -->
+                    <div class="px-6 py-4">
+                    <div class="flex mb-4">
+                        <input type="text" id="search-promotion" placeholder="Buscar promoción..."
+                        class="border border-gray-300 p-2 rounded-l-md w-full" />
+                        <button class="bg-primary text-white px-4 rounded-r-md hover:bg-blue-700 transition"
+                        onclick="searchPromotion()">
+                        <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    </div>
+
+                    <!-- Table -->
+                    <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Descripción</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Descuento (%)</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Inicio</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fin</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody id="promotions-table-body" class="bg-white divide-y divide-gray-200">
+                        <!-- Se llena desde JS -->
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
                 </section>
+
 
 
                 <!-- Categories Section -->
@@ -943,6 +915,74 @@
     </form>
   </div>
 </div>
+
+<!-- Modal para promocion                          ------------------------------------------------------------------------------->
+
+<div id="promotion-modal" class="fixed inset-0 bg-black bg-opacity-40 hidden z-50 flex items-center justify-center">
+  <div class="bg-white rounded-lg w-full max-w-2xl p-6 shadow-lg overflow-y-auto max-h-[90vh]">
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-4">
+      <h3 id="promotion-modal-title" class="text-xl font-semibold">Nueva Promoción</h3>
+      <button onclick="closePromotionModal()" class="text-gray-500 hover:text-gray-700">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <!-- Formulario -->
+    <form id="promotion-form">
+      <input type="hidden" id="promotion-id" />
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="md:col-span-2">
+          <label for="promotion-title" class="block text-sm font-medium">Nombre</label>
+          <input id="promotion-title" type="text" class="form-input w-full border border-gray-300 rounded-md px-3 py-2" required />
+        </div>
+
+        <div class="md:col-span-2">
+          <label for="promotion-description" class="block text-sm font-medium">Descripción</label>
+          <textarea id="promotion-description" rows="3"
+            class="form-textarea w-full border border-gray-300 rounded-md px-3 py-2"></textarea>
+        </div>
+
+        <div>
+          <label for="promotion-discount" class="block text-sm font-medium">Descuento (%)</label>
+          <input id="promotion-discount" type="number" min="0" max="100"
+            class="form-input w-full border border-gray-300 rounded-md px-3 py-2" required />
+        </div>
+
+        <div>
+          <label for="promotion-status" class="block text-sm font-medium">Estado</label>
+          <select id="promotion-status"
+            class="form-select w-full border border-gray-300 rounded-md px-3 py-2">
+            <option value="1">Activo</option>
+            <option value="0">Inactivo</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="promotion-start-date" class="block text-sm font-medium">Fecha de Inicio</label>
+          <input id="promotion-start-date" type="date"
+            class="form-input w-full border border-gray-300 rounded-md px-3 py-2" required />
+        </div>
+
+        <div>
+          <label for="promotion-end-date" class="block text-sm font-medium">Fecha de Fin</label>
+          <input id="promotion-end-date" type="date"
+            class="form-input w-full border border-gray-300 rounded-md px-3 py-2" required />
+        </div>
+      </div>
+
+      <!-- Botón Guardar -->
+      <div class="flex justify-end mt-6">
+        <button type="button" id="promotion-save-button" onclick="savePromotion()"
+          class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+          Guardar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
 
 
     <!---------------------- Aqui empiezan los scripts -------------------------------------->
