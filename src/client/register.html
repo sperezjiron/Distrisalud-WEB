@@ -35,23 +35,82 @@
                     <div>
                         <label for="name" class="sr-only">Nombre completo</label>
                         <input id="name" name="name" type="text" required
-                            class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
+                            class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
                             placeholder="Nombre completo">
                     </div>
+            
+                    <div>
+                        <label for="cedula" class="sr-only">Cédula</label>
+                        <input id="cedula" name="cedula" type="text" required
+                            class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                            placeholder="Cédula">
+                    </div>
+            
+                  <!-- Tipo de Cédula -->
+                    <div>
+                    <label for="tipoCedula" class="sr-only">Tipo de Cédula</label>
+                    <select id="tipoCedula" name="tipoCedula" required
+                        class="block w-full px-3 py-3 border border-gray-300 rounded-lg sm:text-sm text-gray-700">
+                        <option value="" disabled selected>Seleccione tipo de cédula</option>
+                        <option value="física">Física</option>
+                        <option value="jurídica">Jurídica</option>
+                        <option value="residencia">Residencia</option>
+                    </select>
+                    </div>
+            
                     <div>
                         <label for="email" class="sr-only">Correo electrónico</label>
                         <input id="email" name="email" type="email" required
-                            class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
+                            class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
                             placeholder="Correo electrónico">
                     </div>
+            
+                    <div>
+                        <label for="telefono" class="sr-only">Teléfono</label>
+                        <input id="telefono" name="telefono" type="text" required
+                            class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                            placeholder="Teléfono">
+                    </div>
+            
+                    <div>
+                        <label for="direccion" class="sr-only">Dirección</label>
+                        <input id="direccion" name="direccion" type="text" required
+                            class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                            placeholder="Dirección exacta">
+                    </div>
+            
+                    <div>
+                        <label for="codigoPostal" class="sr-only">Código Postal</label>
+                        <input id="codigoPostal" name="codigoPostal" type="text" required
+                            class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                            placeholder="Código postal">
+                    </div>
+            
+                    <div>
+                        <label for="nombreNegocio" class="sr-only">Nombre del Negocio</label>
+                        <input id="nombreNegocio" name="nombreNegocio" type="text" required
+                            class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                            placeholder="Nombre del negocio">
+                    </div>
+            
+                    <div>
+                        <label for="tipoCliente" class="sr-only">Tipo de Cliente</label>
+                        <select id="tipoCliente" name="tipoCliente" required
+                            class="appearance-none relative block w-full px-3 py-3 border border-gray-300 bg-white text-gray-900 rounded-lg focus:outline-none focus:ring-primary focus:border-primary sm:text-sm">
+                            <option value="">Seleccione tipo de cliente</option>
+                            <option value="Detalle">Detalle</option>
+                            <option value="Mayorista">Mayorista</option>
+                        </select>
+                    </div>
+            
                     <div>
                         <label for="password" class="sr-only">Contraseña</label>
                         <input id="password" name="password" type="password" required
-                            class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
+                            class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
                             placeholder="Contraseña">
                     </div>
                 </div>
-
+            
                 <div>
                     <button type="submit"
                         class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-primary hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
@@ -59,6 +118,7 @@
                     </button>
                 </div>
             </form>
+            
             <div class="text-center">
                 <p class="text-sm text-gray-600">
                     ¿Ya tienes una cuenta? 
@@ -70,40 +130,6 @@
         </div>
     </div>
 
-    <script>
-        document.getElementById('registerForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-
-            try {
-                const response = await fetch('/auth/register', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ name, email, password }),
-                });
-
-                const data = await response.json();
-
-                if (data.success) {
-                    // Guardar token en localStorage
-                    localStorage.setItem('token', data.token);
-                    localStorage.setItem('user', JSON.stringify(data.user));
-                    
-                    // Redirigir al carrito o a la página de pedidos
-                    window.location.href = 'cart.html';
-                } else {
-                    alert(data.message || 'Error al registrarse');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Error al conectar con el servidor');
-            }
-        });
-    </script>
+     <script src="/assets/js/client/register.js"></script>
 </body>
 </html>

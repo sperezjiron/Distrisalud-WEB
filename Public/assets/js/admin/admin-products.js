@@ -59,7 +59,9 @@ function getCategoryNameById(id) {
 document.addEventListener('DOMContentLoaded',() => {
      cargaCategories();
      loadProducts();
+     renderProducts(realProducts);
    // setupEventListeners();
+   document.getElementById('search-product').addEventListener('input', searchProduct);
     const filterCategoryElem = document.getElementById('filter-category');
     if (filterCategoryElem) {
         filterCategoryElem.addEventListener('change', filterProducts);
@@ -72,11 +74,11 @@ document.addEventListener('DOMContentLoaded',() => {
 
 
 // Renderizar tabla de productos
-function renderProducts(products) {
+function renderProducts(realProducts) {
   const tbody = document.querySelector('#products tbody');
   tbody.innerHTML = '';
 
-  products.forEach(product => {
+  realProducts.forEach(product => {
     const row = document.createElement('tr');
     const category = realCategories.find(c => c.id === product.categoryId);
     const categoryName = category ? category.name : 'Sin categoría';
@@ -334,12 +336,24 @@ function showToast(message, type = 'success') {
     console.log(`${type.toUpperCase()}: ${message}`);
 }
 
+//función que busca productos por nombre o descripción
 function searchProduct() {
-    const searchTerm = document.getElementById('search-product').value.toLowerCase();
-    // Lógica para buscar productos en la tabla
-    console.log(`Buscando productos que contengan: ${searchTerm}`);
+    const searchTerm = document.getElementById('search-product').value.toLowerCase().trim();
+  
+  if (!searchTerm) {
+    renderProducts(realProducts);
+    return;
+  }
+
+  const filtered = realProducts.filter(product =>
+    product.name.toLowerCase().includes(searchTerm) ||
+    product.description.toLowerCase().includes(searchTerm)
+  );
+
+  renderProducts(filtered);
 }
 
+// Función para filtrar productos por categoría
 function filterProducts() {
     const selectedCategoryId = document.getElementById('filter-category').value;
 
@@ -351,6 +365,7 @@ function filterProducts() {
   const filtered = realProducts.filter(product => product.categoryId.toString() === selectedCategoryId);
   renderProducts(filtered);
 }
+
 
 async function createProduct(product) {
   const response = await fetch("http://localhost:3000/products", {

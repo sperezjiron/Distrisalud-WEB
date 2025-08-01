@@ -200,38 +200,44 @@
                 </div>
               </div>
             
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
+              <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+                <div class="md:col-span-2">
                   <label for="cedula" class="block text-sm font-medium text-gray-700 mb-1">Cédula</label>
-                  <input id="cedula" type="text" class="w-full border p-2 rounded-lg" />
+                  <input id="cedula" type="text" class="w-full border p-3 rounded-lg" />
                 </div>
                 <div>
-                  <label for="tipoCedula" class="block text-sm font-medium text-gray-700 mb-1">Tipo de Cédula</label>
-                  <input id="tipoCedula" type="text" class="w-full border p-2 rounded-lg" />
-                </div>
+                <label for="tipoCedula" class="block text-sm font-medium text-gray-700 mb-1">Tipo de Cédula</label>
+                <select id="tipoCedula" class="w-full border p-3 rounded-lg">
+                  <option value="Fisica">Física</option>
+                  <option value="Juridica">Jurídica</option>
+                  <option value="Nacional">Nacional</option>
+                  <option value="Residencia">Residencia</option>
+                </select>
               </div>
-            
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+                <div class="md:col-span-2">
                   <label for="codigoPostal" class="block text-sm font-medium text-gray-700 mb-1">Código Postal</label>
-                  <input id="codigoPostal" type="text" class="w-full border p-2 rounded-lg" />
+                  <input id="codigoPostal" type="text" class="w-full border p-3 rounded-lg" />
                 </div>
-                <div>
+                <div class="md:col-span-2">
                   <label for="nombreNegocio" class="block text-sm font-medium text-gray-700 mb-1">Nombre del Negocio</label>
-                  <input id="nombreNegocio" type="text" class="w-full border p-2 rounded-lg" />
+                  <input id="nombreNegocio" type="text" class="w-full border p-3 rounded-lg" />
                 </div>
               </div>
-            
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
+
+              <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+                <div class="md:col-span-2">
                   <label for="tipoCliente" class="block text-sm font-medium text-gray-700 mb-1">Tipo de Cliente</label>
-                  <input id="tipoCliente" type="text" class="w-full border p-2 rounded-lg" disabled />
+                  <input id="tipoCliente" type="text" class="w-full border p-3 rounded-lg" disabled />
                 </div>
-                <div>
+                <div class="md:col-span-2">
                   <label for="direccion" class="block text-sm font-medium text-gray-700 mb-1">Dirección</label>
-                  <input id="direccion" type="text" class="w-full border p-2 rounded-lg" />
+                  <input id="direccion" type="text" class="w-full border p-3 rounded-lg" />
                 </div>
               </div>
+
             
               <div class="flex justify-end">
                 <button type="submit" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">

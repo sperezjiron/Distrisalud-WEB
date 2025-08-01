@@ -129,126 +129,91 @@
       </div>
     </header>
 
-    <!-- Order Detail Content -->
-    <main class="container mx-auto px-4 py-8 min-h-screen">
-        <div class="flex justify-between items-center mb-6">
-            <h2 class="text-3xl font-bold text-primary">Detalle del Pedido #12345</h2>
-            <a href="orders.html" class="text-primary hover:underline flex items-center">
-                <i class="fas fa-arrow-left mr-2"></i> Volver a mis pedidos
-            </a>
+   <!-- Order Detail Content -->
+<main class="container mx-auto px-4 py-8 min-h-screen">
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-3xl font-bold text-primary" id="order-title">Detalle del Pedido</h2>
+    <a href="orders.html" class="text-primary hover:underline flex items-center">
+      <i class="fas fa-arrow-left mr-2"></i> Volver a mis pedidos
+    </a>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <!-- Información del pedido -->
+    <div class="lg:col-span-2 space-y-6">
+      <!-- Resumen del pedido -->
+      <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+        <h3 class="font-bold text-lg text-primary mb-4">Resumen del Pedido</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <p class="text-gray-600">Fecha del pedido:</p>
+            <p class="font-medium" id="order-date"></p>
+          </div>
+          <div>
+            <p class="text-gray-600">Método de pago:</p>
+            <p class="font-medium" id="order-payment"></p>
+          </div>
+          <div>
+            <p class="text-gray-600">Estado:</p>
+            <span class="px-2 py-1 text-xs font-semibold rounded-full" id="order-status"></span>
+          </div>
         </div>
+      </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Información del pedido -->
-            <div class="lg:col-span-2 space-y-6">
-                <!-- Resumen del pedido -->
-                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-                    <h3 class="font-bold text-lg text-primary mb-4">Resumen del Pedido</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <p class="text-gray-600">Fecha del pedido:</p>
-                            <p class="font-medium">15/01/2025</p>
-                        </div>
-                        <div>
-                            <p class="text-gray-600">Método de pago:</p>
-                            <p class="font-medium">Sinpe móvil</p>
-                        </div>
-                        <div>
-                            <p class="text-gray-600">Método de envío:</p>
-                            <p class="font-medium">Mensajería Directa</p>
-                        </div>
-                        <div>
-                            <p class="text-gray-600">Estado:</p>
-                            <span class="px-2 py-1 text-xs font-semibold rounded-full badge-shipped">Enviado</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Productos del pedido -->
-                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-                    <h3 class="font-bold text-lg text-primary mb-4">Productos</h3>
-                    <div class="divide-y divide-gray-200">
-                        <!-- Producto 1 -->
-                        <div class="py-4 flex flex-col md:flex-row">
-                            <div class="flex-shrink-0 mb-4 md:mb-0 md:mr-4">
-                                <img src="https://images.unsplash.com/photo-1587049352851-8d4e89133924?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" 
-                                     alt="Miel Orgánica" 
-                                     class="w-20 h-20 object-cover rounded">
-                            </div>
-                            <div class="flex-1">
-                                <h4 class="font-bold text-primary">Miel Orgánica Pura</h4>
-                                <p class="text-gray-600 text-sm">250g - Directa de los apicultores locales</p>
-                                <div class="mt-2 flex justify-between items-center">
-                                    <span class="text-gray-600">Cantidad: 1</span>
-                                    <span class="font-bold text-primary">$12.99</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Producto 2 -->
-                        <div class="py-4 flex flex-col md:flex-row">
-                            <div class="flex-shrink-0 mb-4 md:mb-0 md:mr-4">
-                                <img src="https://images.unsplash.com/photo-1550583724-b2692b85b150?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" 
-                                     alt="Té Verde" 
-                                     class="w-20 h-20 object-cover rounded">
-                            </div>
-                            <div class="flex-1">
-                                <h4 class="font-bold text-primary">Té Verde Orgánico</h4>
-                                <p class="text-gray-600 text-sm">30 bolsitas - Antioxidante natural</p>
-                                <div class="mt-2 flex justify-between items-center">
-                                    <span class="text-gray-600">Cantidad: 2</span>
-                                    <span class="font-bold text-primary">$17.98</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Dirección de envío -->
-                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-                    <h3 class="font-bold text-lg text-primary mb-4">Dirección de envío</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <p class="text-gray-600">Nombre:</p>
-                            <p class="font-medium">María González</p>
-                        </div>
-                        <div>
-                            <p class="text-gray-600">Teléfono:</p>
-                            <p class="font-medium">506 70777032</p>
-                        </div>
-                        <div class="md:col-span-2">
-                            <p class="text-gray-600">Dirección:</p>
-                            <p class="font-medium">Calle Flores 123, San José, Costa Rica</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Resumen del pago -->
-            <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 h-fit sticky top-4">
-                <h3 class="font-bold text-lg text-primary mb-4">Resumen del pago</h3>
-                <div class="space-y-3 mb-6">
-                    <div class="flex justify-between">
-                        <span class="text-gray-600">Subtotal:</span>
-                        <span class="font-medium">$30.97</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-600">Envío:</span>
-                        <span class="font-medium">$5.00</span>
-                    </div>
-                    <div class="flex justify-between border-t border-gray-200 pt-3">
-                        <span class="text-gray-600">Total:</span>
-                        <span class="font-bold text-lg text-primary">$35.97</span>
-                    </div>
-                </div>
-                <div class="space-y-2">
-                    <button class="w-full bg-primary text-white py-2 rounded-lg hover:bg-blue-700 transition">
-                        <i class="fas fa-headset mr-2"></i> Contactar 
-                    </button>
-                </div>
-            </div>
+      <!-- Productos del pedido -->
+      <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+        <h3 class="font-bold text-lg text-primary mb-4">Productos</h3>
+        <div class="divide-y divide-gray-200" id="order-products">
+          <!-- Productos insertados con JS -->
         </div>
-    </main>
+      </div>
+
+      <!-- Dirección de envío
+      <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+        <h3 class="font-bold text-lg text-primary mb-4">Dirección de envío</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <p class="text-gray-600">Nombre:</p>
+            <p class="font-medium" id="order-customer-name"></p>
+          </div>
+          <div>
+            <p class="text-gray-600">Teléfono:</p>
+            <p class="font-medium" id="order-customer-phone"></p>
+          </div>
+          <div class="md:col-span-2">
+            <p class="text-gray-600">Dirección:</p>
+            <p class="font-medium" id="order-customer-address"></p>
+          </div>
+        </div>
+      </div>
+    </div>-->
+
+    <!-- Resumen del pago -->
+    <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 h-fit sticky top-4">
+      <h3 class="font-bold text-lg text-primary mb-4">Resumen del pago</h3>
+      <div class="space-y-3 mb-6">
+        <div class="flex justify-between">
+          <span class="text-gray-600">Subtotal:</span>
+          <span class="font-medium" id="order-subtotal">₡</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-600">Envío:</span>
+          <span class="font-medium" id="order-shipping-cost">₡</span>
+        </div>
+        <div class="flex justify-between border-t border-gray-200 pt-3">
+          <span class="text-gray-600">Total:</span>
+          <span class="font-bold text-lg text-primary" id="order-total">₡</span>
+        </div>
+      </div>
+      <div class="space-y-2">
+        <button class="w-full bg-primary text-white py-2 rounded-lg hover:bg-blue-700 transition">
+          <i class="fas fa-headset mr-2"></i> Contactar 
+        </button>
+      </div>
+    </div>
+  </div>
+</main>
+
 
     <!-- Footer -->
     <footer class="bg-primary text-white py-12">
@@ -257,30 +222,12 @@
         </div>
     </footer>
 
-    <!-- JavaScript -->
-    <script>
-        // Aquí puedes agregar lógica para cargar los datos del pedido desde una API
-        document.addEventListener('DOMContentLoaded', () => {
-            // Ejemplo: Obtener el ID del pedido de la URL
-            const urlParams = new URLSearchParams(window.location.search);
-            const orderId = urlParams.get('id');
-            
-            if (orderId) {
-                // Aquí harías una llamada a tu API para obtener los detalles del pedido
-                // fetch(`/api/orders/${orderId}`)
-                //   .then(response => response.json())
-                //   .then(data => {
-                //       // Actualizar la interfaz con los datos del pedido
-                //       document.getElementById('order-number').textContent = `#${data.id}`;
-                //       // ... etc
-                //   });
-                
-                console.log(`Cargando detalles del pedido ${orderId}`);
-            }
-        });
-    </script>
+    
+    
     <script src="/assets/js/client/main.js"></script>
-    <script src="/assets/js/client/products.js"></script>
+    
+    <script src="/assets/js/client/users.js"></script>
+    <script src="/assets/js/client/order-detail.js" defer></script>
     <script>
       verificarLogin();
     </script>

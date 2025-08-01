@@ -13,21 +13,17 @@ async function loadUsers() {
   }
 }
 
-function searchAdmin() {
-    const searchTerm = document.getElementById('search-admin').value.toLowerCase();
-    // Lógica para buscar administradores en la tabla
-    console.log(`Buscando administradores que contengan: ${searchTerm}`);
+function getUserNameById(userId) {
+  const user = realUsers.find(u => u.id === userId);
+  return user ? user.name : "Usuario no encontrado";
 }
 
-function openAdminModal(adminId) {
-    if (adminId) {
-        // Lógica para abrir el modal y cargar los datos del administrador para editar
-        console.log(`Editando administrador con ID: ${adminId}`);
-    } else {
-        // Lógica para abrir el modal para agregar un nuevo administrador
-        console.log('Agregando nuevo administrador');
-    }
+function searchAdmin() {
+  const search = document.getElementById("search-admin").value.toLowerCase();
+  const filtered = realAdmins.filter(admin => admin.nombre.toLowerCase().includes(search));
+  renderAdmins(filtered);
 }
+
 
 
 // Inicialización
@@ -124,6 +120,7 @@ async function loadAdmins() {
     if (!res.ok) throw new Error("Error en la carga de administradores");
     realAdmins = await res.json();
     console.log("RealAdmins:", realAdmins);
+    renderAdmins(realAdmins);
   } catch (error) {
     console.error("Error cargando administradores:", error);
   }
@@ -246,3 +243,173 @@ function applyClientFilters() {
   renderClients(filteredClients);
 }
 
+// 2. Renderizar administradores en la tabla
+function renderAdmins(admins) {
+  const tbody = document.getElementById("admins-table-body");
+  tbody.innerHTML = "";
+
+  admins.forEach(admin => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${admin.id}</td>
+      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${admin.nombre}</td>
+     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${getUserNameById(admin.userId)}</td>
+      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${admin.estado?.data[0] === 1 ? 'Activo' : 'Inactivo'}</td>
+      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+        <button class="text-primary hover:text-blue-700 mr-3" onclick="viewAdmin(${admin.id})">
+          <i class="fas fa-eye"></i>
+        </button>
+        <button class="text-secondary hover:text-yellow-600" onclick="openAdminModal(${admin.id})">
+          <i class="fas fa-edit"></i>
+        </button>
+      </td>
+    `;
+    tbody.appendChild(row);
+  });
+}
+
+// 4. Abrir modal para crear/editar
+async function openAdminModal(id = null) {
+  const modalTitle = document.getElementById("admin-modal-title");
+  const userIdContainer = document.getElementById("admin-user-id-container");
+  const userIdSelect = document.getElementById("admin-user-id");
+
+  // Mostrar modal y resetear
+  document.getElementById("admin-save-button-container").classList.remove("hidden");
+  document.getElementById("admin-form").reset();
+  document.getElementById("admin-id").value = "";
+  setAdminFormReadOnly(false);
+
+  if (id) {
+    // Editar administrador
+    const admin = realAdmins.find(a => a.id === id);
+    if (!admin) return;
+
+    document.getElementById("admin-id").value = admin.id;
+    document.getElementById("admin-name").value = admin.nombre;
+    document.getElementById("admin-status").value = admin.estado?.data[0] === 1 ? "1" : "0";
+
+    // Ocultar selección de usuario
+    userIdContainer.classList.add("hidden");
+    userIdSelect.required = false;
+
+    modalTitle.textContent = "Editar Administrador";
+  } else {
+    // Crear nuevo administrador
+    modalTitle.textContent = "Nuevo Administrador";
+
+    // Mostrar selección de usuario y cargar usuarios disponibles
+    userIdContainer.classList.remove("hidden");
+    userIdSelect.required = true;
+
+    await loadAvailableUsers();
+  }
+
+  document.getElementById("admin-modal").classList.remove("hidden");
+}
+
+
+// 5. Ver detalle en modo solo lectura
+function viewAdmin(id) {
+  const admin = realAdmins.find(a => a.id === id);
+  if (!admin) return;
+
+  document.getElementById("admin-id").value = admin.id;
+  document.getElementById("admin-name").value = admin.nombre;
+  document.getElementById("admin-user-id").value = admin.userId;
+  document.getElementById("admin-status").value = admin.estado?.data[0] === 1 ? "1" : "0";
+  document.getElementById("admin-modal-title").textContent = "Detalle del Administrador";
+
+    // Ocultar botón Guardar
+  document.getElementById("admin-save-button-container").classList.add("hidden");
+  setAdminFormReadOnly(true);
+  document.getElementById("admin-modal").classList.remove("hidden");
+}
+// 7. Cerrar modal
+function closeAdminModal() {
+  document.getElementById("admin-modal").classList.add("hidden");
+}
+
+// 8. Activar/desactivar solo lectura en formulario
+function setAdminFormReadOnly(readonly) {
+  const inputs = document.querySelectorAll("#admin-form input, #admin-form select");
+  inputs.forEach(el => el.disabled = readonly);
+}
+
+
+async function saveAdmin() {
+  const id = document.getElementById("admin-id").value;
+  const name = document.getElementById("admin-name").value;
+  const userId = document.getElementById("admin-user-id")?.value;
+  let estado;
+
+  if (id) {
+    // Si está editando, toma el valor seleccionado
+    estado = document.getElementById("admin-status").value === "1" ? 1 : 0;
+  } else {
+    // Si está creando, se asigna activo por defecto
+    estado = 1;
+  }
+
+  const adminData = {
+    nombre: name,
+    estado: estado
+  };
+
+  if (!id && userId) {
+    adminData.userId = parseInt(userId);
+  }
+
+  try {
+    let response;
+
+    if (id) {
+      // PATCH (actualizar)
+      response = await fetch(`http://localhost:3000/admins/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(adminData),
+      });
+    } else {
+      // POST (crear nuevo)
+      response = await fetch(`http://localhost:3000/admins`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(adminData),
+      });
+    }
+
+    if (!response.ok) throw new Error("Error al guardar administrador");
+
+    closeAdminModal();
+    await loadAdmins();
+  } catch (error) {
+    console.error("Error:", error);
+    alert("No se pudo guardar el administrador.");
+  }
+}
+
+
+
+// 10. Cargar usuarios disponibles para asignar
+async function loadAvailableUsers() {
+  try {
+    const res = await fetch("http://localhost:3000/users?rol=2");
+    if (!res.ok) throw new Error("No se pudieron cargar los usuarios");
+
+    const users = await res.json();
+    const select = document.getElementById("admin-user-id");
+
+    select.innerHTML = `<option value="">Seleccione un usuario</option>`;
+
+    users.forEach(user => {
+      const option = document.createElement("option");
+      option.value = user.id;
+      option.textContent = `${user.id} (${user.name})`;
+      select.appendChild(option);
+    });
+
+  } catch (error) {
+    console.error("Error cargando usuarios:", error);
+  }
+}

@@ -6,7 +6,6 @@ let realCustomers = [];
 document.addEventListener('DOMContentLoaded', async function () {
   await loadCustomers();
   await loadOrders();
-  searchOrder();
   
   renderOrders(realOrders);
 
@@ -38,12 +37,12 @@ async function loadOrders() {
   }
 }
 
-function renderOrders(orders = []) {
+function renderOrders(realOrders = []) {
 
   const tbody = document.querySelector('#orders tbody');
   tbody.innerHTML = '';
 
-  if (!orders || orders.length === 0) {
+  if (!realOrders || realOrders.length === 0) {
     const row = document.createElement('tr');
     row.innerHTML = `
       <td colspan="6" class="px-6 py-4 text-center text-sm text-gray-500">
@@ -203,6 +202,36 @@ function editOrder(orderId) {
 function closeEditModal() {
   document.getElementById("edit-order-modal").classList.add("hidden");
 }
+
+async function updateOrderStatus() {
+  const orderId = document.getElementById("edit-order-id").value;
+  const status = document.getElementById("edit-order-status").value;
+
+  try {
+    const response = await fetch(`http://localhost:3000/orders/${orderId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ status }),
+    });
+
+    if (!response.ok) {
+      const err = await response.json();
+      console.error("Error al actualizar:", err);
+      throw new Error(err.message || "Error al actualizar el pedido");
+    }
+
+    alert("Estado del pedido actualizado correctamente.");
+    closeEditModal();
+    await loadOrders();
+    renderOrders(realOrders);
+  } catch (error) {
+    console.error("Error:", error);
+    alert("No se pudo actualizar el pedido. Revisa los datos o el servidor.");
+  }
+}
+
 
 
 
