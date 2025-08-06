@@ -44,6 +44,7 @@ async function cargaCategories() {
     realCategories = await response.json();
     console.log("Categorías cargadas:", realCategories);
     populateCategoryFilter(realCategories);
+    populateCategorySelect(realCategories);
   } catch (error) {
     console.error("Error al cargar categorías:", error);
   }
@@ -56,11 +57,12 @@ function getCategoryNameById(id) {
 
 
 // Inicialización
-document.addEventListener('DOMContentLoaded',() => {
-     cargaCategories();
-     loadProducts();
-     renderProducts(realProducts);
-   // setupEventListeners();
+document.addEventListener('DOMContentLoaded',async () => {
+    await cargaCategories();
+    loadProducts();
+     
+
+   setupEventListeners();
    document.getElementById('search-product').addEventListener('input', searchProduct);
     const filterCategoryElem = document.getElementById('filter-category');
     if (filterCategoryElem) {
@@ -87,7 +89,7 @@ function renderProducts(realProducts) {
       <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${product.id}</td>
       <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${product.name}</td>
       <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${product.description}</td>
-      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">$${parseFloat(product.price).toFixed(2)}</td>
+      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">₡${parseFloat(product.price).toFixed(2)}</td>
       <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${product.unit}</td>
       <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
         <img src="${product.imageUrl || '/admin/assets/images/default-product.png'}" 
@@ -120,84 +122,56 @@ function renderProducts(realProducts) {
 }
 
 
-// Configurar event listeners
 function setupEventListeners() {
   // Modal
-  addProductBtn.addEventListener("click", () => openModal("add"));
-  closeModalBtn.addEventListener("click", closeModal);
-  cancelProductBtn.addEventListener("click", closeModal);
-
-  // Formulario
-  productForm.addEventListener("submit", handleFormSubmit);
-
-  // Filtros
-  applyFiltersBtn.addEventListener("click", applyFilters);
   if (addProductBtn) {
-    addProductBtn.addEventListener("click", () => openModal("add"));
+    addProductBtn.addEventListener("click", () => openProductModal()); // CORREGIDO
   } else {
     console.warn("addProductBtn no encontrado");
   }
 
-  // Paginación
-  prevPageBtn.addEventListener("click", () => {
-    if (currentPage > 1) {
-      currentPage--;
-      loadProducts();
-    }
-  });
+  if (closeModalBtn) closeModalBtn.addEventListener("click", closeModal);
+  if (cancelProductBtn) cancelProductBtn.addEventListener("click", closeModal);
 
-  nextPageBtn.addEventListener("click", () => {
-    const totalPages = Math.ceil(totalProducts / itemsPerPage);
-    if (currentPage < totalPages) {
-      currentPage++;
-      loadProducts();
-    }
-  });
+  document.getElementById('product-form').addEventListener('submit', handleFormSubmit);
+
+
+  // Filtros
+  if (applyFiltersBtn) applyFiltersBtn.addEventListener("click", applyFilters);
+
+  // Paginación
+  if (prevPageBtn) {
+    prevPageBtn.addEventListener("click", () => {
+      if (currentPage > 1) {
+        currentPage--;
+        loadProducts();
+      }
+    });
+  }
+
+  if (nextPageBtn) {
+    nextPageBtn.addEventListener("click", () => {
+      const totalPages = Math.ceil(totalProducts / itemsPerPage);
+      if (currentPage < totalPages) {
+        currentPage++;
+        loadProducts();
+      }
+    });
+  }
 
   // Búsqueda en tiempo real con debounce
-  let searchTimeout;
-  searchInput.addEventListener("input", () => {
-    clearTimeout(searchTimeout);
-    searchTimeout = setTimeout(() => {
-      currentPage = 1;
-      loadProducts();
-    }, 500);
-  });
+  if (searchInput) {
+    let searchTimeout;
+    searchInput.addEventListener("input", () => {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        currentPage = 1;
+        loadProducts();
+      }, 500);
+    });
+  }
 }
 
-// Función para manejar el envío del formulario
-async function handleFormSubmit(e) {
-    e.preventDefault();
-    
-    // Obtener datos del formulario
-    const productData = {
-        id: document.getElementById('product-id').value,
-        name: document.getElementById('product-name').value,
-        category: document.getElementById('product-category').value,
-        price: parseFloat(document.getElementById('product-price').value),
-        stock: parseInt(document.getElementById('product-stock').value),
-        sku: document.getElementById('product-sku').value,
-        description: document.getElementById('product-description').value,
-        active: document.getElementById('product-active').checked,
-        image: document.getElementById('image-preview')?.querySelector('img')?.src || null
-    };
-    
-    try {
-      if (productData.id) {
-        await updateProduct(productData);
-        showToast("Producto actualizado con éxito", "success");
-      } else {
-        await createProduct(productData);
-        showToast("Producto creado con éxito", "success");
-      }
-
-      closeModal();
-      loadProducts();
-    } catch (error) {
-      console.error("Error saving product:", error);
-      showToast("Error al guardar el producto", "error");
-    }
-}
 
 //funcion para ver el producto sin editar
 function viewProduct(productId) {
@@ -207,88 +181,139 @@ function viewProduct(productId) {
   document.getElementById('modal-title').textContent = 'Detalle del Producto';
   fillProductForm(product);
   setFormReadOnly(true);
-  document.getElementById('product-modal').classList.remove('hidden');
+
+  // Ocultar input de imagen y botón guardar
+  document.getElementById('product-image').classList.add('hidden');
   document.getElementById('save-button').classList.add('hidden');
 
-  // Mostrar vista previa de imagen
+  // Mostrar la vista previa si existe imagen
   const preview = document.getElementById('image-preview');
-  if (product.imageUrl && preview?.querySelector('img')) {
-    preview.querySelector('img').src = product.imageUrl;
+  const previewImg = document.getElementById('image-preview-img');
+  if (product.imageUrl && preview && previewImg) {
+    previewImg.src = product.imageUrl;
     preview.classList.remove('hidden');
   } else if (preview) {
     preview.classList.add('hidden');
   }
+
+  document.getElementById('product-modal').classList.remove('hidden');
 }
 
 
+//funcion para cargar el select en el formulario de productos
+function populateCategorySelect(realCategories = []) {
+  console.log("Cargando categorías en el select:", realCategories);
+  const select = document.getElementById('product-category');
+  select.innerHTML = '<option value="">Seleccione una categoría</option>';
+  realCategories.forEach(cat => {
+    const option = document.createElement('option');
+    option.value = cat.id;
+    option.textContent = cat.name;
+    select.appendChild(option);
+  });
+}
+function openProductModal(productId) {
+  populateCategorySelect(realCategories);
 
-
-// Funciones auxiliares
-function openProductModal(productId = null) {
+  const modal = document.getElementById('product-modal');
   const modalTitle = document.getElementById('modal-title');
   const form = document.getElementById('product-form');
   const saveButton = document.getElementById('save-button');
   const preview = document.getElementById('image-preview');
-  const previewImg = preview.querySelector('img');
+  const previewImg = document.getElementById('image-preview-img'); // Accedemos directamente
+  const imageInput = document.getElementById('product-image');
+
+  if (!modal || !form || !modalTitle || !saveButton || !preview || !previewImg || !imageInput) {
+    console.error("No se encontraron uno o más elementos del DOM.");
+    return;
+  }
 
   modalTitle.textContent = productId ? 'Editar Producto' : 'Nuevo Producto';
+  setFormReadOnly(false);
+  imageInput.classList.remove('hidden');
+  saveButton.classList.remove('hidden');
 
   if (productId) {
     const product = realProducts.find(p => p.id === productId);
     if (product) {
-      document.getElementById('product-id').value = product.id;
-      document.getElementById('product-name').value = product.name;
-      document.getElementById('product-description').value = product.description;
-      document.getElementById('product-price').value = product.price;
-      document.getElementById('product-stock').value = product.stock;
-      document.getElementById('product-unit').value = product.unit;
-      document.getElementById('product-image-url').value = product.imageUrl;
+      form.reset(); // Reinicia primero
 
-      const category = realCategories.find(c => c.id === product.categoryId);
-      if (category) {
-        document.getElementById('product-category').value = category.id;
-      }
+      document.getElementById('product-id').value = product.id;
+      document.getElementById('product-name').value = product.name || '';
+      document.getElementById('product-description').value = product.description || '';
+      document.getElementById('product-price').value = product.price || '';
+      document.getElementById('product-stock').value = product.stock || '';
+      document.getElementById('product-unit').value = product.unit || '';
+      document.getElementById('product-entry-date').value = product.entryDate || '';
+      document.getElementById('product-category').value = product.categoryId || '';
+      if (document.getElementById('product-image-url'))
+        document.getElementById('product-image-url').value = product.imageUrl || '';
 
       if (product.imageUrl) {
         previewImg.src = product.imageUrl;
         preview.classList.remove('hidden');
       } else {
-        preview.classList.add('hidden');
         previewImg.src = '';
+        preview.classList.add('hidden');
       }
     }
   } else {
     form.reset();
-    preview.classList.add('hidden');
     previewImg.src = '';
+    preview.classList.add('hidden');
   }
 
-  setFormReadOnly(false);
-  document.getElementById('product-modal').classList.remove('hidden');
-  saveButton.classList.remove('hidden');
+  modal.classList.remove('hidden');
 }
+
+
+function previewImage() {
+  const fileInput = document.getElementById('product-image');
+  const previewContainer = document.getElementById('image-preview');
+  const previewImage = document.getElementById('image-preview-img');
+
+  const file = fileInput.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      previewImage.src = e.target.result;
+      previewContainer.classList.remove('hidden');
+    };
+    reader.readAsDataURL(file);
+  } else {
+    previewContainer.classList.add('hidden');
+    previewImage.src = '';
+  }
+}
+
+
+
 
 
 function closeModal() {
     productModal.classList.add('hidden');
 }
 function setFormReadOnly(isReadOnly) {
-  const fields = [
+ const fields = [
     'product-name', 'product-description', 'product-price',
-    'product-unit', 'product-stock', 'product-image-url',
-    'product-entry-date', 'product-category'
+    'product-unit', 'product-stock', 'product-entry-date',
+    'product-category'
   ];
+
   fields.forEach(id => {
     const field = document.getElementById(id);
-    if (isReadOnly) {
-      field.setAttribute('readonly', true);
-      field.setAttribute('disabled', true);
-    } else {
-      field.removeAttribute('readonly');
-      field.removeAttribute('disabled');
+    if (field) {
+      if (isReadOnly) {
+        field.setAttribute('readonly', true);
+        field.setAttribute('disabled', true);
+      } else {
+        field.removeAttribute('readonly');
+        field.removeAttribute('disabled');
+      }
     }
   });
 }
+
 function fillProductForm(product) {
   document.getElementById('product-id').value = product.id;
   document.getElementById('product-name').value = product.name;
@@ -296,21 +321,53 @@ function fillProductForm(product) {
   document.getElementById('product-price').value = product.price;
   document.getElementById('product-unit').value = product.unit;
   document.getElementById('product-stock').value = product.stock;
-  document.getElementById('product-image-url').value = product.imageUrl || '';
-  document.getElementById('product-entry-date').value = product.entryDate;
+  document.getElementById('product-entry-date').value = product.entryDate?.split("T")[0] || '';
   document.getElementById('product-category').value = product.categoryId;
+
+  // Mostrar la imagen si hay preview
+  const preview = document.getElementById('image-preview');
+  const previewImg = document.getElementById('image-preview-img');
+  if (preview && previewImg && product.imageUrl) {
+    previewImg.src = product.imageUrl;
+    preview.classList.remove('hidden');
+  }
 }
+
 async function deleteProduct(productId) {
-  if (!confirm("¿Estás seguro de que deseas eliminar este producto?")) return;
-  try {
-    await fetch(`http://localhost:3000/products/${productId}`, {
-      method: "DELETE"
-    });
-    showToast("Producto eliminado con éxito", "success");
-    loadProducts();
-  } catch (error) {
-    console.error("Error al eliminar producto:", error);
-    showToast("Error al eliminar el producto", "error");
+  const result = await Swal.fire({
+    title: "¿Estás seguro?",
+    text: "Esta acción eliminará el producto permanentemente.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sí, eliminar",
+    cancelButtonText: "Cancelar"
+  });
+
+  if (result.isConfirmed) {
+    try {
+      await fetch(`http://localhost:3000/products/${productId}`, {
+        method: "DELETE"
+      });
+
+      await Swal.fire({
+        title: "¡Eliminado!",
+        text: "El producto fue eliminado con éxito.",
+        icon: "success",
+        timer: 2000,
+        showConfirmButton: false
+      });
+
+      loadProducts();
+    } catch (error) {
+      console.error("Error al eliminar producto:", error);
+      Swal.fire({
+        title: "Error",
+        text: "Ocurrió un error al eliminar el producto.",
+        icon: "error"
+      });
+    }
   }
 }
 
@@ -365,28 +422,6 @@ function filterProducts() {
   const filtered = realProducts.filter(product => product.categoryId.toString() === selectedCategoryId);
   renderProducts(filtered);
 }
-
-
-async function createProduct(product) {
-  const response = await fetch("http://localhost:3000/products", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(product),
-  });
-  if (!response.ok) throw new Error("Error al crear producto");
-  return await response.json();
-}
-
-async function updateProduct(product) {
-  const response = await fetch(`http://localhost:3000/products/${product.id}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(product),
-  });
-  if (!response.ok) throw new Error("Error al actualizar producto");
-  return await response.json();
-}
-
 function populateCategoryFilter(categories) {
   const select = document.getElementById('filter-category');
   select.innerHTML = '<option value="">Filtrar por categoría</option>'; // opción por defecto
@@ -409,3 +444,87 @@ function formatDate(dateString) {
     minute: '2-digit'
   });
 }
+
+// En admin-products.js o donde manejes la lógica de creación
+async function handleFormSubmit(event) {
+  event.preventDefault();
+
+  const id = document.getElementById('product-id').value;
+  const name = document.getElementById('product-name').value;
+  const description = document.getElementById('product-description').value;
+  const price = parseFloat(document.getElementById('product-price').value);
+  const unit = document.getElementById('product-unit').value;
+  const stock = parseInt(document.getElementById('product-stock').value);
+  const entryDate = document.getElementById('product-entry-date').value;
+  const categoryId = parseInt(document.getElementById('product-category').value);
+  const imageFile = document.getElementById('product-image').files[0];
+
+  let imageUrl = '';
+
+  // 1. Subir la imagen si hay una seleccionada
+  if (imageFile) {
+    const formData = new FormData();
+    formData.append('image', imageFile);
+
+    console.log("Subiendo imagen:", imageFile.name);
+    try {
+      const uploadResponse = await fetch('http://localhost:3000/upload/product-image', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!uploadResponse.ok) {
+        throw new Error('Error al subir la imagen');
+      }
+
+      const result = await uploadResponse.json();
+      imageUrl = result.imageUrl;
+    } catch (err) {
+      console.error('Error al subir imagen:', err);
+      alert('Error al subir la imagen');
+      return;
+    }
+  }
+
+  // 2. Construir el producto
+  const product = {
+    name,
+    description,
+    price,
+    unit,
+    stock,
+    entryDate,
+    categoryId,
+    imageUrl, // si no se cargó imagen, quedará string vacío
+  };
+
+  console.log("Datos del producto:", product);
+  
+  const method = id ? 'PATCH' : 'POST';
+  const url = id
+    ? `http://localhost:3000/products/${id}`
+    : `http://localhost:3000/products`;
+
+  try {
+    const response = await fetch(url, {
+      method,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(product),
+    });
+
+    if (!response.ok) {
+      const err = await response.json();
+      throw new Error(err.message || 'Error al guardar el producto');
+    }
+
+    alert('Producto guardado correctamente');
+    closeModal();
+    await loadProducts(); // Recargar lista
+  } catch (err) {
+    console.error('Error al guardar:', err);
+    alert('Error al guardar el producto');
+  }
+}
+
+
+

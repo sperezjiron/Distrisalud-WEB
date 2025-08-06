@@ -113,24 +113,6 @@ function openOrderModal(orderId = null) {
 function closeOrderModal() {
   document.getElementById("order-modal").classList.add("hidden");
 }
-//funcion para guardar un pedido
-function saveOrder() {
-  const clientId = document.getElementById("client-id").value;
-  const orderDate = document.getElementById("order-date").value;
-  const total = document.getElementById("total").value;
-  const status = document.getElementById("status").value;
-
-  if (currentOrderId) {
-    // Lógica para editar un pedido existente
-    updateOrder(currentOrderId, { clientId, orderDate, total, status });
-  } else {
-    // Lógica para crear un nuevo pedido
-    createOrder({ clientId, orderDate, total, status });
-  }
-
-  closeOrderModal();
-  loadOrders(); // Recargar la lista de pedidos
-}
 
 // Función para obtener un pedido por ID (simulada)
 let orders = []; // Array para almacenar los pedidos
@@ -196,22 +178,6 @@ function renderOrders() {
   });
 }
 
-function createOrder(order) {
-  const newId = orders.length ? Math.max(...orders.map((o) => o.id)) + 1 : 1001; // Generar un nuevo ID
-  orders.push({ id: newId, ...order });
-}
-
-function updateOrder(orderId, updatedOrder) {
-  const index = orders.findIndex((order) => order.id === orderId);
-  if (index !== -1) {
-    orders[index] = { id: orderId, ...updatedOrder };
-  }
-}
-
-function deleteOrder(orderId) {
-  orders = orders.filter((order) => order.id !== orderId);
-  renderOrders(); // Volver a renderizar la tabla
-}
 // Función para abrir el modal de productos-----------------------------------------------------
 let currentProductId = null; // Para rastrear el ID del producto actual
 
@@ -296,23 +262,6 @@ function viewProduct(productId) {
 }
 let products = []; // Array para almacenar los productos
 
-function loadProducts() {
-  // Aquí deberías cargar los productos desde tu backend
-  // Por ahora, vamos a simular algunos productos
-  products = [
-    {
-      id: 1,
-      name: "Miel Orgánica",
-      description: "Miel pura y natural.",
-      price: 10.0,
-      unit: "Botella",
-      stock: 50,
-      imageUrl: "https://example.com/miel.jpg",
-    },
-    // Agrega más productos simulados si es necesario
-  ];
-  renderProducts();
-}
 // funcion de render de los productos
 function renderProducts() {
   const tbody = document.querySelector("#products tbody");
@@ -347,3 +296,50 @@ function getProductById(productId) {
   return products.find((product) => product.id === productId);
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+  loadSalesChart(); // Cargar gráfico de ventas al iniciar
+});
+
+async function loadSalesChart() {
+  try {
+    const response = await fetch("http://localhost:3000/orders/stats/monthly-sales");
+    if (!response.ok) throw new Error("No se pudo cargar el gráfico");
+    const data = await response.json();
+
+    const labels = data.map(d => d.month);
+    const totals = data.map(d => d.total);
+
+    const ctx = document.getElementById("salesChart").getContext("2d");
+
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Ventas por mes',
+          data: totals,
+          backgroundColor: 'rgba(59, 130, 246, 0.7)', // azul-500
+          borderRadius: 6,
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          tooltip: { mode: 'index', intersect: false }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              callback: value => `₡${value}`
+            }
+          }
+        }
+      }
+    });
+  } catch (error) {
+    console.error("Error al cargar el gráfico:", error);
+    document.getElementById("chart-container").innerHTML = "<p class='text-red-500'>No se pudo cargar el gráfico.</p>";
+  }
+}

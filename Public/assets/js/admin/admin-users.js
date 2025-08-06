@@ -165,6 +165,7 @@ function fillClientForm(client) {
   document.getElementById('client-fecha-ultimo-ingreso').value = client.fechaUltimoIngreso?.split('T')[0] || '';
 }
 
+
 function setClientFormReadOnly(readOnly = true) {
   const fields = document.querySelectorAll('#client-form input, #client-form textarea');
   fields.forEach(field => {
@@ -411,5 +412,59 @@ async function loadAvailableUsers() {
 
   } catch (error) {
     console.error("Error cargando usuarios:", error);
+  }
+}
+
+async function saveClient() {
+  const clientId = document.getElementById("client-id").value;
+  const name = document.getElementById("client-name").value;
+  const cedula = document.getElementById("client-cedula").value;
+  const tipoCedula = document.getElementById("client-tipo-cedula").value;
+  const telefono = document.getElementById("client-telefono").value;
+  const direccion = document.getElementById("client-direccion").value;
+  const codigoPostal = document.getElementById("client-codigo-postal").value;
+  const nombreNegocio = document.getElementById("client-nombre-negocio").value;
+  const tipoCliente = document.getElementById("client-tipo-cliente").value;
+  const estado = document.getElementById("client-status").value;
+  const fechaCreacion = document.getElementById("client-fecha-creacion").value;
+  const fechaUltimoIngreso = document.getElementById("client-fecha-ultimo-ingreso").value;
+
+  if (!clientId) {
+    alert("No se encontró el ID del cliente para actualizar.");
+    return;
+  }
+
+  try {
+    const response = await fetch(`http://localhost:3000/customers/${clientId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name,
+        cedula,
+        tipoCedula,
+        telefono,
+        direccion,
+        codigoPostal,
+        nombreNegocio,
+        tipoCliente,
+        estado: parseInt(estado),
+        fechaCreacion,
+        fechaUltimoIngreso,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Error al actualizar cliente.");
+    }
+
+    alert("Cliente actualizado correctamente.");
+    closeClientModal();
+    cargaCustomers(); // Asegurate de tener esta función para refrescar la lista
+    renderClients(allCustomers); // Vuelve a renderizar la tabla
+  } catch (error) {
+    console.error("Error al actualizar cliente:", error);
+    alert("Error: " + error.message);
   }
 }

@@ -123,15 +123,7 @@
               <span class="text-gray-600">Subtotal</span>
               <span class="font-medium" id="subtotal">₡0.00</span>
             </div>
-            <div class="flex justify-between">
-              <span class="text-gray-600">Envío</span>
-              <span class="font-medium">₡5.00</span>
-            </div>
-            <div class="flex justify-between border-t border-gray-200 pt-3">
-              <span class="text-gray-600">Total</span>
-              <span class="font-bold text-lg text-primary" id="total">₡5.00</span>
-            </div>
-          </div>
+            
             <a id="checkout-pedido" class="block w-full bg-secondary text-white text-center py-3 rounded-lg hover:bg-yellow-600 transition" onclick="verificarLoginCheckout()">
               <i class="fas fa-check mr-2"></i>
             Confirmar Pedido
@@ -250,6 +242,8 @@
     <!-- JavaScript -->
     <script src="/assets/js/client/cart.js"></script>
      <script src="/assets/js/client/main.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script>
       verificarLogin();
       

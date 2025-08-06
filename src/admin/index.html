@@ -111,7 +111,7 @@
             </div>
             <button type="button"
                 class="sidebar-link flex items-center w-full text-left px-4 py-3 text-gray-700 hover:bg-blue-50 transition-colors"
-                onclick="showSection('frequent-reports')">
+                onclick="showSectionreports('frequent-reports')">
                 <i class="fas fa-file-alt mr-3 text-gray-500"></i>
                 Reportes Más Usuales
             </button>
@@ -205,7 +205,7 @@
                     <div class="p-6">
                         <p>Aquí puedes ver los gráficos de desempeño.</p>
                         <div id="chart-container" class="h-64 bg-gray-100 flex items-center justify-center">
-                            <p class="text-gray-500">Gráfico de Ventas (simulado). Aquí puedes integrar Chart.js.</p>
+                             <canvas id="salesChart" width="400" height="200"></canvas>
                         </div>
                     </div>
                 </section>
@@ -240,6 +240,7 @@
                                     <option value="completado">Completado</option>
                                     <option value="pendiente">Pendiente</option>
                                     <option value="cancelado">Cancelado</option>
+                                    <option value="en_proceso">En proceso</option>
                                 </select>
                                 <button class="bg-secondary text-white px-4 ml-2 rounded-md hover:bg-yellow-600 transition"
                                     onclick="filterOrders()">
@@ -310,10 +311,7 @@
                     <div class="bg-white rounded-lg shadow overflow-hidden">
                         <div class="px-6 py-4 border-b flex justify-between items-center">
                             <h3 class="font-semibold text-lg">Clientes Registrados</h3>
-                            <button onclick="openClientModal()"
-                                class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-                                <i class="fas fa-plus mr-2"></i> Nuevo Cliente
-                            </button>
+                            
                         </div>
                          <!-- FILTROS: agregar aquí -->
                         <div class="bg-gray-50 px-6 py-4 border-b rounded-b-md mb-4">
@@ -406,7 +404,7 @@
                     <div class="bg-white rounded-lg shadow overflow-hidden">
                         <div class="px-6 py-4 border-b flex justify-between items-center">
                             <h3 class="font-semibold text-lg">Productos Disponibles</h3>
-                            <button onclick="openProductModal()"
+                            <button id="add-product-btn" onclick="openProductModal()"
                                 class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
                                 <i class="fas fa-plus mr-2"></i> Nuevo Producto
                             </button>
@@ -641,8 +639,142 @@
                         </div>
                     </div>
                     </section>
+                    <!-- Reportes Más Usuales -->
+            <section id="frequent-reports" class="section">
+                    <div id="frequent-reports" class="space-y-10">
+                            <!-- Productos Más Vendidos -->
+                            
+                              <section class="bg-white p-6 rounded-lg shadow mt-4">
+                                <div class="flex justify-between items-center mb-4">
+                                    <h2 class="text-lg font-semibold text-gray-800">Productos Más Vendidos</h2>
+                                    <button onclick="exportarExcelProductosMasVendidos()"
+                                            class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
+                                    Exportar a Excel
+                                    </button>
+                                </div>
+
+                                <div class="overflow-x-auto">
+                                    <table class="min-w-full divide-y divide-gray-200">
+                                    <thead class="bg-gray-100">
+                                        <tr>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">#</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Producto</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Total Vendido</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Precio Promedio</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Total Generado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="productos-mas-vendidos-container" class="bg-white divide-y divide-gray-200">
+                                        <!-- Aquí se insertan las filas desde JS -->
+                                    </tbody>
+                                    </table>
+                                </div>
+                                </section>
 
 
+                           <section class="bg-white p-6 rounded-lg shadow mt-8">
+                            <div class="flex justify-between items-center mb-4">
+                                <h2 class="text-lg font-semibold text-gray-800">Clientes Frecuentes</h2>
+                                <button onclick="exportarExcelClientesFrecuentes()"
+                                        class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
+                                Exportar a Excel
+                                </button>
+                            </div>
+
+                            <div class="overflow-x-auto">
+                                <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-100">
+                                    <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">#</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Nombre</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Cantidad de Pedidos</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Total Gastado</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="clientes-frecuentes-container" class="bg-white divide-y divide-gray-200">
+                                    <!-- Se llena desde JS -->
+                                </tbody>
+                                </table>
+                            </div>
+
+                            </section>
+                            
+                            <section class="bg-white p-6 rounded-lg shadow mt-8">
+                                <div class="flex justify-between items-center mb-4">
+                                    <h2 class="text-lg font-semibold text-gray-800">Pedidos Pendientes</h2>
+                                    <button onclick="exportarExcelPedidosPendientes()"
+                                            class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
+                                    Exportar a Excel
+                                    </button>
+                                </div>
+
+                                <div class="overflow-x-auto">
+                                    <table class="min-w-full divide-y divide-gray-200">
+                                    <thead class="bg-gray-100">
+                                        <tr>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">#</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">ID Pedido</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Cliente</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Fecha</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Monto Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="pedidos-pendientes-container" class="bg-white divide-y divide-gray-200">
+                                        <!-- Carga dinámica -->
+                                    </tbody>
+                                    </table>
+                                </div>
+                                </section>
+
+                                <section class="bg-white p-6 rounded-lg shadow mt-8">
+                                <div class="flex justify-between items-center mb-4">
+                                    <h2 class="text-lg font-semibold text-gray-800">Resumen Diario de Ventas</h2>
+                                    <button onclick="exportarExcelResumenDiario()"
+                                            class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
+                                    Exportar a Excel
+                                    </button>
+                                </div>
+
+                                <div class="overflow-x-auto">
+                                    <table class="min-w-full divide-y divide-gray-200">
+                                    <thead class="bg-gray-100">
+                                        <tr>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">#</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Día</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Cantidad de Pedidos</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Total Vendido</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="resumen-diario-container" class="bg-white divide-y divide-gray-200">
+                                        <!-- Contenido dinámico -->
+                                    </tbody>
+                                    </table>
+                                </div>
+                                </section>
+                                    <section class="bg-white p-6 rounded-lg shadow mt-8">
+                                    <div class="flex justify-between items-center mb-4">
+                                        <h2 class="text-lg font-semibold text-gray-800">Ventas por Mes</h2>
+                                        <button onclick="exportarExcelVentasPorMes()"
+                                                class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
+                                        Exportar a Excel
+                                        </button>
+                                    </div>
+
+                                    <div class="overflow-x-auto">
+                                        <table class="min-w-full divide-y divide-gray-200">
+                                        <thead class="bg-gray-100">
+                                            <tr>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">#</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Mes</th>
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Total Ventas</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="ventas-por-mes-container" class="bg-white divide-y divide-gray-200">
+                                            <!-- Contenido dinámico -->
+                                        </tbody>
+                                        </table>
+                                    </div>
+                                    </section>
             </main>
         </div>
     </div>
@@ -672,13 +804,14 @@
                         <option value="pendiente">Pendiente</option>
                         <option value="completado">Completado</option>
                         <option value="cancelado">Cancelado</option>
+                        <option value="en_proceso">En proceso</option>
                     </select>
                 </div>
     
                 <div class="flex justify-end space-x-2 mt-6">
                     <button type="button" onclick="closeEditModal()"
                         class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Cancelar</button>
-                    <button type="submit" id="edit-order-submit" onclick="updateOrderStatus" class="px-4 py-2 bg-primary text-white rounded hover:bg-blue-700">Guardar</button>
+                    <button type="submit" id="edit-order-submit" onclick="updateOrderStatus()" class="px-4 py-2 bg-primary text-white rounded hover:bg-blue-700">Guardar</button>
                 </div>
             </form>
         </div></div>
@@ -717,7 +850,7 @@
                         </div>
                         <div>
                             <label for="client-email" class="block text-sm font-medium text-gray-700">Email</label>
-                            <input id="client-email" type="email" class="mt-1 w-full rounded-md border-gray-300 shadow-sm" />
+                           <input id="client-email" type="email" readonly class="mt-1 w-full rounded-md border-gray-300 shadow-sm bg-gray-100 cursor-not-allowed" />
                         </div>
                         <div>
                             <label for="client-telefono" class="block text-sm font-medium text-gray-700">Teléfono</label>
@@ -778,77 +911,81 @@
         </div>
         
         
-        <!----------------------------------------- Modal para Agregar/Editar Producto -------------------------------------->
-        <div id="product-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50 flex items-center justify-center">
-            <div class="bg-white rounded-lg w-full max-w-md">
-            <div class="flex justify-between items-center px-6 py-4 border-b">
-                <h3 class="text-lg font-semibold" id="modal-title">Detalle del Producto</h3>
-                <button onclick="closeProductModal()" class="text-gray-500 hover:text-gray-700">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-    
-            <form id="product-form" class="p-6">
-                <input type="hidden" id="product-id" />
-    
-                <div class="mb-4">
-                    <label for="product-name" class="block text-sm font-medium text-gray-700">Nombre</label>
-                    <input type="text" id="product-name" required
-                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary" />
-                </div>
-    
-                <div class="mb-4">
-                    <label for="product-description" class="block text-sm font-medium text-gray-700">Descripción</label>
-                    <textarea id="product-description" required
-                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary"></textarea>
-                </div>
-    
-                <div class="mb-4">
-                    <label for="product-price" class="block text-sm font-medium text-gray-700">Precio</label>
-                    <input type="number" step="0.01" id="product-price" required
-                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary" />
-                </div>
-                <div class="mb-4">
-                    <label for="product-unit" class="block text-sm font-medium text-gray-700">Unidad de Medida</label>
-                    <input type="text" id="product-unit" required
-                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary" />
-                </div>
-                
-                <div class="mb-4">
-                    <label for="product-stock" class="block text-sm font-medium text-gray-700">Stock</label>
-                    <input type="number" id="product-stock" required
-                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary" />
-                </div>
-                
-                <div id="image-preview" class="mb-4 hidden">
-                    <label id="image-preview-label" for="image-preview-img" class="block text-sm font-medium text-gray-700">Vista previa</label>
-                    <div class="mt-1">
-                        <img id="image-preview-img" src="" alt="Vista previa" aria-labelledby="image-preview-label" class="w-full h-48 object-contain border border-gray-300 rounded-md" />
-                    </div>
-                </div>
-                
-                
-                <div class="mb-4">
-                    <label for="product-entry-date" class="block text-sm font-medium text-gray-700">Fecha de Ingreso</label>
-                    <input type="date" id="product-entry-date"
-                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary" />
-                </div>
-                <div class="mb-4">
-                    <label for="product-category" class="block text-sm font-medium text-gray-700">ID Categoría</label>
-                    <input type="number" id="product-category"
-                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary" />
-                </div>
-    
-                <div class="flex justify-end">
-                    <button type="submit" id="save-button"
-                        class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
-                        Guardar
-                    </button>
-                </div>
-            </form>
-        </div>
+<!-- Modal para Agregar/Editar Producto -->
+<div id="product-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
+  <div class="bg-white rounded-lg shadow-lg w-full max-w-xl">
+    <div class="flex justify-between items-center px-6 py-4 border-b">
+      <h3 class="text-lg font-semibold" id="modal-title">Nuevo Producto</h3>
+      <button onclick="closeProductModal()" class="text-gray-500 hover:text-gray-700">
+        <i class="fas fa-times"></i>
+      </button>
     </div>
 
+    <form id="product-form" class="p-6 space-y-4">
+      <input type="hidden" id="product-id" />
+
+      <div>
+        <label for="product-name" class="block text-sm font-medium">Nombre</label>
+        <input type="text" id="product-name" required class="form-input w-full border border-gray-300 rounded-md px-3 py-2" />
+      </div>
+
+      <div>
+        <label for="product-description" class="block text-sm font-medium">Descripción</label>
+        <textarea id="product-description" required class="form-textarea w-full border border-gray-300 rounded-md px-3 py-2"></textarea>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label for="product-price" class="block text-sm font-medium">Precio</label>
+          <input type="number" step="0.01" id="product-price" required class="form-input w-full border border-gray-300 rounded-md px-3 py-2" />
+        </div>
+
+        <div>
+          <label for="product-stock" class="block text-sm font-medium">Stock</label>
+          <input type="number" id="product-stock" required class="form-input w-full border border-gray-300 rounded-md px-3 py-2" />
+        </div>
+      </div>
+
+      <div>
+        <label for="product-unit" class="block text-sm font-medium">Unidad de Medida</label>
+        <input type="text" id="product-unit" required class="form-input w-full border border-gray-300 rounded-md px-3 py-2" />
+      </div>
+
+      <div>
+        <label for="product-entry-date" class="block text-sm font-medium">Fecha de Ingreso</label>
+        <input type="date" id="product-entry-date" class="form-input w-full border border-gray-300 rounded-md px-3 py-2" />
+      </div>
+
+      <div>
+        <label for="product-category" class="block text-sm font-medium">Categoría</label>
+        <select id="product-category" required class="form-select w-full border border-gray-300 rounded-md px-3 py-2">
+          <option value="">Seleccione una categoría</option>
+          <!-- Opciones dinámicas por JS -->
+        </select>
+      </div>
+
+      <div>
+        <label for="product-image" class="block text-sm font-medium">Imagen</label>
+        <input type="file" id="product-image" accept="image/*" class="form-input w-full border border-gray-300 rounded-md px-3 py-2" onchange="previewImage()" />
+      </div>
+
+      <div id="image-preview" class="hidden">
+        <label for="image-preview-img" class="block text-sm font-medium">Vista previa</label>
+        <div class="mt-1">
+          <img id="image-preview-img" src="" alt="Vista previa" class="w-full h-48 object-contain border border-gray-300 rounded-md" />
+        </div>
+      </div>
+
+      <div class="flex justify-end space-x-2 mt-4">
+        <button type="button" onclick="closeProductModal()" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Cancelar</button>
+        <button type="submit"  id="save-button" class="px-4 py-2 bg-primary text-white rounded hover:bg-blue-700">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+      
 <!-- Modal Categoría -->
 <div id="category-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50 flex items-center justify-center">
   <div class="bg-white rounded-lg w-full max-w-lg p-6 shadow-lg">
@@ -1011,6 +1148,7 @@
 
     <!---------------------- Aqui empiezan los scripts -------------------------------------->
         <script src="/assets/js/admin/main.js"></script>
+    <script src="/assets/js/admin/admin-reports.js"></script>
     <script src="/assets/js/admin/admin-products.js"></script>
     <script src="/assets/js/admin/admin-clients.js"></script>
     <script src="/assets/js/admin/admin-users.js"></script> 
@@ -1018,6 +1156,10 @@
     <script src="/assets/js/admin/admin-role.js"></script>
     <script src="/assets/js/admin/admin-category.js"></script>
     <script src="/assets/js/admin/admin-promo.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
 
 </body>
 </html>

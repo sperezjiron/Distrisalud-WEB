@@ -113,3 +113,43 @@ function viewCategory(categoryId) {
   openCategoryModal(categoryId);
 
 }
+
+document.getElementById("category-form").addEventListener("submit", async function (e) {
+  e.preventDefault();
+
+  const id = document.getElementById("category-id").value;
+  const name = document.getElementById("category-name").value.trim();
+
+  if (!name) {
+    alert("El nombre de la categoría es requerido.");
+    return;
+  }
+
+  const method = id ? "PUT" : "POST";
+  const url = id
+    ? `http://localhost:3000/categories/${id}`
+    : `http://localhost:3000/categories`;
+
+  try {
+    const response = await fetch(url, {
+      method,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Error al guardar la categoría.");
+    }
+
+    alert(`Categoría ${id ? "actualizada" : "creada"} correctamente.`);
+    closeCategoryModal();
+    await loadCategories(); // <- Recarga lista
+  } catch (error) {
+    console.error("Error guardando categoría:", error);
+    alert("Error: " + error.message);
+  }
+});

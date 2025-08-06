@@ -25,8 +25,9 @@ async function loadCustomers() {
 
 // Obtener cliente relacionado
 function getCustomerByUserId(userId) {
-  return realCustomers.find(c => c.userId === userId);
+  return realCustomers.find((c) => c.userId === userId);
 }
+
 // Función del login
 async function handleLogin(event) {
   event.preventDefault();
@@ -38,30 +39,58 @@ async function handleLogin(event) {
     alert("No se encontraron los campos del formulario.");
     return;
   }
+
   const loginValue = emailOrUsernameInput.value.trim();
   const password = passwordInput.value.trim();
-  // Cargar usuarios y clientes si no están cargados
-  if (!realUsers.length || !realCustomers.length) {
-    await loadUsers();
-    await loadCustomers();
+
+  try {
+    // 1. Autenticar con API
+    const response = await fetch("http://localhost:3000/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: loginValue,
+        pass: password,
+      }),
+    });
+
+    if (!response.ok) {
+      if (response.status === 404) {
+        alert("Usuario no encontrado.");
+      } else if (response.status === 401) {
+        alert("Contraseña incorrecta.");
+      } else {
+        alert("Error al iniciar sesión.");
+      }
+      return;
+    }
+
+    const data = await response.json();
+    const user = data.user;
+
+    // 2. Buscar el cliente asociado (GET /customers)
+    const customersRes = await fetch("http://localhost:3000/customers");
+    const customers = await customersRes.json();
+    const customer = customers.find((c) => c.userId === user.id);
+
+    // 3. Guardar en localStorage (sin la contraseña)
+    const userToStore = { ...user };
+    delete userToStore.pass;
+
+    localStorage.setItem("loggedUser", JSON.stringify(userToStore));
+
+    if (customer) {
+      localStorage.setItem("loggedCustomer", JSON.stringify(customer));
+    }
+
+    // 4. Redirigir
+    window.location.href = "/";
+  } catch (error) {
+    console.error("Error al iniciar sesión:", error);
+    alert("Ocurrió un error al intentar iniciar sesión.");
   }
-  // Buscar usuario
-  const user = realUsers.find(
-   u => (u.name === loginValue) && u.pass === password 
-  );
-  if (!user) {
-    alert("Correo o contraseña incorrectos.");
-    return;
-  }
-  const customer = getCustomerByUserId(user.id);
-  // Guardar en localStorage
-  localStorage.setItem("loggedUser", JSON.stringify(user));
-  if (customer) {
-    localStorage.setItem("loggedCustomer", JSON.stringify(customer));
-    
-  }
-  // Redirigir a la página del cliente
-  window.location.href = "/";
 }
 
 // Escuchar el formulario
@@ -71,4 +100,3 @@ document.addEventListener("DOMContentLoaded", async () => {
   const form = document.getElementById("loginForm");
   form.addEventListener("submit", handleLogin);
 });
-

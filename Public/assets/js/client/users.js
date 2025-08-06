@@ -143,42 +143,71 @@ function fillCustomerProfile(customer) {
 
 async function saveCustomerData(userId) {
   const customer = realCustomers.find((c) => c.userId === userId);
-  if (!customer) return;
+  if (!customer) {
+    alert("No se encontró el cliente.");
+    return;
+  }
 
-  const updatedData = {
-    id: cliente.id,
-    userId: cliente.userId,
-    name: `${document.getElementById("nombre").value} ${document.getElementById("apellido").value}`,
-    email: document.getElementById("email").value,
-    telefono: document.getElementById("telefono").value,
-    cedula: document.getElementById("cedula").value,
-    tipoCedula: document.getElementById("tipoCedula").value,
-    codigoPostal: document.getElementById("codigoPostal").value,
-    nombreNegocio: document.getElementById("nombreNegocio").value,
-    tipoCliente: document.getElementById("tipoCliente").value,
-    direccion: document.getElementById("direccion").value,
-    estado: cliente.estado,
-    fechaCreacion: cliente.fechaCreacion,
-    fechaUltimoIngreso: cliente.fechaUltimoIngreso,
-  };
+  // Obtener datos del formulario
+  const nombre = document.getElementById("nombre").value;
+  const apellido = document.getElementById("apellido").value;
+  const name = `${nombre} ${apellido}`;
+  const cedula = document.getElementById("cedula").value;
+  const tipoCedula = document.getElementById("tipoCedula").value;
+  const telefono = document.getElementById("telefono").value;
+  const direccion = document.getElementById("direccion").value;
+  const codigoPostal = document.getElementById("codigoPostal").value;
+  const nombreNegocio = document.getElementById("nombreNegocio").value;
+  const tipoCliente = document.getElementById("tipoCliente").value;
+  const estado = customer.estado || 1; // puedes ajustar este valor si tu backend lo requiere
+  const fechaCreacion = customer.fechaCreacion || new Date().toISOString();
+  const fechaUltimoIngreso = customer.fechaUltimoIngreso || new Date().toISOString();
 
   try {
-    const response = await fetch(`http://localhost:3000/customers/${cliente.id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedData),
+    const response = await fetch(`http://localhost:3000/customers/${customer.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name,
+        email: customer.email,
+        cedula,
+        tipoCedula,
+        telefono,
+        direccion,
+        codigoPostal,
+        nombreNegocio,
+        tipoCliente,
+        estado: parseInt(estado),
+        fechaCreacion,
+        fechaUltimoIngreso,
+      }),
     });
 
-    if (!response.ok) throw new Error("Error al guardar los cambios");
+    const data = await response.json();
 
-    alert("Cambios guardados exitosamente");
+    if (!response.ok) {
+      throw new Error(data.message || "Error al actualizar cliente.");
+    }
+
+    Swal.fire({
+      icon: "success",
+      title: "Cliente actualizado",
+      text: "Los cambios se han guardado correctamente.",
+      confirmButtonColor: "#3085d6",
+    });
+
   } catch (error) {
-    console.error("Error actualizando cliente:", error);
-    alert("Ocurrió un error al guardar los cambios");
+    console.error("Error al actualizar cliente:", error);
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: error.message || "Ocurrió un error al guardar los cambios.",
+      confirmButtonColor: "#d33",
+    });
   }
 }
+
+
 
 // Obtener el detalle de un pedido por ID
 // Esta función puede ser llamada para mostrar detalles específicos de un pedido

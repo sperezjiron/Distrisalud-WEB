@@ -5,28 +5,20 @@ function loadCart() {
   const emptyCartMessage = document.getElementById("empty-cart");
   const subtotalElement = document.getElementById("subtotal");
   const totalElement = document.getElementById("total");
+
+  //imprimir carrito
+  console.log("Carrito:", cart);
   if (cart.length === 0) {
     emptyCartMessage.classList.remove("hidden");
     cartItemsContainer.classList.add("hidden");
     subtotalElement.textContent = "₡0.00";
     totalElement.textContent = "₡5.00"; // Envío fijo
+    
     return;
+
   }
 
   // Actualizar cantidad de productos en el carrito
-  function updateQuantity(productId, change) {
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    const product = cart.find((item) => item.id === productId);
-    if (product) {
-      product.quantity += change;
-      if (product.quantity <= 0) {
-        removeFromCart(productId);
-      } else {
-        localStorage.setItem("cart", JSON.stringify(cart));
-        loadCart();
-      }
-    }
-  }
   emptyCartMessage.classList.add("hidden");
   cartItemsContainer.classList.remove("hidden");
   cartItemsContainer.innerHTML = "";
@@ -37,7 +29,7 @@ function loadCart() {
       "cart-item bg-white p-4 rounded-lg shadow-sm border border-gray-100 transition";
     cartItem.innerHTML = `
             <div class="flex flex-col md:flex-row gap-4">
-              <img src="${item.image}" alt="${
+              <img src="${item.imageUrl}" alt="${
       item.name
     }" class="w-full md:w-24 h-24 object-cover rounded" />
               <div class="flex-1">
@@ -69,8 +61,12 @@ function loadCart() {
               </button>
             </div>
                       `;
+
+   
     cartItemsContainer.appendChild(cartItem);
     subtotal += item.price * item.quantity;
+
+    
   });
   subtotalElement.textContent = `₡${subtotal.toFixed(2)}`;
   totalElement.textContent = `₡${(subtotal + 5.0).toFixed(2)}`; // Agregar costo de envío
@@ -90,14 +86,43 @@ document.addEventListener("DOMContentLoaded", loadCart);
 //Función para verificar login
 function verificarLoginCheckout() {
   const user = localStorage.getItem("loggedUser");
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+  if (cart.length === 0) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Carrito vacío',
+      text: 'No puedes confirmar un pedido sin productos en el carrito.',
+      confirmButtonColor: '#facc15' // color amarillo
+    });
+    return;
+  }
+
 
   if (!user) {
-    alert("Debes iniciar sesión para confirmar tu pedido.");
-    // Evita que siga el enlace
-    event.preventDefault();
-    // Redirige al login
-    window.location.href = "/client/login.html";
+    Swal.fire({
+      icon: 'info',
+      title: 'Inicia sesión',
+      text: 'Debes iniciar sesión para confirmar tu pedido.',
+      confirmButtonColor: '#3b82f6' // color azul
+    }).then(() => {
+      window.location.href = "/client/login.html"; // o tu ruta de login
+    });
   } else {
     window.location.href = "/client/checkout.html";
+  }
+}
+
+function updateQuantity(productId, change) {
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  const productIndex = cart.findIndex((item) => item.id === productId);
+
+  if (productIndex > -1) {
+    cart[productIndex].quantity += change;
+    if (cart[productIndex].quantity <= 0) {
+      cart.splice(productIndex, 1); // Eliminar si la cantidad es 0 o menos
+    }
+    localStorage.setItem("cart", JSON.stringify(cart));
+    loadCart();
   }
 }
