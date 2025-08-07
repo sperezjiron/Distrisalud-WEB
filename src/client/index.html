@@ -169,8 +169,8 @@
     </section>
     
     <!-- Featured Products -->
-    <section id="featured" class="py-16 bg-gray-50">
-      <div class="container mx-auto px-4">
+    <section id="featured-products" class="py-16 bg-gray-50">
+      <div  class="container mx-auto px-4">
         <h2 class="text-3xl font-bold text-center text-primary mb-8">
           Productos Destacados
         </h2>
@@ -186,7 +186,7 @@
         </p>
     
         <!-- Contenedor de productos dinámicos -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8" id="product-list">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8" id="product-list-featured">
           <!-- Aquí se insertan los productos dinámicamente -->
         </div>
         <div class="text-center mt-12">
@@ -207,7 +207,7 @@
           <div class="text-center p-6">
             <i class="fas fa-seedling text-4xl mb-4 text-primary"></i>
             <h3 class="text-xl font-bold mb-2">100% Natural</h3>
-            <p>Productos cultivados sin pesticidas ni químicos artificiales</p>
+            <p>Productos naturales sin aditivos ni conservantes</p>
           </div>
           <div class="text-center p-6">
             <i class="fas fa-truck text-4xl mb-4 text-primary"></i>
@@ -297,46 +297,12 @@
                   >Nosotros</a
                 >
               </li>
-              <li>
-                <a href="#contact" class="text-blue-100 hover:text-secondary"
-                  >Contacto</a
-                >
-              </li>
+              
             </ul>
           </div>
 
           <div>
-            <h4 class="text-lg font-bold mb-4">Categorías</h4>
-            <ul class="space-y-2">
-              <li>
-                <a
-                  href="/products.html?category=miel"
-                  class="text-blue-100 hover:text-secondary"
-                  >Mieles</a
-                >
-              </li>
-              <li>
-                <a
-                  href="/products.html?category=te"
-                  class="text-blue-100 hover:text-secondary"
-                  >Tés</a
-                >
-              </li>
-              <li>
-                <a
-                  href="/products.html?category=semillas"
-                  class="text-blue-100 hover:text-secondary"
-                  >Semillas</a
-                >
-              </li>
-              <li>
-                <a
-                  href="/products.html?category=aceites"
-                  class="text-blue-100 hover:text-secondary"
-                  >Aceites</a
-                >
-              </li>
-            </ul>
+           
           </div>
 
           <div>
@@ -373,8 +339,6 @@
 
     <script>
       verificarLogin();
-      loadProducts();
-      loadCategory();
     </script>
   </body>
 </html>

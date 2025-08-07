@@ -69,7 +69,11 @@ document
 
       console.log("Usuario y cliente creados:", userData, customerData);
 
-      alert("Registro exitoso");
+      await swal.fire({
+        icon: "success",
+        title: "Registro exitoso",
+        text: "Tu cuenta ha sido creada correctamente.",
+      });
      
       
       window.location.href = "/client/profile.html";

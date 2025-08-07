@@ -75,6 +75,18 @@ async function handleLogin(event) {
     const customers = await customersRes.json();
     const customer = customers.find((c) => c.userId === user.id);
 
+    if (customer && parseInt(customer.estado) !== 1) {
+  await Swal.fire({
+    icon: 'warning',
+    title: 'Cuenta inactiva',
+    text: 'Su cuenta está inactiva. Por favor comuníquese con Distrisalud para más información.',
+    confirmButtonColor: '#d33',
+    confirmButtonText: 'Entendido'
+  });
+  return;
+}
+
+
     // 3. Guardar en localStorage (sin la contraseña)
     const userToStore = { ...user };
     delete userToStore.pass;

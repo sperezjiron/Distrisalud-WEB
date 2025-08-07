@@ -143,9 +143,11 @@ function filterProductsByCategory(categoryId) {
 // Cargar productos al iniciar
 document.addEventListener("DOMContentLoaded", async () => {
   await loadCategory(); // Cargar categorías;
-  await loadFeaturedCategoryButtons(); // Cargar botones de categorías destacadas
   const products = await loadProducts();
-  renderFeaturedProducts(products); // Mostramos solo 4 productos destacados
+  const primerosCuatro = products.slice(0, 4);
+  await renderFeaturedProducts(primerosCuatro); // Mostrar solo 4 productos destacados
+  await loadFeaturedCategoryButtons(); // Cargar botones de categorías destacadas
+ 
   renderProducts(products);
 
   updateCartCount();
@@ -314,11 +316,35 @@ async function loadFeaturedCategoryButtons() {
     console.error("Error cargando categorías destacadas:", error);
   }
 }
-// Función para renderizar productos destacados
-function renderFeaturedProducts(products) {
-  const featured = products.slice(0, 4); // Solo los primeros 4 productos
-  renderProducts(featured);
+
+function renderFeaturedProducts(primerosCuatro) {
+  const container = document.getElementById("product-list-featured");
+  if (!container) {
+    console.warn("No se encontró el contenedor #product-list-featured");
+    return;
+  }
+  renderFeaturedProductsUI(primerosCuatro);
 }
+
+function renderFeaturedProductsUI(primerosCuatro) {
+  const container = document.getElementById("product-list-featured");
+  const count = document.getElementById("results-count");
+
+  container.innerHTML = ""; // Limpia el contenedor
+  count.textContent = primerosCuatro.length;
+
+  primerosCuatro.forEach((product) => {
+    const div = document.createElement("div");
+    div.className = "bg-white shadow rounded-lg p-4 text-center";
+    div.innerHTML = `
+      <img src="${product.imageUrl}" alt="${product.name}" class="w-full h-40 object-cover rounded mb-4" />
+      <h3 class="text-lg font-semibold text-primary mb-2">${product.name}</h3>
+      <span class="text-primary font-bold block mb-2">₡${product.price.toFixed(2)}</span>
+    `;
+    container.appendChild(div);
+  });
+}
+
 
 // Función para renderizar botones de categorías destacadas
 function renderFeaturedCategoryButtons(categories) {

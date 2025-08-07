@@ -1,77 +1,3 @@
-// Validación del formulario
-document.getElementById('registerForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    
-    // Reset errores
-    resetErrors();
-    
-    // Obtener valores
-    const formData = {
-        fullname: document.getElementById('fullname').value.trim(),
-        email: document.getElementById('email').value.trim(),
-        password: document.getElementById('password').value,
-        confirmPassword: document.getElementById('confirm-password').value,
-        terms: document.getElementById('terms').checked,
-        role: document.getElementById('role')?.value || 'admin'
-    };
-
-    // Validaciones
-    let isValid = true;
-
-    // Nombre
-    if (formData.fullname.length < 3) {
-        showError('fullname', 'Nombre demasiado corto');
-        isValid = false;
-    }
-
-    // Email
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-        showError('email', 'Email inválido');
-        isValid = false;
-    }
-
-    // Contraseña
-    if (formData.password.length < 8) {
-        showError('password', 'Mínimo 8 caracteres');
-        isValid = false;
-    } else if (!/[A-Z]/.test(formData.password)) {
-        showError('password', 'Requiere una mayúscula');
-        isValid = false;
-    } else if (!/\d/.test(formData.password)) {
-        showError('password', 'Requiere un número');
-        isValid = false;
-    }
-
-    // Confirmación
-    if (formData.password !== formData.confirmPassword) {
-        showError('confirm-password', 'Las contraseñas no coinciden');
-        isValid = false;
-    }
-
-    // Términos
-    if (!formData.terms) {
-        showError('terms', 'Debes aceptar los términos');
-        isValid = false;
-    }
-
-    if (!isValid) return;
-
-    // Mostrar loading
-    toggleLoading(true);
-
-    try {
-        // Simulación de registro (reemplazar con fetch real)
-        const response = await mockRegister(formData);
-        
-        // Redirigir al dashboard después del registro
-        window.location.href = 'dashboard.html?newuser=true';
-    } catch (error) {
-        document.getElementById('errorMessage').textContent = error.message;
-        document.getElementById('errorMessage').classList.remove('hidden');
-    } finally {
-        toggleLoading(false);
-    }
-});
 
 // Funciones auxiliares
 function resetErrors() {
@@ -124,3 +50,84 @@ async function mockRegister(userData) {
         }, 1500);
     });
 }
+
+//iniciar sesión
+async function handleLogin(event) {
+  event.preventDefault();
+
+  const emailOrUsernameInput = document.getElementById("login-id");
+  const passwordInput = document.getElementById("password");
+
+  if (!emailOrUsernameInput || !passwordInput) {
+    Swal.fire({
+      icon: "warning",
+      title: "Campos requeridos",
+      text: "No se encontraron los campos del formulario.",
+    });
+    return;
+  }
+
+  const loginValue = emailOrUsernameInput.value.trim();
+  const password = passwordInput.value.trim();
+
+  try {
+    // Autenticación con API
+    const response = await fetch("http://localhost:3000/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: loginValue, pass: password }),
+    });
+
+    if (!response.ok) {
+      if (response.status === 404) {
+        Swal.fire({
+          icon: "error",
+          title: "Usuario no encontrado",
+          text: "Verifica el nombre de usuario ingresado.",
+        });
+      } else if (response.status === 401) {
+        Swal.fire({
+          icon: "error",
+          title: "Contraseña incorrecta",
+          text: "Verifica la contraseña e intenta de nuevo.",
+        });
+      } else if (response.status === 403) {
+        Swal.fire({
+          icon: "error",
+          title: "Acceso denegado",
+          text: "No tienes permisos para ingresar al sistema.",
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error de autenticación",
+          text: "Hubo un problema al iniciar sesión.",
+        });
+      }
+      return;
+    }
+
+    const data = await response.json();
+    const user = data.user;
+
+    // Guardar usuario en localStorage (sin contraseña)
+    const userToStore = { ...user };
+    delete userToStore.pass;
+    localStorage.setItem("loggedUser", JSON.stringify(userToStore));
+
+    // Redirigir al dashboard
+    window.location.href = "/admin/";
+  } catch (error) {
+    console.error("Error en el login:", error);
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "Ocurrió un error al intentar iniciar sesión.",
+    });
+  }
+}
+
+
+
+
+

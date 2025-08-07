@@ -517,7 +517,13 @@ async function handleFormSubmit(event) {
       throw new Error(err.message || 'Error al guardar el producto');
     }
 
-    alert('Producto guardado correctamente');
+    Swal.fire({
+  icon: 'success',
+  title: '¡Producto guardado!',
+  text: 'Producto guardado correctamente',
+  confirmButtonColor: '#3085d6'
+});
+
     closeModal();
     await loadProducts(); // Recargar lista
   } catch (err) {

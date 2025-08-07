@@ -459,10 +459,18 @@ async function saveClient() {
       throw new Error(data.message || "Error al actualizar cliente.");
     }
 
-    alert("Cliente actualizado correctamente.");
+    await swal.fire({
+      icon: "success",
+      title: "Cliente actualizado",
+      text: "El cliente se ha actualizado correctamente.",
+    });
+    
     closeClientModal();
     cargaCustomers(); // Asegurate de tener esta función para refrescar la lista
-    renderClients(allCustomers); // Vuelve a renderizar la tabla
+    // Recargar la tabla de clientes
+    renderClients(allCustomers);
+    //refresca la pagina
+    window.location.reload();
   } catch (error) {
     console.error("Error al actualizar cliente:", error);
     alert("Error: " + error.message);

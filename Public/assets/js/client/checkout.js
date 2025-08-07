@@ -33,7 +33,7 @@ function loadCart() {
 }
 
 // Enviar resumen del pedido por correo
-document.getElementById("confirm-order").addEventListener("click", function () {
+document.getElementById("confirm-order").addEventListener("click", async function () {
   const email = document.getElementById("email").value;
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
   const orderSummary = cart
@@ -56,8 +56,14 @@ document.getElementById("confirm-order").addEventListener("click", function () {
       Total: ${total}
     `;
 
-  // Pendiente servicio de envío de correos o una API para enviar el correo
-  alert(`Resumen del pedido enviado a ${email}:\n${emailBody}`);
+ // Simular envío
+  await Swal.fire({
+    icon: 'info',
+    title: 'Resumen enviado',
+    html: `<p>Resumen del pedido enviado a <strong>${email}</strong>:</p><pre style="text-align:left; background:#f9f9f9; padding:10px; border-radius:8px;">${emailBody}</pre>`,
+    confirmButtonColor: '#3b82f6',
+    width: 600,
+  });
 });
 
 // Enviar pedido por WhatsApp
@@ -162,7 +168,12 @@ document.getElementById("confirm-order").addEventListener("click", async () => {
   const cliente = JSON.parse(localStorage.getItem("loggedCustomer"));
 
   if (!cart.length || !cliente) {
-    alert("Debe haber productos en el carrito y un cliente logueado.");
+    await Swal.fire({
+      icon: 'warning',
+      title: 'Carrito vacío o cliente no identificado',
+      text: 'Debe haber productos en el carrito y un cliente logueado.',
+      confirmButtonColor: '#f59e0b'
+    });
     return;
   }
 
@@ -177,7 +188,12 @@ document.getElementById("confirm-order").addEventListener("click", async () => {
   }
 
   if (!methodId) {
-    alert("Seleccione un método de pago.");
+    await Swal.fire({
+      icon: 'info',
+      title: 'Método de pago',
+      text: 'Seleccione un método de pago antes de continuar.',
+      confirmButtonColor: '#3b82f6'
+    });
     return;
   }
 
@@ -203,6 +219,12 @@ document.getElementById("confirm-order").addEventListener("click", async () => {
     pedidoId = newOrder.id;
   } catch (error) {
     console.error("Error al crear el pedido:", error);
+    await Swal.fire({
+      icon: 'error',
+      title: 'Error al crear el pedido',
+      text: error.message,
+      confirmButtonColor: '#dc2626'
+    });
     return;
   }
 
@@ -242,6 +264,12 @@ document.getElementById("confirm-order").addEventListener("click", async () => {
     );
   } catch (error) {
     console.error("Error al crear los detalles del pedido:", error);
+     await Swal.fire({
+      icon: 'error',
+      title: 'Error en los detalles del pedido',
+      text: error.message,
+      confirmButtonColor: '#dc2626'
+    });
     return;
   }
 
@@ -264,10 +292,21 @@ document.getElementById("confirm-order").addEventListener("click", async () => {
     console.log("Pago creado correctamente.");
   } catch (error) {
     console.error("Error al crear el pago:", error);
+     await Swal.fire({
+      icon: 'error',
+      title: 'Error en el pago',
+      text: error.message,
+      confirmButtonColor: '#dc2626'
+    });
     return;
   }
 
-  alert("¡Compra realizada con éxito!");
+  await Swal.fire({
+    icon: 'success',
+    title: '¡Pedido confirmado!',
+    text: 'Tu compra se ha realizado exitosamente.',
+    confirmButtonColor: '#16a34a'
+  });
 
   // 5. Limpiar carrito y redirigir si deseas
   localStorage.removeItem("cart");
