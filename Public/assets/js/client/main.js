@@ -71,4 +71,5 @@ function verificarLogin() {
 
 function logout() {
   localStorage.clear();
+  window.location.href = "/client/login.html";
 }
